@@ -9,6 +9,7 @@
     "requireAnnotations": true
   },
   "client": [
+    "GameRendererMixin",
     "InGameHudMixin",
     "MinecraftClientMixin",
     "TitleScreenMixin"

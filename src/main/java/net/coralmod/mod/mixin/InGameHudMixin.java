@@ -19,7 +19,7 @@ public abstract class InGameHudMixin {
     public abstract TextRenderer getTextRenderer();
 
     @Inject(method = "render", at = @At("RETURN"))
-    public void render(DrawContext context, RenderTickCounter tickCounter, CallbackInfo info) {
+    public void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo info) {
         for (HudModule hudModule : CoralMod.getInstance().getModuleManager().getHudModules()) {
             if (!hudModule.isEnabled()) {
                 continue;

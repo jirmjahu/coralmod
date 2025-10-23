@@ -1,7 +1,5 @@
 package net.coralmod.mod.module;
 
-import net.coralmod.mod.module.modules.TestModule;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +10,7 @@ public class ModuleManager {
     private final Map<Class<? extends Module>, Module> modules = new HashMap<>();
 
     public ModuleManager() {
-        register(new TestModule());
+
     }
 
     private void register(Module module) {

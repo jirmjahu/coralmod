@@ -15,6 +15,9 @@ dependencies {
     mappings(libs.mappings)
     modImplementation(libs.loader)
     modImplementation(libs.api)
+
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
 }
 
 tasks.processResources {

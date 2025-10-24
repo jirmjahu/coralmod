@@ -3,7 +3,7 @@ plugins {
 	alias(libs.plugins.loom)
 }
 
-version = "0.0.1"
+version = "0.1.0"
 group = "net.coralmod.mod"
 
 repositories {

@@ -1,5 +1,7 @@
 package net.coralmod.mod.module;
 
+import net.coralmod.mod.module.modules.FpsModule;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -10,15 +12,15 @@ public class ModuleManager {
     private final Map<Class<? extends Module>, Module> modules = new HashMap<>();
 
     public ModuleManager() {
-
+        register(new FpsModule());
     }
 
     private void register(Module module) {
         modules.put(module.getClass(), module);
     }
 
-    public <T extends Module> T getModule(Class<T> clazz) {
-        return clazz.cast(modules.get(clazz));
+    public <T extends Module> T getModule(Class<T> moduleClass) {
+        return moduleClass.cast(modules.get(moduleClass));
     }
 
     public Module getModule(String name) {

@@ -30,6 +30,8 @@ public class CoralMod implements ModInitializer {
 
         moduleManager = new ModuleManager();
 
+        new CoralModCommand();
+
         LOGGER.info("Successfully started {}", MOD_NAME);
 	}
 }

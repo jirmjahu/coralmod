@@ -2,28 +2,35 @@ package net.coralmod.mod.mixin;
 
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.modules.NametagsModule;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.state.LivingEntityRenderState;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntityRenderer.class)
-public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>> {
+public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>> extends EntityRenderer<T, S> implements RenderLayerParent<S, M> {
 
-    @Inject(method = "hasLabel(Lnet/minecraft/entity/LivingEntity;D)Z", at = @At("HEAD"), cancellable = true)
-    public void hasLabel(T livingEntity, double d, CallbackInfoReturnable<Boolean> info) {
+    protected LivingEntityRendererMixin(EntityRendererProvider.Context context) {
+        super(context);
+    }
+
+    @Inject(method = "shouldShowName(Lnet/minecraft/world/entity/LivingEntity;D)Z", at = @At("HEAD"), cancellable = true)
+    public void onShouldShowName(T livingEntity, double d, CallbackInfoReturnable<Boolean> info) {
         final NametagsModule module = CoralMod.getInstance().getModuleManager().getModule(NametagsModule.class);
         if (!module.isEnabled()) {
             return;
         }
 
-        final MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null && livingEntity.getId() != client.player.getId()) {
+        final Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null && livingEntity.getId() != mc.player.getId()) {
             return;
         }
 

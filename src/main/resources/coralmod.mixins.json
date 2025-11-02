@@ -10,9 +10,9 @@
   },
   "mixins": [
     "GameRendererMixin",
-    "InGameHudMixin",
+    "GuiMixin",
     "LivingEntityRendererMixin",
-    "MinecraftClientMixin",
+    "MinecraftMixin",
     "TitleScreenMixin"
   ]
 }

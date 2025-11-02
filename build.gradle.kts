@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     minecraft(libs.minecraft)
-    mappings(libs.mappings)
+    mappings(loom.officialMojangMappings())
     modImplementation(libs.loader)
     modImplementation(libs.api)
 

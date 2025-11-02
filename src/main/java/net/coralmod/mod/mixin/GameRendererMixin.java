@@ -1,13 +1,13 @@
 package net.coralmod.mod.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.CubeMapRenderer;
-import net.minecraft.client.gui.RotatingCubeMapRenderer;
-import net.minecraft.client.render.BufferBuilderStorage;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.block.BlockRenderManager;
-import net.minecraft.client.render.item.HeldItemRenderer;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.CubeMap;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.client.renderer.PanoramaRenderer;
+import net.minecraft.client.renderer.RenderBuffers;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -22,25 +22,25 @@ public abstract class GameRendererMixin {
     @Mutable
     @Shadow
     @Final
-    protected CubeMapRenderer panoramaRenderer;
+    protected CubeMap cubeMap;
 
     @Mutable
     @Shadow
     @Final
-    protected RotatingCubeMapRenderer rotatingPanoramaRenderer;
+    protected PanoramaRenderer panorama;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onInit(
-            MinecraftClient minecraftClient,
-            HeldItemRenderer heldItemRenderer,
-            BufferBuilderStorage bufferBuilderStorage,
-            BlockRenderManager blockRenderManager,
+            Minecraft minecraft,
+            ItemInHandRenderer itemInHandRenderer,
+            RenderBuffers renderBuffers,
+            BlockRenderDispatcher blockRenderDispatcher,
             CallbackInfo info
     ) {
-        final Identifier panoramaId = Identifier.of("coralmod", "textures/gui/title/background/panorama");
-        final CubeMapRenderer cubeMapRenderer = new CubeMapRenderer(panoramaId);
+        final ResourceLocation panoramaTexture = ResourceLocation.fromNamespaceAndPath("coralmod", "textures/gui/title/background/panorama");
+        final CubeMap customCubeMap = new CubeMap(panoramaTexture);
 
-        this.panoramaRenderer = cubeMapRenderer;
-        this.rotatingPanoramaRenderer = new RotatingCubeMapRenderer(cubeMapRenderer);
+        this.cubeMap = customCubeMap;
+        this.panorama = new PanoramaRenderer(customCubeMap);
     }
 }

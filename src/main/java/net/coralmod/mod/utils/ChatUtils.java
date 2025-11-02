@@ -1,22 +1,22 @@
 package net.coralmod.mod.utils;
 
 import lombok.experimental.UtilityClass;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 
 @UtilityClass
 public class ChatUtils {
 
     public void sendToPlayer(String message) {
-        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of(message));
+        Minecraft.getInstance().gui.getChat().addMessage(Component.literal(message));
     }
 
     public void sendAsPlayer(String message) {
-        final ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        final LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) {
             return;
         }
-        player.networkHandler.sendChatMessage(message);
+        player.connection.sendChat(message);
     }
 }

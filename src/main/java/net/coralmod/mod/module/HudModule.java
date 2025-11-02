@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.coralmod.mod.module.settings.BooleanSetting;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import java.awt.*;
 
 @Getter
@@ -30,11 +29,11 @@ public abstract class HudModule extends Module {
         addSettings(background, brackets, textShadow);
     }
 
-    public void render(DrawContext context, TextRenderer textRenderer) {
+    public void render(GuiGraphics guiGraphics, Font font) {
         final String text = brackets.getValue() ? "[" + this.text + "]" : this.text;
 
-        final int textWidth = textRenderer.getWidth(text);
-        final int textHeight = textRenderer.fontHeight;
+        final int textWidth = font.width(text);
+        final int textHeight = font.lineHeight;
 
         final int padding = background.getValue() ? 4 : 0;
 
@@ -42,7 +41,7 @@ public abstract class HudModule extends Module {
         height = textHeight + padding * 2;
 
         if (background.getValue()) {
-            context.fill(
+            guiGraphics.fill(
                     x,
                     y,
                     x + width,
@@ -54,8 +53,8 @@ public abstract class HudModule extends Module {
         final int textX = x + (width - textWidth) / 2;
         final int textY = y + (height - textHeight) / 2 + 1;
 
-        context.drawText(
-                textRenderer,
+        guiGraphics.drawString(
+                font,
                 text,
                 textX,
                 textY,

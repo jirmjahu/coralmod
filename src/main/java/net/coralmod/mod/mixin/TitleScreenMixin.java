@@ -27,7 +27,7 @@ public class TitleScreenMixin extends Screen {
     }
 
     @Inject(method = "render", at = @At("HEAD"))
-    public void onRender(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo info) {
+    private void onRender(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo info) {
         guiGraphics.drawString(
                 font,
                 CoralMod.MOD_NAME + " v" + CoralMod.MOD_VERSION,

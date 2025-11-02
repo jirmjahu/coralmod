@@ -19,7 +19,7 @@ public abstract class GuiMixin {
     public abstract Font getFont();
 
     @Inject(method = "render", at = @At("RETURN"))
-    public void onRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
+    private void onRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
         for (HudModule hudModule : CoralMod.getInstance().getModuleManager().getHudModules()) {
             if (!hudModule.isEnabled()) {
                 continue;

@@ -14,6 +14,7 @@
     "LivingEntityRendererMixin",
     "MinecraftMixin",
     "TitleScreenMixin",
-    "UnitDoubleMixin"
+    "UnitDoubleMixin",
+    "KeyboardHandlerMixin"
   ]
 }

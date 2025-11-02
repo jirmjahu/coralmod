@@ -3,6 +3,7 @@ package net.coralmod.mod.module;
 import net.coralmod.mod.module.modules.FpsModule;
 import net.coralmod.mod.module.modules.FullBrightModule;
 import net.coralmod.mod.module.modules.NametagsModule;
+import net.coralmod.mod.module.modules.ZoomModule;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ public class ModuleManager {
         register(new FpsModule());
         register(new NametagsModule());
         register(new FullBrightModule());
+        register(new ZoomModule());
     }
 
     private void register(Module module) {

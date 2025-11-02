@@ -23,7 +23,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     }
 
     @Inject(method = "shouldShowName(Lnet/minecraft/world/entity/LivingEntity;D)Z", at = @At("HEAD"), cancellable = true)
-    public void onShouldShowName(T livingEntity, double d, CallbackInfoReturnable<Boolean> info) {
+    private void onShouldShowName(T livingEntity, double d, CallbackInfoReturnable<Boolean> info) {
         final NametagsModule module = CoralMod.getInstance().getModuleManager().getModule(NametagsModule.class);
         if (!module.isEnabled()) {
             return;

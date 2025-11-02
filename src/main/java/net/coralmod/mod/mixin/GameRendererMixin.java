@@ -1,13 +1,12 @@
 package net.coralmod.mod.mixin;
 
+import net.coralmod.mod.CoralMod;
+import net.coralmod.mod.module.modules.ZoomModule;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.CubeMap;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.PanoramaRenderer;
-import net.minecraft.client.renderer.RenderBuffers;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -42,5 +41,17 @@ public abstract class GameRendererMixin {
 
         this.cubeMap = customCubeMap;
         this.panorama = new PanoramaRenderer(customCubeMap);
+    }
+
+    @Inject(method = "renderItemInHand", at = @At("HEAD"), cancellable = true)
+    public void onRenderItemInHand(float f, boolean bl, Matrix4f matrix4f, CallbackInfo info) {
+        final ZoomModule module = CoralMod.getInstance().getModuleManager().getModule(ZoomModule.class);
+        if (module == null) {
+            return;
+        }
+
+        if (module.isEnabled() && ZoomModule.ZOOMING) {
+            info.cancel();
+        }
     }
 }

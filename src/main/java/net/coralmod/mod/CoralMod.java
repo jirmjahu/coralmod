@@ -5,6 +5,10 @@ import net.coralmod.mod.command.CoralModCommand;
 import net.coralmod.mod.module.ModuleManager;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.ResourceLocation;
+import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +20,12 @@ public class CoralMod implements ModInitializer {
     public static final String MOD_VERSION = "0.1.0";
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+    public static KeyMapping ZOOM_KEY_MAPPING = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+            "Zoom",
+            GLFW.GLFW_KEY_C,
+            KeyMapping.Category.register(ResourceLocation.parse("coralmod"))
+    ));
 
     @Getter
     private static CoralMod instance;

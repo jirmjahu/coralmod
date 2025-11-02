@@ -8,9 +8,10 @@
   "overwrites": {
     "requireAnnotations": true
   },
-  "client": [
+  "mixins": [
     "GameRendererMixin",
     "InGameHudMixin",
+    "LivingEntityRendererMixin",
     "MinecraftClientMixin",
     "TitleScreenMixin"
   ]

@@ -1,6 +1,7 @@
 package net.coralmod.mod.module;
 
 import net.coralmod.mod.module.modules.FpsModule;
+import net.coralmod.mod.module.modules.NametagsModule;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public class ModuleManager {
 
     public ModuleManager() {
         register(new FpsModule());
+        register(new NametagsModule());
     }
 
     private void register(Module module) {

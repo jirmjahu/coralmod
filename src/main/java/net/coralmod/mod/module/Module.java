@@ -2,6 +2,7 @@ package net.coralmod.mod.module;
 
 import lombok.Getter;
 import net.coralmod.mod.module.settings.Setting;
+import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ public class Module {
     private final String description;
     private boolean enabled;
     private final List<Setting<?>> settings = new ArrayList<>();
+    protected final Minecraft mc = Minecraft.getInstance();
 
     public Module() {
         info = getClass().getAnnotation(ModuleInfo.class);

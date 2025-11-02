@@ -16,6 +16,5 @@ public class FpsModule extends HudModule {
             final String fps = "FPS: " + Minecraft.getInstance().getFps();
             setText(fps);
         });
-
     }
 }

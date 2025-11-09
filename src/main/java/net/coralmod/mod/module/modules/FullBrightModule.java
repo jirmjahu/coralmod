@@ -11,6 +11,10 @@ public class FullBrightModule extends Module {
 
     @Override
     public void onEnable() {
+        if (mc == null) {
+            return;
+        }
+
         final OptionInstance<Double> gamma = mc.options.gamma();
 
         oldGamma = gamma.get();
@@ -19,6 +23,10 @@ public class FullBrightModule extends Module {
 
     @Override
     public void onDisable() {
+        if (mc == null) {
+            return;
+        }
+
         mc.options.gamma().set(oldGamma);
     }
 }

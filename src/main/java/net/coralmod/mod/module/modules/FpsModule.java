@@ -10,7 +10,6 @@ public class FpsModule extends HudModule {
 
     public FpsModule() {
         super(10, 10);
-        setEnabled(true);
 
         ClientTickEvents.START_CLIENT_TICK.register(mc -> {
             final String fps = "FPS: " + Minecraft.getInstance().getFps();

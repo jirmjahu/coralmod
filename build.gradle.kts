@@ -18,6 +18,8 @@ dependencies {
 
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
+
+    implementation(libs.gson)
 }
 
 tasks.processResources {

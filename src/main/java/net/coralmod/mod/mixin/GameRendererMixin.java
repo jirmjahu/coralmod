@@ -50,7 +50,7 @@ public abstract class GameRendererMixin {
             return;
         }
 
-        if (module.isEnabled() && ZoomModule.ZOOMING) {
+        if (module.isEnabled() && module.isZooming()) {
             info.cancel();
         }
     }

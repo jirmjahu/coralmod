@@ -5,7 +5,6 @@ import net.coralmod.mod.module.modules.FullBrightModule;
 import net.coralmod.mod.module.modules.NametagsModule;
 import net.coralmod.mod.module.modules.ZoomModule;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,20 +29,14 @@ public class ModuleManager {
     }
 
     public Module getModule(String name) {
-        return modules.values().stream()
-                .filter(module -> module.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
+        return modules.values().stream().filter(module -> module.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
-    public Collection<Module> getModules() {
-        return modules.values();
+    public List<Module> getModules() {
+        return modules.values().stream().toList();
     }
 
     public List<HudModule> getHudModules() {
-        return modules.values().stream()
-                .filter(module -> module instanceof HudModule)
-                .map(module -> (HudModule) module)
-                .toList();
+        return modules.values().stream().filter(module -> module instanceof HudModule).map(module -> (HudModule) module).toList();
     }
 }

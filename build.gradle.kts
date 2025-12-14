@@ -6,10 +6,6 @@ plugins {
 version = "0.2.1"
 group = "net.coralmod.mod"
 
-repositories {
-
-}
-
 dependencies {
     minecraft(libs.minecraft)
     mappings(loom.officialMojangMappings())

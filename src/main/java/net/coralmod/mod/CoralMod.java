@@ -6,11 +6,12 @@ import net.coralmod.mod.config.Config;
 import net.coralmod.mod.config.ConfigStorage;
 import net.coralmod.mod.config.profile.ProfileManager;
 import net.coralmod.mod.module.ModuleManager;
+import net.coralmod.mod.theme.Theme;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class CoralMod implements ModInitializer {
     public static KeyMapping ZOOM_KEY_MAPPING = KeyBindingHelper.registerKeyBinding(new KeyMapping(
             "Zoom",
             GLFW.GLFW_KEY_C,
-            KeyMapping.Category.register(ResourceLocation.parse("coralmod"))
+            KeyMapping.Category.register(Identifier.parse("coralmod"))
     ));
 
     @Getter
@@ -37,6 +38,8 @@ public class CoralMod implements ModInitializer {
     private Config config;
     private ConfigStorage configStorage;
     private ProfileManager profileManager;
+
+    public static Theme SELECTED_THEME = Theme.TUBE; //TODO SAVE AND LOAD
 
     @Override
     public void onInitialize() {

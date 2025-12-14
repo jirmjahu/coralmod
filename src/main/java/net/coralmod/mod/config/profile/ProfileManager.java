@@ -116,8 +116,10 @@ public class ProfileManager {
                 }
             }
 
-            final boolean enabled = profile.getModules().get(module.getName());
-            module.setEnabled(enabled);
+
+            if (profile.getModules().get(module.getName()) != null) {
+                module.setEnabled(profile.getModules().get(module.getName()));
+            }
         }
     }
 

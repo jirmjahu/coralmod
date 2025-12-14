@@ -1,0 +1,106 @@
+package net.coralmod.mod.ui.modmenu;
+
+import net.coralmod.mod.CoralMod;
+import net.coralmod.mod.module.Module;
+import net.coralmod.mod.theme.Theme;
+import net.coralmod.mod.ui.Widget;
+import net.coralmod.mod.utils.ColorUtils;
+import net.coralmod.mod.utils.MouseUtils;
+import net.coralmod.mod.utils.Notification;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
+
+import java.awt.*;
+
+public class ModuleButtonWidget extends Widget {
+
+    private final Module module;
+    private static final int BORDER_THICKNESS = 2;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final int BUTTON_PADDING = 6;
+
+    public ModuleButtonWidget(Module module, int x, int y, int width, int height) {
+        super(x, y, width, height);
+        this.module = module;
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        super.render(guiGraphics, mouseX, mouseY);
+
+        final Theme theme = CoralMod.SELECTED_THEME;
+
+        final Color baseGray = new Color(20, 20, 20, 200);
+        int backgroundColor = baseGray.getRGB();
+        int borderColor = baseGray.brighter().getRGB();
+
+        if (module.isEnabled()) {
+            borderColor = theme.getPrimaryColor().getRGB();
+            final Color themeColor = ColorUtils.setAlpha(theme.getPrimaryColor(), 100);
+
+            backgroundColor = ColorUtils.blendColors(baseGray, themeColor).getRGB();
+        }
+
+        if (hovered) {
+            final Color hoverColor = new Color(255, 255, 255, 30);
+            backgroundColor = ColorUtils.blendColors(new Color(backgroundColor, true), hoverColor).getRGB();
+            borderColor = ColorUtils.blendColors(new Color(borderColor, true), hoverColor).getRGB();
+        }
+
+        guiGraphics.fill(x, y, x + width, y + height, borderColor);
+        guiGraphics.fill(x + BORDER_THICKNESS, y + BORDER_THICKNESS, x + width - BORDER_THICKNESS, y + height - BORDER_THICKNESS, backgroundColor);
+
+        final Font font = Minecraft.getInstance().font;
+
+        final int toggleY = y + height - BUTTON_HEIGHT * 2 - 10;
+        final int settingY = y + height - BUTTON_HEIGHT - 5;
+
+        final boolean isHoveringToggle = MouseUtils.isMouseOver(mouseX, mouseY, x, toggleY, width, BUTTON_HEIGHT);
+        final boolean isHoveringSettings = MouseUtils.isMouseOver(mouseX, mouseY, x, settingY, width, BUTTON_HEIGHT);
+
+        final Color buttonBackgroundColor = ColorUtils.removeAlpha(baseGray).brighter().brighter();
+        final Color buttonHoverColor = buttonBackgroundColor.brighter().brighter();
+
+        final Color toggleButtonColor = isHoveringToggle ? buttonHoverColor : buttonBackgroundColor;
+        final Color settingsButtonColor = isHoveringSettings ? buttonHoverColor : buttonBackgroundColor;
+
+        guiGraphics.fillGradient(x + BUTTON_PADDING, toggleY, x + width - BUTTON_PADDING, toggleY + BUTTON_HEIGHT, toggleButtonColor.getRGB(), toggleButtonColor.darker().getRGB());
+        guiGraphics.fillGradient(x + BUTTON_PADDING, settingY, x + width - BUTTON_PADDING, settingY + BUTTON_HEIGHT, settingsButtonColor.getRGB(), settingsButtonColor.darker().getRGB());
+
+        final String toggleText = module.isEnabled() ? "Disable" : "Enable";
+        final String settingsText = "Settings";
+
+        guiGraphics.drawString(font, toggleText,
+                x + width / 2 - font.width(toggleText) / 2, toggleY + 4, -1, true);
+
+        guiGraphics.drawString(font, settingsText,
+                x + width / 2 - font.width(settingsText) / 2, settingY + 4, -1, true);
+
+        final int textX = x + width / 2 - font.width(module.getName()) / 2;
+        final int textY = y + BORDER_THICKNESS + (toggleY - (y + BORDER_THICKNESS) - font.lineHeight) / 2;
+        guiGraphics.drawString(font, module.getName(), textX, textY, -1, true);
+    }
+
+    @Override
+    public void mouseClicked(MouseButtonEvent mouseButtonEvent) {
+        final int mouseX = (int) mouseButtonEvent.x();
+        final int mouseY = (int) mouseButtonEvent.y();
+
+        final int toggleY = y + height - BUTTON_HEIGHT * 2 - 10;
+        final int settingY = y + height - BUTTON_HEIGHT - 5;
+
+        final boolean isHoveringToggle = MouseUtils.isMouseOver(mouseX, mouseY, x, toggleY, width, BUTTON_HEIGHT);
+        final boolean isHoveringSettings = MouseUtils.isMouseOver(mouseX, mouseY, x, settingY, width, BUTTON_HEIGHT);
+
+        if (isHoveringToggle) {
+            module.setEnabled(!module.isEnabled());
+            return;
+        }
+
+        if (isHoveringSettings) {
+            Notification.sendNotification("lol", "gitbs nicht");
+        }
+    }
+}

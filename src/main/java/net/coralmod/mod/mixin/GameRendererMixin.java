@@ -5,7 +5,7 @@ import net.coralmod.mod.module.modules.ZoomModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,11 +36,11 @@ public abstract class GameRendererMixin {
             BlockRenderDispatcher blockRenderDispatcher,
             CallbackInfo info
     ) {
-        final ResourceLocation panoramaTexture = ResourceLocation.fromNamespaceAndPath("coralmod", "textures/gui/title/background/panorama");
+        final Identifier panoramaTexture = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/title/background/panorama");
         final CubeMap customCubeMap = new CubeMap(panoramaTexture);
 
-        this.cubeMap = customCubeMap;
-        this.panorama = new PanoramaRenderer(customCubeMap);
+        //this.cubeMap = customCubeMap;
+        //this.panorama = new PanoramaRenderer(customCubeMap);
     }
 
     @Inject(method = "renderItemInHand", at = @At("HEAD"), cancellable = true)

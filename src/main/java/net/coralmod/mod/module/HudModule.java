@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.coralmod.mod.module.settings.BooleanSetting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+
 import java.awt.*;
 
 @Getter

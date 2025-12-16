@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
@@ -26,6 +27,8 @@ public class ModMenuScreen extends Screen {
     public static final int BUTTON_HEIGHT = 75;
     public static final int BUTTON_TOP_MARGIN = 15;
 
+    public static final Color HOVER_COLOR = new Color(255, 255, 255, 30);
+    public static final Color BASE_GRAY = new Color(255, 255, 255, 30);
 
     private int startX;
     private int startY;
@@ -78,16 +81,22 @@ public class ModMenuScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(MouseButtonEvent mouseButtonEvent, boolean b) {
-        currentWindow.mouseClicked(mouseButtonEvent);
-        return super.mouseClicked(mouseButtonEvent, b);
+    public boolean mouseClicked(@NotNull MouseButtonEvent event, boolean b) {
+        currentWindow.mouseClicked(event);
+        return super.mouseClicked(event, b);
     }
 
-    private void setModuleTabWindow() {
+    @Override
+    public boolean mouseReleased(@NotNull MouseButtonEvent event) {
+        currentWindow.mouseReleased(event);
+        return super.mouseReleased(event);
+    }
+
+    public void setModuleTabWindow() {
         switchWindow(new ModulesTabWindow(this, "Modules", startX, startY + MENU_TITLE_BAR_HEIGHT));
     }
 
-    private void switchWindow(Window window) {
+    public void switchWindow(Window window) {
         currentWindow = window;
         window.init();
     }

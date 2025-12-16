@@ -1,6 +1,6 @@
 plugins {
-    id ("java")
-	alias(libs.plugins.loom)
+    id("java")
+    alias(libs.plugins.loom)
 }
 
 version = "0.2.1"

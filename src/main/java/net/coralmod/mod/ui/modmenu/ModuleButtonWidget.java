@@ -6,7 +6,6 @@ import net.coralmod.mod.theme.Theme;
 import net.coralmod.mod.ui.Widget;
 import net.coralmod.mod.utils.ColorUtils;
 import net.coralmod.mod.utils.MouseUtils;
-import net.coralmod.mod.utils.Notification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,7 +31,7 @@ public class ModuleButtonWidget extends Widget {
 
         final Theme theme = CoralMod.SELECTED_THEME;
 
-        final Color baseGray = new Color(20, 20, 20, 200);
+        final Color baseGray = ModMenuScreen.BASE_GRAY;
         int backgroundColor = baseGray.getRGB();
         int borderColor = baseGray.brighter().getRGB();
 
@@ -44,9 +43,8 @@ public class ModuleButtonWidget extends Widget {
         }
 
         if (hovered) {
-            final Color hoverColor = new Color(255, 255, 255, 30);
-            backgroundColor = ColorUtils.blendColors(new Color(backgroundColor, true), hoverColor).getRGB();
-            borderColor = ColorUtils.blendColors(new Color(borderColor, true), hoverColor).getRGB();
+            backgroundColor = ColorUtils.blendColors(new Color(backgroundColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
+            borderColor = ColorUtils.blendColors(new Color(borderColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
         }
 
         guiGraphics.fill(x, y, x + width, y + height, borderColor);
@@ -84,9 +82,9 @@ public class ModuleButtonWidget extends Widget {
     }
 
     @Override
-    public void mouseClicked(MouseButtonEvent mouseButtonEvent) {
-        final int mouseX = (int) mouseButtonEvent.x();
-        final int mouseY = (int) mouseButtonEvent.y();
+    public void mouseClicked(MouseButtonEvent event) {
+        final int mouseX = (int) event.x();
+        final int mouseY = (int) event.y();
 
         final int toggleY = y + height - BUTTON_HEIGHT * 2 - 10;
         final int settingY = y + height - BUTTON_HEIGHT - 5;
@@ -100,7 +98,7 @@ public class ModuleButtonWidget extends Widget {
         }
 
         if (isHoveringSettings) {
-            Notification.sendNotification("lol", "gitbs nicht");
+            parent.getParent().switchWindow(new ModuleSettingsWindow(parent.getParent(), module, "Settings", parent.getX(), parent.getY()));
         }
     }
 }

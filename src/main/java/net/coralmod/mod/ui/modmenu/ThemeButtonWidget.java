@@ -27,18 +27,15 @@ public class ThemeButtonWidget extends Widget {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.render(guiGraphics, mouseX, mouseY);
 
-        final Color baseGray = new Color(20, 20, 20, 200);
-
+        final Color baseGray = ModMenuScreen.BASE_GRAY;
 
         int borderColor = theme.getPrimaryColor().getRGB();
         final Color themeColor = ColorUtils.setAlpha(theme.getPrimaryColor(), 100);
         int backgroundColor = ColorUtils.blendColors(baseGray, themeColor).getRGB();
 
-
         if (hovered) {
-            final Color hoverColor = new Color(255, 255, 255, 30);
-            backgroundColor = ColorUtils.blendColors(new Color(backgroundColor, true), hoverColor).getRGB();
-            borderColor = ColorUtils.blendColors(new Color(borderColor, true), hoverColor).getRGB();
+            backgroundColor = ColorUtils.blendColors(new Color(backgroundColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
+            borderColor = ColorUtils.blendColors(new Color(borderColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
         }
 
         guiGraphics.fill(x, y, x + width, y + height, borderColor);
@@ -57,7 +54,7 @@ public class ThemeButtonWidget extends Widget {
 
 
     @Override
-    public void mouseClicked(MouseButtonEvent mouseButtonEvent) {
+    public void mouseClicked(MouseButtonEvent event) {
         CoralMod.SELECTED_THEME = theme;
         Notification.sendNotification("Updated Theme", "Theme was updated to: " + theme.getName());
     }

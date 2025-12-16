@@ -14,7 +14,7 @@ loader = { module = "net.fabricmc:fabric-loader", version.ref = "loader" }
 api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric" }
 
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson"}
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 [plugins]
 loom = { id = "fabric-loom", version.ref = "loom" }

@@ -17,6 +17,7 @@ public class ModuleManager {
         register(new FullBrightModule());
         register(new ZoomModule());
         register(new CoordinatesModule());
+        register(new CPSModule());
     }
 
     private void register(Module module) {

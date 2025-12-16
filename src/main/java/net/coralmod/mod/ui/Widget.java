@@ -13,6 +13,7 @@ public class Widget {
     protected int width;
     protected int height;
     protected boolean hovered;
+    protected Window parent;
 
     public Widget(int x, int y, int width, int height) {
         this.x = x;
@@ -21,11 +22,17 @@ public class Widget {
         this.height = height;
     }
 
+    public void init() {
+    }
+
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         hovered = MouseUtils.isMouseOver(mouseX, mouseY, x, y, width, height);
     }
 
-    public void mouseClicked(MouseButtonEvent mouseButtonEvent) {
+    public void mouseClicked(MouseButtonEvent event) {
+    }
+
+    public void mouseReleased(MouseButtonEvent event) {
     }
 
 }

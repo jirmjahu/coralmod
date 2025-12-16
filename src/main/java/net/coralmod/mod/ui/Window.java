@@ -1,5 +1,6 @@
 package net.coralmod.mod.ui;
 
+import lombok.Getter;
 import net.coralmod.mod.ui.modmenu.ModMenuScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 
+@Getter
 public class Window {
 
     protected final ModMenuScreen parent;
@@ -25,6 +27,9 @@ public class Window {
     }
 
     public void init() {
+        for (Widget widget : widgets) {
+            widget.init();
+        }
     }
 
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
@@ -33,15 +38,22 @@ public class Window {
         }
     }
 
-    public void mouseClicked(MouseButtonEvent mouseButtonEvent) {
+    public void mouseClicked(MouseButtonEvent event) {
         for (Widget widget : widgets) {
             if (widget.hovered) {
-                widget.mouseClicked(mouseButtonEvent);
+                widget.mouseClicked(event);
             }
+        }
+    }
+
+    public void mouseReleased(MouseButtonEvent event) {
+        for (Widget widget : widgets) {
+            widget.mouseReleased(event);
         }
     }
 
     protected void addWidget(Widget widget) {
         widgets.add(widget);
+        widget.parent = this;
     }
 }

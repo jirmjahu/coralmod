@@ -12,5 +12,9 @@ public abstract class Setting<T> {
 
     @Setter
     private T value;
+    private final T defaultValue;
 
+    public void reset() {
+        value = defaultValue;
+    }
 }

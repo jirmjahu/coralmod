@@ -11,10 +11,11 @@
   "mixins": [
     "GameRendererMixin",
     "GuiMixin",
+    "KeyboardHandlerMixin",
     "LivingEntityRendererMixin",
     "MinecraftMixin",
+    "MouseHandlerMixin",
     "TitleScreenMixin",
-    "UnitDoubleMixin",
-    "KeyboardHandlerMixin"
+    "UnitDoubleMixin"
   ]
 }

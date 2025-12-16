@@ -28,7 +28,7 @@ public class ModMenuScreen extends Screen {
     public static final int BUTTON_TOP_MARGIN = 15;
 
     public static final Color HOVER_COLOR = new Color(255, 255, 255, 30);
-    public static final Color BASE_GRAY = new Color(255, 255, 255, 30);
+    public static final Color BASE_GRAY = new Color(20, 20, 20, 200);
 
     private int startX;
     private int startY;

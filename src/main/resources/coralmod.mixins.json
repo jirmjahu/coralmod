@@ -16,6 +16,8 @@
     "MinecraftMixin",
     "MouseHandlerMixin",
     "TitleScreenMixin",
-    "UnitDoubleMixin"
+    "UnitDoubleMixin",
+    "ItemInHandRendererMixin",
+    "ScreenEffectRendererMixin"
   ]
 }

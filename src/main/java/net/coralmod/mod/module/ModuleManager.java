@@ -18,6 +18,7 @@ public class ModuleManager {
         register(new ZoomModule());
         register(new CoordinatesModule());
         register(new CPSModule());
+        register(new ViewTweaksModule());
     }
 
     private void register(Module module) {

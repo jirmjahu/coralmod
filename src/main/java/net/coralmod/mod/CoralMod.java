@@ -39,7 +39,7 @@ public class CoralMod implements ModInitializer {
     private ConfigStorage configStorage;
     private ProfileManager profileManager;
 
-    public static Theme SELECTED_THEME = Theme.TUBE; //TODO SAVE AND LOAD
+    public static Theme SELECTED_THEME = Theme.TUBE; // TODO SAVE AND LOAD
 
     @Override
     public void onInitialize() {
@@ -52,7 +52,6 @@ public class CoralMod implements ModInitializer {
             configStorage = new ConfigStorage();
             config = configStorage.load();
             profileManager = new ProfileManager(config, configStorage, moduleManager);
-
             profileManager.loadProfile(config.getCurrentProfile());
 
             new CoralModCommand();

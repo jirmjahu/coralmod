@@ -26,6 +26,17 @@ public class TitleScreenMixin extends Screen {
         super(title);
     }
 
+    @Inject(method = "init", at = @At("TAIL"))
+    public void onInit(CallbackInfo info) {
+        addRenderableWidget(RenderUtils.pressableText(font, Component.literal("CoralMod on Github"), 20, (LOGO_SIZE - font.lineHeight) / 2 + 2, () -> {
+            try {
+                Util.getPlatform().openUri(new URI(GITHUB_REPO));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }));
+    }
+
     @Inject(method = "render", at = @At("HEAD"))
     private void onRender(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo info) {
         guiGraphics.drawString(
@@ -38,13 +49,5 @@ public class TitleScreenMixin extends Screen {
         );
 
         RenderUtils.drawTexture(guiGraphics, GITHUB_LOGO, 0, 0, LOGO_SIZE);
-
-        addRenderableWidget(RenderUtils.pressableText(font, Component.literal("CoralMod on Github"), 20, (LOGO_SIZE - font.lineHeight) / 2 + 2, () -> {
-            try {
-                Util.getPlatform().openUri(new URI(GITHUB_REPO));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }));
     }
 }

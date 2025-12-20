@@ -39,8 +39,8 @@ public abstract class GameRendererMixin {
         final Identifier panoramaTexture = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/title/background/panorama");
         final CubeMap customCubeMap = new CubeMap(panoramaTexture);
 
-        //this.cubeMap = customCubeMap;
-        //this.panorama = new PanoramaRenderer(customCubeMap);
+        this.cubeMap = customCubeMap;
+        this.panorama = new PanoramaRenderer(customCubeMap);
     }
 
     @Inject(method = "renderItemInHand", at = @At("HEAD"), cancellable = true)

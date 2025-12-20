@@ -18,7 +18,7 @@ public class CPSModule extends HudModule {
     private final BooleanSetting showRightButton = new BooleanSetting("Show Right CPS", true);
 
     public CPSModule() {
-        super(50, 50);
+        super(20, 20);
         addSettings(showCpsText, showLeftButton, showRightButton);
 
         final List<Long> leftPresses = new ArrayList<>();

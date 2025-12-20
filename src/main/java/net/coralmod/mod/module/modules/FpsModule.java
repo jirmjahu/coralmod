@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 public class FpsModule extends HudModule {
 
     public FpsModule() {
-        super(10, 10);
+        super(20, 20);
 
         ClientTickEvents.START_CLIENT_TICK.register(mc -> {
             final String fps = "FPS: " + Minecraft.getInstance().getFps();

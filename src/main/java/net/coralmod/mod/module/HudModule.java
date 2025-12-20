@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.coralmod.mod.module.settings.BooleanSetting;
+import net.coralmod.mod.utils.MouseUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -62,5 +63,18 @@ public abstract class HudModule extends Module {
                 -1,
                 textShadow.getValue()
         );
+    }
+
+    public boolean isHovered(int mouseX, int mouseY) {
+        return MouseUtils.isMouseOver(mouseX, mouseY, x, y, width, height);
+    }
+
+    public void move(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void resetPosition() {
+        move(20, 20);
     }
 }

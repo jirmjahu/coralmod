@@ -12,6 +12,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix3x2fStack;
 
+import java.awt.*;
+
 @UtilityClass
 public class RenderUtils {
 
@@ -38,5 +40,12 @@ public class RenderUtils {
         stack.scale(scale, scale);
         guiGraphics.renderItem(new ItemStack(item), 0, 0);
         stack.popMatrix();
+    }
+
+    public void outline(GuiGraphics guiGraphics, int x, int y, int x2, int y2, int size, Color color) {
+        guiGraphics.fill(x, y, x2, y + size, color.getRGB());
+        guiGraphics.fill(x, y2 - size, x2, y2, color.getRGB());
+        guiGraphics.fill(x, y + size, x + size, y2 - size, color.getRGB());
+        guiGraphics.fill(x2 - size, y + size, x2, y2 - size, color.getRGB());
     }
 }

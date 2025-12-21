@@ -20,6 +20,7 @@ public class ModuleManager {
         register(new CPSModule());
         register(new ViewTweaksModule());
         register(new ArmorHudModule());
+        register(new NoBackgroundModule());
     }
 
     private void register(Module module) {

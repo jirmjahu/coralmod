@@ -19,6 +19,7 @@ public class ModuleManager {
         register(new CoordinatesModule());
         register(new CPSModule());
         register(new ViewTweaksModule());
+        register(new ArmorHudModule());
     }
 
     private void register(Module module) {

@@ -47,7 +47,7 @@ public class CoralMod implements ModInitializer {
 
         instance = this;
 
-        ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+        ClientLifecycleEvents.CLIENT_STARTED.register(mc -> {
             moduleManager = new ModuleManager();
             configStorage = new ConfigStorage();
             config = configStorage.load();

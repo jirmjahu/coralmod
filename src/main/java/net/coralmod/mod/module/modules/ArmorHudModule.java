@@ -1,5 +1,6 @@
 package net.coralmod.mod.module.modules;
 
+import io.netty.util.internal.MathUtil;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
@@ -21,13 +22,13 @@ public class ArmorHudModule extends HudModule {
     private static final int BACKGROUND_PADDING = 4;
 
     private final BooleanSetting showDurability = new BooleanSetting("Show Durability", true);
-    private final ModeSetting displayMode = new ModeSetting("Display Mode", "Horizontal", List.of("Horizontal", "Vertical"));
+    private final BooleanSetting showDurabilityPercent = new BooleanSetting("Durability as Percent", false);
 
     public ArmorHudModule() {
         super(20, 20);
 
         getSettings().remove(brackets);
-        addSettings(showDurability);
+        addSettings(showDurability, showDurabilityPercent);
     }
 
     @Override
@@ -74,6 +75,10 @@ public class ArmorHudModule extends HudModule {
     private String getDurabilityText(ItemStack item) {
         final int maxDamage = item.getMaxDamage();
         final int damage = item.getDamageValue();
+        if (showDurabilityPercent.getValue()) {
+            final int percent = (int)(((float)(maxDamage - damage) / maxDamage) * 100);
+            return percent + "%";
+        }
         return (maxDamage - damage) + "/" + maxDamage;
     }
 }

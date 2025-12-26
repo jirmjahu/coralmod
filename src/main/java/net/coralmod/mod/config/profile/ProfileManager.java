@@ -18,7 +18,7 @@ import java.util.Set;
 @Getter
 public class ProfileManager {
 
-    private static final String DEFAULT_PROFILE = "Default Profile";
+    private static final String DEFAULT_PROFILE = "Default";
 
     private final Config config;
     private final ConfigStorage configStorage;

@@ -20,8 +20,8 @@ public class BooleanSettingWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        super.render(guiGraphics, mouseX, mouseY);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, int scrollOffset) {
+        super.render(guiGraphics, mouseX, mouseY, scrollOffset);
 
         if (hovered) {
             guiGraphics.fill(x, y, x + width, y + height, ModMenuScreen.HOVER_COLOR.getRGB());

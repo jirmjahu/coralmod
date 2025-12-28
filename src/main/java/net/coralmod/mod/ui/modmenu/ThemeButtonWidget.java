@@ -24,8 +24,8 @@ public class ThemeButtonWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        super.render(guiGraphics, mouseX, mouseY);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, int scrollOffset) {
+        super.render(guiGraphics, mouseX, mouseY, scrollOffset);
 
         final Color baseGray = ModMenuScreen.BASE_GRAY;
 
@@ -43,13 +43,15 @@ public class ThemeButtonWidget extends Widget {
 
         final Font font = Minecraft.getInstance().font;
 
-        int itemX = x + width / 2;
-        int itemY = y + height / 2;
-        RenderUtils.scaledItem(guiGraphics.pose(), guiGraphics, theme.getDisplayItem(), itemX, itemY, 2);
+        RenderUtils.scaledItem(guiGraphics.pose(), guiGraphics, theme.getDisplayItem(), x + width / 2, y + height / 2, 2);
 
-        int textX = x + width / 2 - font.width(theme.getName()) / 2;
-        int textY = y + height - (BORDER_THICKNESS * 2) - 10;
-        guiGraphics.drawString(font, theme.getName(), textX, textY, -1, true);
+        guiGraphics.drawString(font,
+                theme.getName(),
+                x + width / 2 - font.width(theme.getName()) / 2,
+                y + height - (BORDER_THICKNESS * 2) - 10,
+                -1,
+                true
+        );
     }
 
 

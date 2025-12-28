@@ -26,8 +26,10 @@ public class ModuleButtonWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        super.render(guiGraphics, mouseX, mouseY);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, int scrollOffset) {
+        super.render(guiGraphics, mouseX, mouseY, scrollOffset);
+
+        final int renderY = y - scrollOffset;
 
         final Theme theme = CoralMod.SELECTED_THEME;
 
@@ -38,7 +40,6 @@ public class ModuleButtonWidget extends Widget {
         if (module.isEnabled()) {
             borderColor = theme.getPrimaryColor().getRGB();
             final Color themeColor = ColorUtils.setAlpha(theme.getPrimaryColor(), 100);
-
             backgroundColor = ColorUtils.blendColors(baseGray, themeColor).getRGB();
         }
 
@@ -47,13 +48,13 @@ public class ModuleButtonWidget extends Widget {
             borderColor = ColorUtils.blendColors(new Color(borderColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
         }
 
-        guiGraphics.fill(x, y, x + width, y + height, borderColor);
-        guiGraphics.fill(x + BORDER_THICKNESS, y + BORDER_THICKNESS, x + width - BORDER_THICKNESS, y + height - BORDER_THICKNESS, backgroundColor);
+        guiGraphics.fill(x, renderY, x + width, renderY + height, borderColor);
+        guiGraphics.fill(x + BORDER_THICKNESS, renderY + BORDER_THICKNESS, x + width - BORDER_THICKNESS, renderY + height - BORDER_THICKNESS, backgroundColor);
 
         final Font font = Minecraft.getInstance().font;
 
-        final int toggleY = y + height - BUTTON_HEIGHT * 2 - 10;
-        final int settingY = y + height - BUTTON_HEIGHT - 5;
+        final int toggleY = renderY + height - BUTTON_HEIGHT * 2 - 10;
+        final int settingY = renderY + height - BUTTON_HEIGHT - 5;
 
         final boolean isHoveringToggle = MouseUtils.isMouseOver(mouseX, mouseY, x, toggleY, width, BUTTON_HEIGHT);
         final boolean isHoveringSettings = MouseUtils.isMouseOver(mouseX, mouseY, x, settingY, width, BUTTON_HEIGHT);
@@ -77,28 +78,35 @@ public class ModuleButtonWidget extends Widget {
                 x + width / 2 - font.width(settingsText) / 2, settingY + 4, -1, true);
 
         final int textX = x + width / 2 - font.width(module.getName()) / 2;
-        final int textY = y + BORDER_THICKNESS + (toggleY - (y + BORDER_THICKNESS) - font.lineHeight) / 2;
+        final int textY = renderY + BORDER_THICKNESS + (toggleY - (renderY + BORDER_THICKNESS) - font.lineHeight) / 2;
         guiGraphics.drawString(font, module.getName(), textX, textY, -1, true);
     }
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        final int mouseX = (int) event.x();
-        final int mouseY = (int) event.y();
+        int mouseX = (int) event.x();
+        int mouseY = (int) event.y();
 
-        final int toggleY = y + height - BUTTON_HEIGHT * 2 - 10;
-        final int settingY = y + height - BUTTON_HEIGHT - 5;
+        int renderY = y - parent.getScrollOffset();
 
-        final boolean isHoveringToggle = MouseUtils.isMouseOver(mouseX, mouseY, x, toggleY, width, BUTTON_HEIGHT);
-        final boolean isHoveringSettings = MouseUtils.isMouseOver(mouseX, mouseY, x, settingY, width, BUTTON_HEIGHT);
+        int toggleY = renderY + height - BUTTON_HEIGHT * 2 - 10;
+        int settingY = renderY + height - BUTTON_HEIGHT - 5;
 
-        if (isHoveringToggle) {
+        if (MouseUtils.isMouseOver(mouseX, mouseY, x, toggleY, width, BUTTON_HEIGHT)) {
             module.setEnabled(!module.isEnabled());
             return;
         }
 
-        if (isHoveringSettings) {
-            parent.getParent().switchWindow(new ModuleSettingsWindow(parent.getParent(), module, "Settings", parent.getX(), parent.getY()));
+        if (MouseUtils.isMouseOver(mouseX, mouseY, x, settingY, width, BUTTON_HEIGHT)) {
+            parent.getParent().switchWindow(
+                    new ModuleSettingsWindow(
+                            parent.getParent(),
+                            module,
+                            "Settings",
+                            parent.getX(),
+                            parent.getY()
+                    )
+            );
         }
     }
 }

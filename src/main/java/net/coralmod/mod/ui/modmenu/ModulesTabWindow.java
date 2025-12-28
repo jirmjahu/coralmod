@@ -11,8 +11,6 @@ public class ModulesTabWindow extends Window {
 
     @Override
     public void init() {
-        super.init();
-
         GridUtil.layoutGrid(
                 CoralMod.getInstance().getModuleManager().getModules(),
                 x,
@@ -25,5 +23,7 @@ public class ModulesTabWindow extends Window {
                     ));
                 }
         );
+
+        super.init();
     }
 }

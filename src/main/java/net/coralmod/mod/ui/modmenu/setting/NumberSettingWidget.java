@@ -28,8 +28,8 @@ public class NumberSettingWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        super.render(guiGraphics, mouseX, mouseY);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, int scrollOffset) {
+        super.render(guiGraphics, mouseX, mouseY, scrollOffset);
         updateValue(mouseX);
 
         final double renderWidth = (double) (width) * (setting.getValue() - setting.getMin()) / (setting.getMax() - setting.getMin());

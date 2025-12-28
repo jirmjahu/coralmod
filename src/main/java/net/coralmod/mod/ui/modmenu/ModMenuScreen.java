@@ -92,6 +92,12 @@ public class ModMenuScreen extends Screen {
         return super.mouseReleased(event);
     }
 
+    @Override
+    public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
+        currentWindow.mouseScrolled(scrollY);
+        return super.mouseScrolled(x, y, scrollX, scrollY);
+    }
+
     public void setModuleTabWindow() {
         switchWindow(new ModulesTabWindow(this, "Modules", startX, startY + MENU_TITLE_BAR_HEIGHT));
     }

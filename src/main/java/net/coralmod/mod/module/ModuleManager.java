@@ -21,6 +21,7 @@ public class ModuleManager {
         register(new ViewTweaksModule());
         register(new ArmorHudModule());
         register(new NoBackgroundModule());
+        register(new PingModule());
     }
 
     private void register(Module module) {

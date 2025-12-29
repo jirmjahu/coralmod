@@ -71,7 +71,7 @@ public class ModMenuScreen extends Screen {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float f) {
         guiGraphics.fill(startX, startY, startX + MENU_WIDTH, startY + MENU_HEIGHT, new Color(0, 0, 0, 160).getRGB());
 
-        guiGraphics.renderItem(new ItemStack(CoralMod.SELECTED_THEME.getDisplayItem()), startX + 10, startY + 10);
+        guiGraphics.renderItem(new ItemStack(CoralMod.getInstance().getSelectedTheme().getDisplayItem()), startX + 10, startY + 10);
 
         RenderUtils.scaledText(guiGraphics.pose(), guiGraphics,
                 "CoralMod", startX + mc.font.width("CoralMod") - 10, startY + 15, 1.35f, -1, true);

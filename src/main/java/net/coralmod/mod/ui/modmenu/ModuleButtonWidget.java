@@ -31,7 +31,7 @@ public class ModuleButtonWidget extends Widget {
 
         final int renderY = y - scrollOffset;
 
-        final Theme theme = CoralMod.SELECTED_THEME;
+        final Theme theme = CoralMod.getInstance().getSelectedTheme();
 
         final Color baseGray = ModMenuScreen.BASE_GRAY;
         int backgroundColor = baseGray.getRGB();

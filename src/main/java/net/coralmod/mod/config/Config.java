@@ -12,5 +12,6 @@ public class Config {
 
     private final Set<String> profiles = new HashSet<>();
     private String currentProfile;
+    private String selectedTheme;
 
 }

@@ -36,7 +36,7 @@ public class ModeSettingWidget extends Widget {
 
         final String value = setting.getValue();
         final int valueX = x + width - font.width(value) - 5;
-        guiGraphics.drawString(font, value, valueX, textY, CoralMod.SELECTED_THEME.getPrimaryColor().brighter().getRGB());
+        guiGraphics.drawString(font, value, valueX, textY, CoralMod.getInstance().getSelectedTheme().getPrimaryColor().brighter().getRGB());
     }
 
     @Override

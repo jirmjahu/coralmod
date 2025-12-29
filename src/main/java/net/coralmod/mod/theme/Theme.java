@@ -23,7 +23,4 @@ public enum Theme {
     private final Color primaryColor;
     private final Color secondaryColor;
 
-    public boolean isSelected() {
-        return CoralMod.SELECTED_THEME.name.equals(this.name);
-    }
 }

@@ -39,7 +39,7 @@ public class CoralMod implements ModInitializer {
     private ConfigStorage configStorage;
     private ProfileManager profileManager;
 
-    public static Theme SELECTED_THEME = Theme.TUBE; // TODO SAVE AND LOAD
+    private Theme selectedTheme;
 
     @Override
     public void onInitialize() {
@@ -54,6 +54,10 @@ public class CoralMod implements ModInitializer {
             profileManager = new ProfileManager(config, configStorage, moduleManager);
             profileManager.loadProfile(config.getCurrentProfile());
 
+            // If no theme is configured, fall back to the default theme
+            final Theme selectedTheme = config.getSelectedTheme() == null ? Theme.TUBE : Theme.valueOf(config.getSelectedTheme());
+            setSelectedTheme(selectedTheme);
+
             new CoralModCommand();
 
             LOGGER.info("Successfully started {}", MOD_NAME);
@@ -65,5 +69,10 @@ public class CoralMod implements ModInitializer {
             profileManager.saveProfile(config.getCurrentProfile());
             configStorage.save();
         }));
+    }
+
+    public void setSelectedTheme(Theme selectedTheme) {
+        this.selectedTheme = selectedTheme;
+        config.setSelectedTheme(selectedTheme.toString());
     }
 }

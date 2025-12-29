@@ -37,7 +37,7 @@ public class NumberSettingWidget extends Widget {
         final Color baseGray = ModMenuScreen.BASE_GRAY;
 
         guiGraphics.fillGradient(x, y, x + width, y + height, baseGray.getRGB(), baseGray.darker().getRGB());
-        guiGraphics.fillGradient(x, y, (int) (x + renderWidth), y + height, CoralMod.SELECTED_THEME.getPrimaryColor().getRGB(), CoralMod.SELECTED_THEME.getSecondaryColor().getRGB());
+        guiGraphics.fillGradient(x, y, (int) (x + renderWidth), y + height, CoralMod.getInstance().getSelectedTheme().getPrimaryColor().getRGB(), CoralMod.getInstance().getSelectedTheme().getSecondaryColor().getRGB());
 
         if (hovered) {
             guiGraphics.fill(x, y, x + width, y + height, ModMenuScreen.HOVER_COLOR.getRGB());

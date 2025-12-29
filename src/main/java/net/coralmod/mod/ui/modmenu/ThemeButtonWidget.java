@@ -57,7 +57,7 @@ public class ThemeButtonWidget extends Widget {
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        CoralMod.SELECTED_THEME = theme;
+        CoralMod.getInstance().setSelectedTheme(theme);
         Notification.sendNotification("Updated Theme", "Theme was updated to: " + theme.getName());
     }
 }

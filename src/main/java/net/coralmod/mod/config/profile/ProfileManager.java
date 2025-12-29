@@ -78,7 +78,7 @@ public class ProfileManager {
     public void setCurrentProfile(Profile profile) {
         currentProfile = profile;
         config.setCurrentProfile(profile.getName());
-        configStorage.save();
+        saveCurrentProfile();
     }
 
     public void setCurrentProfile(String name) {

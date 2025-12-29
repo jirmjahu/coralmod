@@ -3,8 +3,11 @@ package net.coralmod.mod;
 import lombok.Getter;
 import net.coralmod.mod.command.CoralModCommand;
 import net.coralmod.mod.config.Config;
+import net.coralmod.mod.config.ConfigManager;
 import net.coralmod.mod.config.ConfigStorage;
+import net.coralmod.mod.config.profile.Profile;
 import net.coralmod.mod.config.profile.ProfileManager;
+import net.coralmod.mod.config.profile.ProfileStorage;
 import net.coralmod.mod.module.ModuleManager;
 import net.coralmod.mod.theme.Theme;
 import net.fabricmc.api.ModInitializer;
@@ -35,8 +38,9 @@ public class CoralMod implements ModInitializer {
     private static CoralMod instance;
 
     private ModuleManager moduleManager;
-    private Config config;
     private ConfigStorage configStorage;
+    private ConfigManager configManager;
+    private ProfileStorage profileStorage;
     private ProfileManager profileManager;
 
     private Theme selectedTheme;
@@ -50,13 +54,11 @@ public class CoralMod implements ModInitializer {
         ClientLifecycleEvents.CLIENT_STARTED.register(mc -> {
             moduleManager = new ModuleManager();
             configStorage = new ConfigStorage();
-            config = configStorage.load();
-            profileManager = new ProfileManager(config, configStorage, moduleManager);
-            profileManager.loadProfile(config.getCurrentProfile());
+            configManager = new ConfigManager(configStorage);
+            profileStorage = new ProfileStorage(moduleManager);
+            profileManager = new ProfileManager(getConfig(), configStorage, profileStorage, moduleManager);
 
-            // If no theme is configured, fall back to the default theme
-            final Theme selectedTheme = config.getSelectedTheme() == null ? Theme.TUBE : Theme.valueOf(config.getSelectedTheme());
-            setSelectedTheme(selectedTheme);
+            setSelectedTheme(Theme.valueOf(getConfig().getSelectedTheme()));
 
             new CoralModCommand();
 
@@ -66,13 +68,22 @@ public class CoralMod implements ModInitializer {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             LOGGER.info("Shutting down...");
             LOGGER.info("Saving modules...");
-            profileManager.saveProfile(config.getCurrentProfile());
-            configStorage.save();
+
+            profileManager.saveCurrentProfile();
+            configManager.save();
         }));
+    }
+
+    public Config getConfig() {
+        return configManager.getConfig();
+    }
+
+    public Profile getCurrentProfile() {
+        return profileManager.getCurrentProfile();
     }
 
     public void setSelectedTheme(Theme selectedTheme) {
         this.selectedTheme = selectedTheme;
-        config.setSelectedTheme(selectedTheme.toString());
+        getConfig().setSelectedTheme(selectedTheme.toString());
     }
 }

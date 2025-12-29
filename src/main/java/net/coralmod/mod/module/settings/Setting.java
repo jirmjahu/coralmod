@@ -1,5 +1,6 @@
 package net.coralmod.mod.module.settings;
 
+import com.google.gson.JsonElement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,4 +18,9 @@ public abstract class Setting<T> {
     public void reset() {
         value = defaultValue;
     }
+
+    public abstract JsonElement write();
+
+    public abstract void read(JsonElement json);
+
 }

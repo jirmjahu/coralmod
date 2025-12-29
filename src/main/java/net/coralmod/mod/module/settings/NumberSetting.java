@@ -1,5 +1,7 @@
 package net.coralmod.mod.module.settings;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import lombok.Getter;
 
 @Getter
@@ -14,5 +16,15 @@ public class NumberSetting extends Setting<Double> {
         this.min = min;
         this.max = max;
         this.increment = increment;
+    }
+
+    @Override
+    public JsonElement write() {
+        return new JsonPrimitive(getValue());
+    }
+
+    @Override
+    public void read(JsonElement json) {
+        setValue(json.getAsDouble());
     }
 }

@@ -1,19 +1,16 @@
 package net.coralmod.mod.config.profile;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.coralmod.mod.module.Module;
 
-import java.util.Map;
+import java.util.List;
 
 @Getter
-@EqualsAndHashCode(of = "name")
 @RequiredArgsConstructor
 public class Profile {
 
     private final String name;
-    private final Map<String, Boolean> modules;
-    private final Map<String, Map<String, Object>> moduleSettings;
-    private final Map<String, Map<String, Integer>> hudPositions;
+    private final List<Module> enabledModules;
 
 }

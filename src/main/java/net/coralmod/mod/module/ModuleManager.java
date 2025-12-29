@@ -49,4 +49,10 @@ public class ModuleManager {
                 .map(module -> (HudModule) module)
                 .toList();
     }
+
+    public List<Module> getEnabledModules() {
+        return modules.values().stream()
+                .filter(Module::isEnabled)
+                .toList();
+    }
 }

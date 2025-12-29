@@ -1,5 +1,6 @@
 package net.coralmod.mod.config;
 
+import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.utils.JsonUtils;
 
 import java.io.File;
@@ -7,18 +8,22 @@ import java.io.File;
 public class ConfigStorage {
 
     private static final File CONFIG_FILE = new File("coralmod/config.json");
-    private Config config;
 
     public Config load() {
-        config = JsonUtils.loadFromJson(CONFIG_FILE, Config.class);
+        Config config = JsonUtils.loadFromJson(CONFIG_FILE, Config.class);
         if (config == null) {
             config = new Config();
-            save();
+            save(config);
         }
+
+        if (config.getVersion() != Config.VERSION) {
+            CoralMod.LOGGER.warn("Config version does not match the expected version! Expected {}, got {}", Config.VERSION, config.getVersion());
+        }
+
         return config;
     }
 
-    public void save() {
+    public void save(Config config) {
         JsonUtils.saveToJson(CONFIG_FILE, config);
     }
 }

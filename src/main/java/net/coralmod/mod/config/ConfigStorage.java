@@ -13,6 +13,7 @@ public class ConfigStorage {
         Config config = JsonUtils.loadFromJson(CONFIG_FILE, Config.class);
         if (config == null) {
             config = new Config();
+            CONFIG_FILE.mkdirs();
             save(config);
         }
 

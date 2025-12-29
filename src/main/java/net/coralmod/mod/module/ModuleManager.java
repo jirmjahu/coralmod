@@ -22,6 +22,7 @@ public class ModuleManager {
         register(new ArmorHudModule());
         register(new NoBackgroundModule());
         register(new PingModule());
+        register(new ServerAddressModule());
     }
 
     private void register(Module module) {

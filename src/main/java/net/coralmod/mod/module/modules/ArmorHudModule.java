@@ -1,10 +1,8 @@
 package net.coralmod.mod.module.modules;
 
-import io.netty.util.internal.MathUtil;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
-import net.coralmod.mod.module.settings.ModeSetting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -75,10 +73,17 @@ public class ArmorHudModule extends HudModule {
     private String getDurabilityText(ItemStack item) {
         final int maxDamage = item.getMaxDamage();
         final int damage = item.getDamageValue();
+
         if (showDurabilityPercent.getValue()) {
-            final int percent = (int)(((float)(maxDamage - damage) / maxDamage) * 100);
+            final int percent = (int) (((float) (maxDamage - damage) / maxDamage) * 100);
             return percent + "%";
         }
+
         return (maxDamage - damage) + "/" + maxDamage;
+    }
+
+    @Override
+    public String getText() {
+        return "";
     }
 }

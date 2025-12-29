@@ -19,7 +19,6 @@ public abstract class HudModule extends Module {
     private int y;
     private int width;
     private int height;
-    private String text;
 
     protected BooleanSetting background = new BooleanSetting("Background", false);
     protected BooleanSetting brackets = new BooleanSetting("Brackets", true);
@@ -32,7 +31,7 @@ public abstract class HudModule extends Module {
     }
 
     public void render(GuiGraphics guiGraphics, Font font) {
-        final String text = brackets.getValue() ? "[" + this.text + "]" : this.text;
+        final String text = brackets.getValue() ? "[" + getText() + "]" : getText();
 
         final int textWidth = font.width(text);
         final int textHeight = font.lineHeight;
@@ -64,6 +63,8 @@ public abstract class HudModule extends Module {
                 textShadow.getValue()
         );
     }
+
+    public abstract String getText();
 
     public boolean isHovered(int mouseX, int mouseY) {
         return MouseUtils.isMouseOver(mouseX, mouseY, x, y, width, height);

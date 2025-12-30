@@ -20,6 +20,7 @@
     "ItemInHandRendererMixin",
     "ScreenEffectRendererMixin",
     "ScreenMixin",
-    "accessors.MinecraftServerAccessor"
+    "accessors.MinecraftServerAccessor",
+    "ChatComponentMixin"
   ]
 }

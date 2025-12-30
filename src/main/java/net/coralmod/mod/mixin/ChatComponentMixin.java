@@ -1,0 +1,18 @@
+package net.coralmod.mod.mixin;
+
+import net.coralmod.mod.event.AddChatMessageEvent;
+import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.network.chat.Component;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(ChatComponent.class)
+public class ChatComponentMixin {
+
+    @Inject(method = "addMessage(Lnet/minecraft/network/chat/Component;)V", at = @At("HEAD"))
+    public void onAddMessage(Component component, CallbackInfo info) {
+        AddChatMessageEvent.ADD_CHAT_MESSAGE_EVENT.invoker().onChatMessage(component.getString());
+    }
+}

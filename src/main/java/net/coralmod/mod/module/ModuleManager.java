@@ -24,6 +24,7 @@ public class ModuleManager {
         register(new PingModule());
         register(new ServerAddressModule());
         register(new ClockModule());
+        register(new AutoGGModule());
     }
 
     private void register(Module module) {

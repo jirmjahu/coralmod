@@ -23,6 +23,7 @@ public class ModuleManager {
         register(new NoBackgroundModule());
         register(new PingModule());
         register(new ServerAddressModule());
+        register(new ClockModule());
     }
 
     private void register(Module module) {

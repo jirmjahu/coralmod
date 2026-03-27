@@ -21,6 +21,7 @@
     "ScreenEffectRendererMixin",
     "ScreenMixin",
     "accessors.MinecraftServerAccessor",
-    "ChatComponentMixin"
+    "ChatComponentMixin",
+    "CameraMixin"
   ]
 }

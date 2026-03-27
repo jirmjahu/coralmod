@@ -3,7 +3,7 @@ package net.coralmod.mod.utils;
 import lombok.experimental.UtilityClass;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -17,7 +17,7 @@ import java.awt.*;
 @UtilityClass
 public class RenderUtils {
 
-    public void drawTexture(GuiGraphics guiGraphics, Identifier texture, int x, int y, int size) {
+    public void drawTexture(GuiGraphicsExtractor guiGraphics, Identifier texture, int x, int y, int size) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, 0.0F, 0, size, size, size, size, -1);
     }
 
@@ -25,24 +25,24 @@ public class RenderUtils {
         return new PlainTextButton(x, y, textRenderer.width(text), textRenderer.lineHeight, text, (button) -> onClick.run(), textRenderer);
     }
 
-    public void scaledText(Matrix3x2fStack stack, GuiGraphics guiGraphics, String text, int x, int y, float scale, int color, boolean shadow) {
+    public void scaledText(Matrix3x2fStack stack, GuiGraphicsExtractor guiGraphics, String text, int x, int y, float scale, int color, boolean shadow) {
         stack.pushMatrix();
         stack.translate(x, y);
         stack.scale(scale, scale);
-        guiGraphics.drawString(Minecraft.getInstance().font, text, 0, 0, color, shadow);
+        guiGraphics.text(Minecraft.getInstance().font, text, 0, 0, color, shadow);
         stack.popMatrix();
     }
 
-    public void scaledItem(Matrix3x2fStack stack, GuiGraphics guiGraphics, Item item, int centerX, int centerY, float scale) {
+    public void scaledItem(Matrix3x2fStack stack, GuiGraphicsExtractor guiGraphics, Item item, int centerX, int centerY, float scale) {
         stack.pushMatrix();
         float itemSize = 16 * scale;
         stack.translate(centerX - itemSize / 2f, centerY - itemSize / 2f);
         stack.scale(scale, scale);
-        guiGraphics.renderItem(new ItemStack(item), 0, 0);
+        guiGraphics.item(new ItemStack(item), 0, 0);
         stack.popMatrix();
     }
 
-    public void outline(GuiGraphics guiGraphics, int x, int y, int x2, int y2, int size, Color color) {
+    public void outline(GuiGraphicsExtractor guiGraphics, int x, int y, int x2, int y2, int size, Color color) {
         guiGraphics.fill(x, y, x2, y + size, color.getRGB());
         guiGraphics.fill(x, y2 - size, x2, y2, color.getRGB());
         guiGraphics.fill(x, y + size, x + size, y2 - size, color.getRGB());

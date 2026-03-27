@@ -6,7 +6,7 @@ import net.coralmod.mod.event.KeyPressedEvent;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.utils.KeyUtils;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.Options;
 
 @ModuleInfo(name = "Zoom", description = "Zooms in the game")
@@ -24,7 +24,7 @@ public class ZoomModule extends Module {
                 return;
             }
 
-            final boolean keyPressed = KeyUtils.isKeyPressed(KeyBindingHelper.getBoundKeyOf(CoralMod.ZOOM_KEY_MAPPING).getValue());
+            final boolean keyPressed = KeyUtils.isKeyPressed(KeyMappingHelper.getBoundKeyOf(CoralMod.ZOOM_KEY_MAPPING).getValue());
 
             if (keyPressed && !zooming) {
                 startZooming();

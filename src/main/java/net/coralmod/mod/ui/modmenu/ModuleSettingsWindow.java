@@ -14,7 +14,7 @@ import net.coralmod.mod.utils.ColorUtils;
 import net.coralmod.mod.utils.MouseUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 
 import java.awt.*;
@@ -77,14 +77,14 @@ public class ModuleSettingsWindow extends Window {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         super.render(guiGraphics, mouseX, mouseY);
 
         final Font font = Minecraft.getInstance().font;
 
 
         if (module.getSettings().isEmpty()) {
-            guiGraphics.drawString(
+            guiGraphics.text(
                     font,
                     "This module has no settings",
                     x + ModMenuScreen.MENU_WIDTH / 2 - font.width("This module has no settings") / 2,
@@ -137,7 +137,7 @@ public class ModuleSettingsWindow extends Window {
             );
         }
 
-        guiGraphics.drawString(
+        guiGraphics.text(
                 font,
                 "← Back",
                 backX + TOP_BUTTON_WIDTH / 2 - font.width("← Back") / 2,
@@ -147,7 +147,7 @@ public class ModuleSettingsWindow extends Window {
         );
 
         if (!module.getSettings().isEmpty()) {
-            guiGraphics.drawString(
+            guiGraphics.text(
                     font,
                     "Reset",
                     resetX + TOP_BUTTON_WIDTH / 2 - font.width("Reset") / 2,

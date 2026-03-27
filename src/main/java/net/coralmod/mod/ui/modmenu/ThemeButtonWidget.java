@@ -8,7 +8,7 @@ import net.coralmod.mod.utils.Notification;
 import net.coralmod.mod.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 
 import java.awt.*;
@@ -24,7 +24,7 @@ public class ThemeButtonWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, int scrollOffset) {
+    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int scrollOffset) {
         super.render(guiGraphics, mouseX, mouseY, scrollOffset);
 
         int borderColor = theme.getPrimaryColor().getRGB();
@@ -54,7 +54,7 @@ public class ThemeButtonWidget extends Widget {
         );
 
         final Font font = Minecraft.getInstance().font;
-        guiGraphics.drawString(
+        guiGraphics.text(
                 font,
                 theme.getName(),
                 x + width / 2 - font.width(theme.getName()) / 2,

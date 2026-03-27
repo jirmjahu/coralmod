@@ -8,7 +8,7 @@ import net.coralmod.mod.utils.RenderUtils;
 import net.coralmod.mod.utils.ServerUtils;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 
 import java.awt.*;
@@ -39,7 +39,7 @@ public class ServerAddressModule extends HudModule {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, Font font) {
+    public void render(GuiGraphicsExtractor guiGraphics, Font font) {
         final String text = brackets.getValue() ? "[" + getText() + "]" : getText();
 
         final int textWidth = font.width(text);
@@ -71,7 +71,7 @@ public class ServerAddressModule extends HudModule {
         final int textX = getX() + padding + iconSize + (showServerIcon.getValue() ? 4 : 0);
         final int textY = getY() + padding + (getHeight() - padding * 2 - textHeight) / 2;
 
-        guiGraphics.drawString(font, text, textX, textY + 1, -1, textShadow.getValue());
+        guiGraphics.text(font, text, textX, textY + 1, -1, textShadow.getValue());
     }
 
 

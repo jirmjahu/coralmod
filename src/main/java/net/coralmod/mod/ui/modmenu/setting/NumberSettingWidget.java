@@ -7,7 +7,7 @@ import net.coralmod.mod.ui.Widget;
 import net.coralmod.mod.ui.modmenu.ModMenuScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.util.Mth;
 
@@ -29,7 +29,7 @@ public class NumberSettingWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, int scrollOffset) {
+    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int scrollOffset) {
         super.render(guiGraphics, mouseX, mouseY, scrollOffset);
         updateValue(mouseX);
 
@@ -54,10 +54,10 @@ public class NumberSettingWidget extends Widget {
         final Font font = Minecraft.getInstance().font;
         final int textY = y + (height - font.lineHeight) / 2;
 
-        guiGraphics.drawString(font, setting.getName(), x + 5, textY, Color.WHITE.getRGB());
+        guiGraphics.text(font, setting.getName(), x + 5, textY, Color.WHITE.getRGB());
 
         final String valueText = formatValue(setting.getValue()) + "/" + setting.getMax();
-        guiGraphics.drawString(font, valueText, x + width - 5 - font.width(valueText), textY, Color.WHITE.getRGB());
+        guiGraphics.text(font, valueText, x + width - 5 - font.width(valueText), textY, Color.WHITE.getRGB());
     }
 
     private String formatValue(double value) {

@@ -6,7 +6,7 @@ import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.ModuleManager;
 import net.coralmod.mod.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -29,8 +29,8 @@ public class EditHudScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int i, int j, float f) {
-        super.render(guiGraphics, i, j, f);
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float a) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, a);
 
         final ModuleManager moduleManager = CoralMod.getInstance().getModuleManager();
 
@@ -49,6 +49,7 @@ public class EditHudScreen extends Screen {
             }
         }
     }
+
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean bl) {
@@ -120,7 +121,9 @@ public class EditHudScreen extends Screen {
     }
 
     @Override
-    protected void renderBlurredBackground(GuiGraphics guiGraphics) {}
+    protected void extractBlurredBackground(GuiGraphicsExtractor guiGraphics) {
+
+    }
 
     @Override
     public boolean isPauseScreen() {

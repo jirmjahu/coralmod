@@ -4,7 +4,7 @@ import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
@@ -30,7 +30,7 @@ public class ArmorHudModule extends HudModule {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, Font font) {
+    public void render(GuiGraphicsExtractor guiGraphics, Font font) {
         if (mc.player == null) {
             return;
         }
@@ -60,10 +60,10 @@ public class ArmorHudModule extends HudModule {
 
         int offset = padding;
         for (ItemStack itemStack : armor.reversed()) {
-            guiGraphics.renderItem(itemStack, getX() + padding, getY() + offset);
+            guiGraphics.item(itemStack, getX() + padding, getY() + offset);
 
             if (showDurability.getValue()) {
-                guiGraphics.drawString(font, getDurabilityText(itemStack), getX() + ITEM_SIZE + padding + 2, getY() + offset + 5, -1, textShadow.getValue());
+                guiGraphics.text(font, getDurabilityText(itemStack), getX() + ITEM_SIZE + padding + 2, getY() + offset + 5, -1, textShadow.getValue());
             }
 
             offset += ITEM_SIZE + ITEM_PADDING;

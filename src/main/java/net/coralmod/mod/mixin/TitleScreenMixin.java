@@ -2,7 +2,7 @@ package net.coralmod.mod.mixin;
 
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.utils.RenderUtils;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
@@ -50,11 +50,11 @@ public class TitleScreenMixin extends Screen {
         ));
     }
 
-    @Inject(method = "render", at = @At("HEAD"))
-    private void onRender(GuiGraphics guiGraphics, int i, int j, float f, CallbackInfo info) {
-        RenderUtils.drawTexture(guiGraphics, GITHUB_LOGO, 2, 2, LOGO_SIZE);
+    @Inject(method = "extractRenderState", at = @At("HEAD"))
+    private void onRender(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a, CallbackInfo info) {
+        RenderUtils.drawTexture(graphics, GITHUB_LOGO, 2, 2, LOGO_SIZE);
 
-        guiGraphics.drawString(
+        graphics.text(
                 font,
                 CoralMod.MOD_NAME + " v" + CoralMod.MOD_VERSION,
                 2,

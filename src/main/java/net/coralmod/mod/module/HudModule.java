@@ -6,7 +6,7 @@ import lombok.Setter;
 import net.coralmod.mod.module.settings.BooleanSetting;
 import net.coralmod.mod.utils.MouseUtils;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import java.awt.*;
 
@@ -30,7 +30,7 @@ public abstract class HudModule extends Module {
         addSettings(background, brackets, textShadow);
     }
 
-    public void render(GuiGraphics guiGraphics, Font font) {
+    public void render(GuiGraphicsExtractor guiGraphics, Font font) {
         final String text = brackets.getValue() ? "[" + getText() + "]" : getText();
 
         final int textWidth = font.width(text);
@@ -54,7 +54,7 @@ public abstract class HudModule extends Module {
         final int textX = x + (width - textWidth) / 2;
         final int textY = y + (height - textHeight) / 2 + 1;
 
-        guiGraphics.drawString(
+        guiGraphics.text(
                 font,
                 text,
                 textX,

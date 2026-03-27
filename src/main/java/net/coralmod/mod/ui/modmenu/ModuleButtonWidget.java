@@ -8,7 +8,7 @@ import net.coralmod.mod.utils.ColorUtils;
 import net.coralmod.mod.utils.MouseUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 
 import java.awt.*;
@@ -26,7 +26,7 @@ public class ModuleButtonWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, int scrollOffset) {
+    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int scrollOffset) {
         super.render(guiGraphics, mouseX, mouseY, scrollOffset);
 
         final int renderY = y - scrollOffset;
@@ -95,7 +95,7 @@ public class ModuleButtonWidget extends Widget {
         final String toggleText = module.isEnabled() ? "Disable" : "Enable";
         final String settingsText = "Settings";
 
-        guiGraphics.drawString(
+        guiGraphics.text(
                 font,
                 toggleText,
                 x + width / 2 - font.width(toggleText) / 2,
@@ -104,7 +104,7 @@ public class ModuleButtonWidget extends Widget {
                 true
         );
 
-        guiGraphics.drawString(font,
+        guiGraphics.text(font,
                 settingsText,
                 x + width / 2 - font.width(settingsText) / 2,
                 settingY + 4,
@@ -114,7 +114,7 @@ public class ModuleButtonWidget extends Widget {
 
         final int textX = x + width / 2 - font.width(module.getName()) / 2;
         final int textY = renderY + BORDER_THICKNESS + (toggleY - (renderY + BORDER_THICKNESS) - font.lineHeight) / 2;
-        guiGraphics.drawString(font, module.getName(), textX, textY, -1, true);
+        guiGraphics.text(font, module.getName(), textX, textY, -1, true);
     }
 
     @Override

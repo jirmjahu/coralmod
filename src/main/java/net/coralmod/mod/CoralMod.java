@@ -14,7 +14,7 @@ import net.coralmod.mod.ui.editor.EditHudScreen;
 import net.coralmod.mod.ui.modmenu.ModMenuScreen;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
@@ -31,19 +31,19 @@ public class CoralMod implements ModInitializer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static KeyMapping ZOOM_KEY_MAPPING = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+    public static KeyMapping ZOOM_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "Zoom",
             GLFW.GLFW_KEY_C,
             KeyMapping.Category.register(Identifier.parse("coralmod.key.zoom"))
     ));
 
-    public static KeyMapping MODMENU_KEY_MAPPING = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+    public static KeyMapping MODMENU_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "Mod Menu",
             GLFW.GLFW_KEY_RIGHT_SHIFT,
             KeyMapping.Category.register(Identifier.parse("coralmod.key.modmenu"))
     ));
 
-    public static KeyMapping HUD_EDITOR_KEY_MAPPING = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+    public static KeyMapping HUD_EDITOR_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "Hud Editor",
             GLFW.GLFW_KEY_P,
             KeyMapping.Category.register(Identifier.parse("coralmod.key.editor"))
@@ -85,11 +85,11 @@ public class CoralMod implements ModInitializer {
                 return;
             }
 
-            if (key == KeyBindingHelper.getBoundKeyOf(MODMENU_KEY_MAPPING).getValue()) {
+            if (key == KeyMappingHelper.getBoundKeyOf(MODMENU_KEY_MAPPING).getValue()) {
                 Minecraft.getInstance().setScreen(new ModMenuScreen());
             }
 
-            if (key == KeyBindingHelper.getBoundKeyOf(HUD_EDITOR_KEY_MAPPING).getValue()) {
+            if (key == KeyMappingHelper.getBoundKeyOf(HUD_EDITOR_KEY_MAPPING).getValue()) {
                 Minecraft.getInstance().setScreen(EditHudScreen.INSTANCE);
             }
         });
@@ -101,7 +101,6 @@ public class CoralMod implements ModInitializer {
             save();
         }));
     }
-
 
     /**
      * Saves the current profile, including module states, positions, and the config settings.

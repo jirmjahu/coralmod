@@ -2,7 +2,7 @@ package net.coralmod.mod.ui;
 
 import lombok.Getter;
 import net.coralmod.mod.ui.modmenu.ModMenuScreen;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 
 import java.awt.*;
@@ -45,7 +45,7 @@ public class Window {
         maxScroll = Math.max(0, maxScroll + 10);
     }
 
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         final int contentY = y + ModMenuScreen.BUTTON_TOP_MARGIN;
         final int contentHeight = height - ModMenuScreen.BUTTON_TOP_MARGIN;
 

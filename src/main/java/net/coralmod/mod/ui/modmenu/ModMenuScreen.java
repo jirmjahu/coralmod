@@ -4,7 +4,7 @@ import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.ui.Window;
 import net.coralmod.mod.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -80,10 +80,10 @@ public class ModMenuScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float f) {
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float a) {
         guiGraphics.fill(startX, startY, startX + MENU_WIDTH, startY + MENU_HEIGHT, new Color(0, 0, 0, 160).getRGB());
 
-        guiGraphics.renderItem(new ItemStack(CoralMod.getInstance().getSelectedTheme().getDisplayItem()), startX + 10, startY + 10);
+        guiGraphics.item(new ItemStack(CoralMod.getInstance().getSelectedTheme().getDisplayItem()), startX + 10, startY + 10);
 
         RenderUtils.scaledText(
                 guiGraphics.pose(),
@@ -97,7 +97,8 @@ public class ModMenuScreen extends Screen {
         );
 
         currentWindow.render(guiGraphics, mouseX, mouseY);
-        super.render(guiGraphics, mouseX, mouseY, f);
+
+        super.extractRenderState(guiGraphics, mouseX, mouseY, a);
     }
 
     @Override

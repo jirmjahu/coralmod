@@ -6,7 +6,7 @@ import net.coralmod.mod.module.modules.ScoreboardModule;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.scores.Objective;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,8 +22,8 @@ public abstract class GuiMixin {
     @Shadow
     public abstract Font getFont();
 
-    @Inject(method = "render", at = @At("RETURN"))
-    private void onRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
+    @Inject(method = "extractRenderState", at = @At("RETURN"))
+    private void onRender(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
         for (HudModule hudModule : CoralMod.getInstance().getModuleManager().getHudModules()) {
             if (!hudModule.isEnabled()) {
                 continue;
@@ -33,7 +33,7 @@ public abstract class GuiMixin {
     }
 
     @Inject(method = "displayScoreboardSidebar", at = @At("HEAD"), cancellable = true)
-    public void toggleSidebar(GuiGraphics guiGraphics, Objective objective, CallbackInfo info) {
+    public void toggleSidebar(GuiGraphicsExtractor guiGraphics, Objective objective, CallbackInfo info) {
         final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
         if (module.isEnabled() && !module.getEnableScoreboard().getValue()) {
             info.cancel();
@@ -44,7 +44,7 @@ public abstract class GuiMixin {
             method = "displayScoreboardSidebar",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V",
                     ordinal = 2
             )
     )
@@ -60,7 +60,7 @@ public abstract class GuiMixin {
             method = "displayScoreboardSidebar",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V",
                     ordinal = 0
             ),
             index = 5
@@ -74,7 +74,7 @@ public abstract class GuiMixin {
             method = "displayScoreboardSidebar",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V",
                     ordinal = 1
             ),
             index = 5
@@ -88,7 +88,7 @@ public abstract class GuiMixin {
             method = "displayScoreboardSidebar",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;fill(IIIII)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;fill(IIIII)V",
                     ordinal = 0
             ),
             index = 4
@@ -105,7 +105,7 @@ public abstract class GuiMixin {
             method = "displayScoreboardSidebar",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;fill(IIIII)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;fill(IIIII)V",
                     ordinal = 1
             ),
             index = 4

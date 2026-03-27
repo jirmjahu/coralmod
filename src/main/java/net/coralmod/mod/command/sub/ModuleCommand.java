@@ -10,7 +10,7 @@ import net.coralmod.mod.module.settings.ModeSetting;
 import net.coralmod.mod.module.settings.NumberSetting;
 import net.coralmod.mod.module.settings.Setting;
 import net.coralmod.mod.utils.ChatUtils;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 public class ModuleCommand {
@@ -18,18 +18,18 @@ public class ModuleCommand {
     private static final ModuleManager moduleManager = CoralMod.getInstance().getModuleManager();
 
     public static LiteralArgumentBuilder<FabricClientCommandSource> build() {
-        return ClientCommandManager.literal("module")
-                .then(ClientCommandManager.argument("moduleName", StringArgumentType.word())
+        return ClientCommands.literal("module")
+                .then(ClientCommands.argument("moduleName", StringArgumentType.word())
                         .suggests((ctx, builder) -> {
                             moduleManager.getModules().forEach(module -> builder.suggest(module.getName()));
                             return builder.buildFuture();
                         })
-                        .then(ClientCommandManager.literal("enable").executes(ctx ->
+                        .then(ClientCommands.literal("enable").executes(ctx ->
                                 enableModule(StringArgumentType.getString(ctx, "moduleName"))))
-                        .then(ClientCommandManager.literal("disable").executes(ctx ->
+                        .then(ClientCommands.literal("disable").executes(ctx ->
                                 disableModule(StringArgumentType.getString(ctx, "moduleName"))))
-                        .then(ClientCommandManager.literal("setting")
-                                .then(ClientCommandManager.argument("settingName", StringArgumentType.word())
+                        .then(ClientCommands.literal("setting")
+                                .then(ClientCommands.argument("settingName", StringArgumentType.word())
                                         .suggests((ctx, builder) -> {
                                             final String moduleName = StringArgumentType.getString(ctx, "moduleName");
                                             final Module module = moduleManager.getModule(moduleName);
@@ -39,7 +39,7 @@ public class ModuleCommand {
                                             module.getSettings().forEach(setting -> builder.suggest(setting.getName()));
                                             return builder.buildFuture();
                                         })
-                                        .then(ClientCommandManager.argument("value", StringArgumentType.word())
+                                        .then(ClientCommands.argument("value", StringArgumentType.word())
                                                 .executes(ctx -> setModuleSetting(
                                                         StringArgumentType.getString(ctx, "moduleName"),
                                                         StringArgumentType.getString(ctx, "settingName"),

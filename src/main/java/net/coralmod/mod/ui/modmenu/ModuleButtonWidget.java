@@ -26,8 +26,8 @@ public class ModuleButtonWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int scrollOffset) {
-        super.render(guiGraphics, mouseX, mouseY, scrollOffset);
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
+        super.render(graphics, mouseX, mouseY, scrollOffset);
 
         final int renderY = y - scrollOffset;
 
@@ -49,8 +49,8 @@ public class ModuleButtonWidget extends Widget {
             borderColor = ColorUtils.blendColors(new Color(borderColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
         }
 
-        guiGraphics.fill(x, renderY, x + width, renderY + height, borderColor);
-        guiGraphics.fill(
+        graphics.fill(x, renderY, x + width, renderY + height, borderColor);
+        graphics.fill(
                 x + BORDER_THICKNESS,
                 renderY + BORDER_THICKNESS,
                 x + width - BORDER_THICKNESS,
@@ -73,7 +73,7 @@ public class ModuleButtonWidget extends Widget {
         final Color settingsButtonColor = hoveringSettings ? buttonHoverColor : buttonBackgroundColor;
 
         // toggle button background
-        guiGraphics.fillGradient(
+        graphics.fillGradient(
                 x + BUTTON_PADDING,
                 toggleY,
                 x + width - BUTTON_PADDING,
@@ -83,7 +83,7 @@ public class ModuleButtonWidget extends Widget {
         );
 
         // settings button background
-        guiGraphics.fillGradient(
+        graphics.fillGradient(
                 x + BUTTON_PADDING,
                 settingY,
                 x + width - BUTTON_PADDING,
@@ -95,7 +95,7 @@ public class ModuleButtonWidget extends Widget {
         final String toggleText = module.isEnabled() ? "Disable" : "Enable";
         final String settingsText = "Settings";
 
-        guiGraphics.text(
+        graphics.text(
                 font,
                 toggleText,
                 x + width / 2 - font.width(toggleText) / 2,
@@ -104,7 +104,7 @@ public class ModuleButtonWidget extends Widget {
                 true
         );
 
-        guiGraphics.text(font,
+        graphics.text(font,
                 settingsText,
                 x + width / 2 - font.width(settingsText) / 2,
                 settingY + 4,
@@ -114,7 +114,7 @@ public class ModuleButtonWidget extends Widget {
 
         final int textX = x + width / 2 - font.width(module.getName()) / 2;
         final int textY = renderY + BORDER_THICKNESS + (toggleY - (renderY + BORDER_THICKNESS) - font.lineHeight) / 2;
-        guiGraphics.text(font, module.getName(), textX, textY, -1, true);
+        graphics.text(font, module.getName(), textX, textY, -1, true);
     }
 
     @Override

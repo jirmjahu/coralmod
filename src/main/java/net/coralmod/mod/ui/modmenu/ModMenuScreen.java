@@ -80,14 +80,14 @@ public class ModMenuScreen extends Screen {
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float a) {
-        guiGraphics.fill(startX, startY, startX + MENU_WIDTH, startY + MENU_HEIGHT, new Color(0, 0, 0, 160).getRGB());
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+        graphics.fill(startX, startY, startX + MENU_WIDTH, startY + MENU_HEIGHT, new Color(0, 0, 0, 160).getRGB());
 
-        guiGraphics.item(new ItemStack(CoralMod.getInstance().getSelectedTheme().getDisplayItem()), startX + 10, startY + 10);
+        graphics.item(new ItemStack(CoralMod.getInstance().getSelectedTheme().getDisplayItem()), startX + 10, startY + 10);
 
         RenderUtils.scaledText(
-                guiGraphics.pose(),
-                guiGraphics,
+                graphics.pose(),
+                graphics,
                 "CoralMod",
                 startX + mc.font.width("CoralMod") - 10,
                 startY + 15,
@@ -96,9 +96,9 @@ public class ModMenuScreen extends Screen {
                 true
         );
 
-        currentWindow.render(guiGraphics, mouseX, mouseY);
+        currentWindow.render(graphics, mouseX, mouseY);
 
-        super.extractRenderState(guiGraphics, mouseX, mouseY, a);
+        super.extractRenderState(graphics, mouseX, mouseY, a);
     }
 
     @Override

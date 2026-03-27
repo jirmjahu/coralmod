@@ -29,8 +29,8 @@ public class NumberSettingWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int scrollOffset) {
-        super.render(guiGraphics, mouseX, mouseY, scrollOffset);
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
+        super.render(graphics, mouseX, mouseY, scrollOffset);
         updateValue(mouseX);
 
         final Color baseGray = ModMenuScreen.BASE_GRAY;
@@ -38,8 +38,8 @@ public class NumberSettingWidget extends Widget {
 
         final double renderWidth = (double) (width) * (setting.getValue() - setting.getMin()) / (setting.getMax() - setting.getMin());
 
-        guiGraphics.fillGradient(x, y, x + width, y + height, baseGray.getRGB(), baseGray.darker().getRGB());
-        guiGraphics.fillGradient(x,
+        graphics.fillGradient(x, y, x + width, y + height, baseGray.getRGB(), baseGray.darker().getRGB());
+        graphics.fillGradient(x,
                 y,
                 (int) (x + renderWidth),
                 y + height,
@@ -48,16 +48,16 @@ public class NumberSettingWidget extends Widget {
         );
 
         if (hovered) {
-            guiGraphics.fill(x, y, x + width, y + height, ModMenuScreen.HOVER_COLOR.getRGB());
+            graphics.fill(x, y, x + width, y + height, ModMenuScreen.HOVER_COLOR.getRGB());
         }
 
         final Font font = Minecraft.getInstance().font;
         final int textY = y + (height - font.lineHeight) / 2;
 
-        guiGraphics.text(font, setting.getName(), x + 5, textY, Color.WHITE.getRGB());
+        graphics.text(font, setting.getName(), x + 5, textY, Color.WHITE.getRGB());
 
         final String valueText = formatValue(setting.getValue()) + "/" + setting.getMax();
-        guiGraphics.text(font, valueText, x + width - 5 - font.width(valueText), textY, Color.WHITE.getRGB());
+        graphics.text(font, valueText, x + width - 5 - font.width(valueText), textY, Color.WHITE.getRGB());
     }
 
     private String formatValue(double value) {

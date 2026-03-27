@@ -77,14 +77,14 @@ public class ModuleSettingsWindow extends Window {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
-        super.render(guiGraphics, mouseX, mouseY);
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+        super.render(graphics, mouseX, mouseY);
 
         final Font font = Minecraft.getInstance().font;
 
 
         if (module.getSettings().isEmpty()) {
-            guiGraphics.text(
+            graphics.text(
                     font,
                     "This module has no settings",
                     x + ModMenuScreen.MENU_WIDTH / 2 - font.width("This module has no settings") / 2,
@@ -117,7 +117,7 @@ public class ModuleSettingsWindow extends Window {
             resetColor = ColorUtils.blendColors(new Color(resetColor.getRGB(), true), ModMenuScreen.HOVER_COLOR);
         }
 
-        guiGraphics.fillGradient(
+        graphics.fillGradient(
                 backX,
                 buttonY,
                 backX + TOP_BUTTON_WIDTH,
@@ -127,7 +127,7 @@ public class ModuleSettingsWindow extends Window {
         );
 
         if (!module.getSettings().isEmpty()) {
-            guiGraphics.fillGradient(
+            graphics.fillGradient(
                     resetX,
                     buttonY,
                     resetX + TOP_BUTTON_WIDTH,
@@ -137,7 +137,7 @@ public class ModuleSettingsWindow extends Window {
             );
         }
 
-        guiGraphics.text(
+        graphics.text(
                 font,
                 "← Back",
                 backX + TOP_BUTTON_WIDTH / 2 - font.width("← Back") / 2,
@@ -147,7 +147,7 @@ public class ModuleSettingsWindow extends Window {
         );
 
         if (!module.getSettings().isEmpty()) {
-            guiGraphics.text(
+            graphics.text(
                     font,
                     "Reset",
                     resetX + TOP_BUTTON_WIDTH / 2 - font.width("Reset") / 2,
@@ -158,7 +158,7 @@ public class ModuleSettingsWindow extends Window {
         }
 
         final int dividerY = buttonY + TOP_BUTTON_HEIGHT + 4;
-        guiGraphics.fill(
+        graphics.fill(
                 x + 6,
                 dividerY,
                 x + ModMenuScreen.MENU_WIDTH - 6,

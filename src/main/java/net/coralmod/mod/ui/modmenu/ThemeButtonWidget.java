@@ -24,8 +24,8 @@ public class ThemeButtonWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int scrollOffset) {
-        super.render(guiGraphics, mouseX, mouseY, scrollOffset);
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
+        super.render(graphics, mouseX, mouseY, scrollOffset);
 
         int borderColor = theme.getPrimaryColor().getRGB();
         int backgroundColor = ColorUtils.blendColors(ModMenuScreen.BASE_GRAY, ColorUtils.modifyAlpha(theme.getPrimaryColor(), 100)).getRGB();
@@ -35,8 +35,8 @@ public class ThemeButtonWidget extends Widget {
             borderColor = ColorUtils.blendColors(new Color(borderColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
         }
 
-        guiGraphics.fill(x, y, x + width, y + height, borderColor);
-        guiGraphics.fill(
+        graphics.fill(x, y, x + width, y + height, borderColor);
+        graphics.fill(
                 x + BORDER_THICKNESS,
                 y + BORDER_THICKNESS,
                 x + width - BORDER_THICKNESS,
@@ -45,8 +45,8 @@ public class ThemeButtonWidget extends Widget {
         );
 
         RenderUtils.scaledItem(
-                guiGraphics.pose(),
-                guiGraphics,
+                graphics.pose(),
+                graphics,
                 theme.getDisplayItem(),
                 x + width / 2,
                 y + height / 2,
@@ -54,7 +54,7 @@ public class ThemeButtonWidget extends Widget {
         );
 
         final Font font = Minecraft.getInstance().font;
-        guiGraphics.text(
+        graphics.text(
                 font,
                 theme.getName(),
                 x + width / 2 - font.width(theme.getName()) / 2,

@@ -23,17 +23,17 @@ public abstract class GuiMixin {
     public abstract Font getFont();
 
     @Inject(method = "extractRenderState", at = @At("RETURN"))
-    private void onRender(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo info) {
+    private void onRender(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo info) {
         for (HudModule hudModule : CoralMod.getInstance().getModuleManager().getHudModules()) {
             if (!hudModule.isEnabled()) {
                 continue;
             }
-            hudModule.render(guiGraphics, getFont());
+            hudModule.render(graphics, getFont());
         }
     }
 
     @Inject(method = "displayScoreboardSidebar", at = @At("HEAD"), cancellable = true)
-    public void toggleSidebar(GuiGraphicsExtractor guiGraphics, Objective objective, CallbackInfo info) {
+    public void toggleSidebar(GuiGraphicsExtractor graphics, Objective objective, CallbackInfo info) {
         final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
         if (module.isEnabled() && !module.getEnableScoreboard().getValue()) {
             info.cancel();

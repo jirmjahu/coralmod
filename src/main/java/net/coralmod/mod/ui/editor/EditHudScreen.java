@@ -29,17 +29,17 @@ public class EditHudScreen extends Screen {
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float a) {
-        super.extractRenderState(guiGraphics, mouseX, mouseY, a);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+        super.extractRenderState(graphics, mouseX, mouseY, a);
 
         final ModuleManager moduleManager = CoralMod.getInstance().getModuleManager();
 
         for (HudModule hudModule : moduleManager.getHudModules()) {
             if (hudModule.isEnabled()) {
-                hudModule.render(guiGraphics, font);
+                hudModule.render(graphics, font);
 
                 final Color outlineColor = hudModule == selectedModule ? CoralMod.getInstance().getSelectedTheme().getPrimaryColor().brighter() : Color.WHITE;
-                RenderUtils.outline(guiGraphics,
+                RenderUtils.outline(graphics,
                         hudModule.getX(),
                         hudModule.getY(),
                         hudModule.getX() + hudModule.getWidth(),
@@ -121,7 +121,7 @@ public class EditHudScreen extends Screen {
     }
 
     @Override
-    protected void extractBlurredBackground(GuiGraphicsExtractor guiGraphics) {
+    protected void extractBlurredBackground(GuiGraphicsExtractor graphics) {
 
     }
 

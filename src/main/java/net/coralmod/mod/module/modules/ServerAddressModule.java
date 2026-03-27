@@ -39,7 +39,7 @@ public class ServerAddressModule extends HudModule {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor guiGraphics, Font font) {
+    public void render(GuiGraphicsExtractor graphics, Font font) {
         final String text = brackets.getValue() ? "[" + getText() + "]" : getText();
 
         final int textWidth = font.width(text);
@@ -52,7 +52,7 @@ public class ServerAddressModule extends HudModule {
         setHeight(Math.max(iconSize, textHeight) + padding * 2);
 
         if (background.getValue()) {
-            guiGraphics.fill(
+            graphics.fill(
                     getX(),
                     getY(),
                     getX() + getWidth(),
@@ -65,13 +65,13 @@ public class ServerAddressModule extends HudModule {
             final int iconX = getX() + padding;
             final int iconY = getY() + padding + (getHeight() - padding * 2 - iconSize) / 2;
 
-            RenderUtils.drawTexture(guiGraphics, currentServerIcon, iconX, iconY, iconSize);
+            RenderUtils.drawTexture(graphics, currentServerIcon, iconX, iconY, iconSize);
         }
 
         final int textX = getX() + padding + iconSize + (showServerIcon.getValue() ? 4 : 0);
         final int textY = getY() + padding + (getHeight() - padding * 2 - textHeight) / 2;
 
-        guiGraphics.text(font, text, textX, textY + 1, -1, textShadow.getValue());
+        graphics.text(font, text, textX, textY + 1, -1, textShadow.getValue());
     }
 
 

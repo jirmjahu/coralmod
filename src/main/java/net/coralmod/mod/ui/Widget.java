@@ -25,7 +25,7 @@ public class Widget {
     public void init() {
     }
 
-    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int scrollOffset) {
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
         final int renderY = y - scrollOffset;
 
         hovered = MouseUtils.isMouseOver(

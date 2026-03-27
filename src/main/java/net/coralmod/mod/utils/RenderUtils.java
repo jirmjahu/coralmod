@@ -17,35 +17,35 @@ import java.awt.*;
 @UtilityClass
 public class RenderUtils {
 
-    public void drawTexture(GuiGraphicsExtractor guiGraphics, Identifier texture, int x, int y, int size) {
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, 0.0F, 0, size, size, size, size, -1);
+    public void drawTexture(GuiGraphicsExtractor graphics, Identifier texture, int x, int y, int size) {
+        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, 0.0F, 0, size, size, size, size, -1);
     }
 
     public static PlainTextButton pressableText(Font textRenderer, Component text, int x, int y, Runnable onClick) {
         return new PlainTextButton(x, y, textRenderer.width(text), textRenderer.lineHeight, text, (button) -> onClick.run(), textRenderer);
     }
 
-    public void scaledText(Matrix3x2fStack stack, GuiGraphicsExtractor guiGraphics, String text, int x, int y, float scale, int color, boolean shadow) {
+    public void scaledText(Matrix3x2fStack stack, GuiGraphicsExtractor graphics, String text, int x, int y, float scale, int color, boolean shadow) {
         stack.pushMatrix();
         stack.translate(x, y);
         stack.scale(scale, scale);
-        guiGraphics.text(Minecraft.getInstance().font, text, 0, 0, color, shadow);
+        graphics.text(Minecraft.getInstance().font, text, 0, 0, color, shadow);
         stack.popMatrix();
     }
 
-    public void scaledItem(Matrix3x2fStack stack, GuiGraphicsExtractor guiGraphics, Item item, int centerX, int centerY, float scale) {
+    public void scaledItem(Matrix3x2fStack stack, GuiGraphicsExtractor graphics, Item item, int centerX, int centerY, float scale) {
         stack.pushMatrix();
         float itemSize = 16 * scale;
         stack.translate(centerX - itemSize / 2f, centerY - itemSize / 2f);
         stack.scale(scale, scale);
-        guiGraphics.item(new ItemStack(item), 0, 0);
+        graphics.item(new ItemStack(item), 0, 0);
         stack.popMatrix();
     }
 
-    public void outline(GuiGraphicsExtractor guiGraphics, int x, int y, int x2, int y2, int size, Color color) {
-        guiGraphics.fill(x, y, x2, y + size, color.getRGB());
-        guiGraphics.fill(x, y2 - size, x2, y2, color.getRGB());
-        guiGraphics.fill(x, y + size, x + size, y2 - size, color.getRGB());
-        guiGraphics.fill(x2 - size, y + size, x2, y2 - size, color.getRGB());
+    public void outline(GuiGraphicsExtractor graphics, int x, int y, int x2, int y2, int size, Color color) {
+        graphics.fill(x, y, x2, y + size, color.getRGB());
+        graphics.fill(x, y2 - size, x2, y2, color.getRGB());
+        graphics.fill(x, y + size, x + size, y2 - size, color.getRGB());
+        graphics.fill(x2 - size, y + size, x2, y2 - size, color.getRGB());
     }
 }

@@ -45,15 +45,15 @@ public class Window {
         maxScroll = Math.max(0, maxScroll + 10);
     }
 
-    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
         final int contentY = y + ModMenuScreen.BUTTON_TOP_MARGIN;
         final int contentHeight = height - ModMenuScreen.BUTTON_TOP_MARGIN;
 
-        guiGraphics.enableScissor(x, contentY, x + width, y + height);
+        graphics.enableScissor(x, contentY, x + width, y + height);
         for (Widget widget : widgets) {
-            widget.render(guiGraphics, mouseX, mouseY, scrollOffset);
+            widget.render(graphics, mouseX, mouseY, scrollOffset);
         }
-        guiGraphics.disableScissor();
+        graphics.disableScissor();
 
         if (maxScroll > 10) {
             final int scrollbarWidth = 2;
@@ -61,8 +61,8 @@ public class Window {
             final int scrollbarHeight = (int) ((float) contentHeight / (contentHeight + maxScroll) * contentHeight);
             final int scrollbarY = contentY + (int) ((float) scrollOffset / maxScroll * (contentHeight - scrollbarHeight));
 
-            guiGraphics.fill(scrollbarX, contentY, scrollbarX + scrollbarWidth, contentY + contentHeight, ModMenuScreen.BASE_GRAY.darker().getRGB());
-            guiGraphics.fill(scrollbarX, scrollbarY, scrollbarX + scrollbarWidth, scrollbarY + scrollbarHeight, Color.GRAY.getRGB());
+            graphics.fill(scrollbarX, contentY, scrollbarX + scrollbarWidth, contentY + contentHeight, ModMenuScreen.BASE_GRAY.darker().getRGB());
+            graphics.fill(scrollbarX, scrollbarY, scrollbarX + scrollbarWidth, scrollbarY + scrollbarHeight, Color.GRAY.getRGB());
         }
     }
 

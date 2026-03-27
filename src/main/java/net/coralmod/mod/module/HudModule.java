@@ -30,7 +30,7 @@ public abstract class HudModule extends Module {
         addSettings(background, brackets, textShadow);
     }
 
-    public void render(GuiGraphicsExtractor guiGraphics, Font font) {
+    public void render(GuiGraphicsExtractor graphics, Font font) {
         final String text = brackets.getValue() ? "[" + getText() + "]" : getText();
 
         final int textWidth = font.width(text);
@@ -42,7 +42,7 @@ public abstract class HudModule extends Module {
         height = textHeight + padding * 2;
 
         if (background.getValue()) {
-            guiGraphics.fill(
+            graphics.fill(
                     x,
                     y,
                     x + width,
@@ -54,7 +54,7 @@ public abstract class HudModule extends Module {
         final int textX = x + (width - textWidth) / 2;
         final int textY = y + (height - textHeight) / 2 + 1;
 
-        guiGraphics.text(
+        graphics.text(
                 font,
                 text,
                 textX,

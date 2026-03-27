@@ -30,7 +30,7 @@ public class ArmorHudModule extends HudModule {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor guiGraphics, Font font) {
+    public void render(GuiGraphicsExtractor graphics, Font font) {
         if (mc.player == null) {
             return;
         }
@@ -55,15 +55,15 @@ public class ArmorHudModule extends HudModule {
         setHeight(armor.size() * (ITEM_SIZE + ITEM_PADDING) - ITEM_PADDING + padding * 2);
 
         if (background.getValue()) {
-            guiGraphics.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), new Color(0, 0, 0, 150).getRGB());
+            graphics.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), new Color(0, 0, 0, 150).getRGB());
         }
 
         int offset = padding;
         for (ItemStack itemStack : armor.reversed()) {
-            guiGraphics.item(itemStack, getX() + padding, getY() + offset);
+            graphics.item(itemStack, getX() + padding, getY() + offset);
 
             if (showDurability.getValue()) {
-                guiGraphics.text(font, getDurabilityText(itemStack), getX() + ITEM_SIZE + padding + 2, getY() + offset + 5, -1, textShadow.getValue());
+                graphics.text(font, getDurabilityText(itemStack), getX() + ITEM_SIZE + padding + 2, getY() + offset + 5, -1, textShadow.getValue());
             }
 
             offset += ITEM_SIZE + ITEM_PADDING;

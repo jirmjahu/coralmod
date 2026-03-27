@@ -22,21 +22,21 @@ public class ModeSettingWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, int scrollOffset) {
-        super.render(guiGraphics, mouseX, mouseY, scrollOffset);
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
+        super.render(graphics, mouseX, mouseY, scrollOffset);
 
         if (hovered) {
-            guiGraphics.fill(x, y, x + width, y + height, ModMenuScreen.HOVER_COLOR.getRGB());
+            graphics.fill(x, y, x + width, y + height, ModMenuScreen.HOVER_COLOR.getRGB());
         }
 
         final Font font = Minecraft.getInstance().font;
         final int textY = y + (height - font.lineHeight) / 2;
 
-        guiGraphics.text(font, setting.getName(), x + 5, textY, Color.WHITE.getRGB());
+        graphics.text(font, setting.getName(), x + 5, textY, Color.WHITE.getRGB());
 
         final String value = setting.getValue();
         final int valueX = x + width - font.width(value) - 5;
-        guiGraphics.text(font, value, valueX, textY, CoralMod.getInstance().getSelectedTheme().getPrimaryColor().brighter().getRGB());
+        graphics.text(font, value, valueX, textY, CoralMod.getInstance().getSelectedTheme().getPrimaryColor().brighter().getRGB());
     }
 
     @Override

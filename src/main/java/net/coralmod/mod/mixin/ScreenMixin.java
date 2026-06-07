@@ -20,7 +20,7 @@ public class ScreenMixin {
             return;
         }
 
-        final Screen currentScreen = Minecraft.getInstance().screen;
+        final Screen currentScreen = Minecraft.getInstance().gui.screen();
         if (currentScreen instanceof AbstractContainerScreen<?>) {
             info.cancel();
         }

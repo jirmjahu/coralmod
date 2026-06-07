@@ -5,8 +5,8 @@ import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.modules.ScoreboardModule;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.scores.Objective;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,13 +16,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Gui.class)
-public abstract class GuiMixin {
+@Mixin(Hud.class)
+public abstract class HudMixin {
 
     @Shadow
     public abstract Font getFont();
 
-    @Inject(method = "extractRenderState", at = @At("RETURN"))
+    @Inject(
+            method = "extractRenderState",
+            at = @At("RETURN")
+    )
     private void onRender(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo info) {
         for (HudModule hudModule : CoralMod.getInstance().getModuleManager().getHudModules()) {
             if (!hudModule.isEnabled()) {
@@ -32,8 +35,12 @@ public abstract class GuiMixin {
         }
     }
 
-    @Inject(method = "displayScoreboardSidebar", at = @At("HEAD"), cancellable = true)
-    public void toggleSidebar(GuiGraphicsExtractor graphics, Objective objective, CallbackInfo info) {
+    @Inject(
+            method = "displayScoreboardSidebar",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void toggleSidebar(GuiGraphicsExtractor graphics, Objective objective, CallbackInfo info) {
         final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
         if (module.isEnabled() && !module.getEnableScoreboard().getValue()) {
             info.cancel();
@@ -48,7 +55,7 @@ public abstract class GuiMixin {
                     ordinal = 2
             )
     )
-    public Component removeSidebarNumbers(Component component) {
+    private Component removeSidebarNumbers(Component component) {
         final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
         if (module.isEnabled() && !module.getNumbers().getValue()) {
             return Component.empty();
@@ -65,7 +72,7 @@ public abstract class GuiMixin {
             ),
             index = 5
     )
-    public boolean setSidebarTitleShadow(boolean shadow) {
+    private boolean setSidebarTitleShadow(boolean shadow) {
         final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
         return module.isEnabled() && module.getTextShadow().getValue();
     }
@@ -79,7 +86,7 @@ public abstract class GuiMixin {
             ),
             index = 5
     )
-    public boolean setSidebarTextShadow(boolean shadow) {
+    private boolean setSidebarTextShadow(boolean shadow) {
         final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
         return module.isEnabled() && module.getTextShadow().getValue();
     }
@@ -93,7 +100,7 @@ public abstract class GuiMixin {
             ),
             index = 4
     )
-    public int setSidebarTitleBackgroundColor(int color) {
+    private int setSidebarTitleBackgroundColor(int color) {
         final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
         if (module.isEnabled() && !module.getTitleBackground().getValue()) {
             return 0;
@@ -110,7 +117,7 @@ public abstract class GuiMixin {
             ),
             index = 4
     )
-    public int setSidebarBackgroundColor(int color) {
+    private int setSidebarBackgroundColor(int color) {
         final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
         if (module.isEnabled() && !module.getBackground().getValue()) {
             return 0;

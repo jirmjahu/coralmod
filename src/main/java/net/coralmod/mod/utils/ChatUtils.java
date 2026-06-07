@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 public class ChatUtils {
 
     public void sendToPlayer(String message) {
-        Minecraft.getInstance().gui.getChat().addClientSystemMessage(Component.literal(message));
+        Minecraft.getInstance().gui.hud.getChat().addClientSystemMessage(Component.literal(message));
     }
 
     public void sendAsPlayer(String message) {

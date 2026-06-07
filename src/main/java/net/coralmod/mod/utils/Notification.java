@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 public class Notification {
 
     public void sendNotification(String title, String text) {
-        Minecraft.getInstance().getToastManager().addToast(
-                SystemToast.multiline(Minecraft.getInstance(), SystemToast.SystemToastId.NARRATOR_TOGGLE, Component.literal(title), Component.literal(text)));
+        Minecraft.getInstance().gui.toastManager()
+                .addToast(new SystemToast(SystemToast.SystemToastId.NARRATOR_TOGGLE, Component.literal(title), Component.literal(text)));
     }
 }

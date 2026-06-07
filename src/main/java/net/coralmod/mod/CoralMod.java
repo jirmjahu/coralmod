@@ -81,16 +81,16 @@ public class CoralMod implements ModInitializer {
         });
 
         KeyPressedEvent.KEY_PRESSED_EVENT.register(key -> {
-            if (Minecraft.getInstance().screen != null) {
+            if (Minecraft.getInstance().gui.screen() != null) {
                 return;
             }
 
             if (key == KeyMappingHelper.getBoundKeyOf(MODMENU_KEY_MAPPING).getValue()) {
-                Minecraft.getInstance().setScreen(new ModMenuScreen());
+                Minecraft.getInstance().gui.setScreen(new ModMenuScreen());
             }
 
             if (key == KeyMappingHelper.getBoundKeyOf(HUD_EDITOR_KEY_MAPPING).getValue()) {
-                Minecraft.getInstance().setScreen(EditHudScreen.INSTANCE);
+                Minecraft.getInstance().gui.setScreen(EditHudScreen.INSTANCE);
             }
         });
 

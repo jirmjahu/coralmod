@@ -77,7 +77,7 @@ public class ServerAddressModule extends HudModule {
 
     @Override
     public String getText() {
-        if (mc.isSingleplayer()) {
+        if (mc.hasSingleplayerServer()) {
             return "Singleplayer";
         }
 

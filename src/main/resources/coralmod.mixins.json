@@ -8,20 +8,20 @@
   "overwrites": {
     "requireAnnotations": true
   },
-  "mixins": [
+  "client": [
+    "CameraMixin",
+    "ChatComponentMixin",
     "GameRendererMixin",
-    "GuiMixin",
+    "ItemInHandRendererMixin",
     "KeyboardHandlerMixin",
     "LivingEntityRendererMixin",
     "MinecraftMixin",
     "MouseHandlerMixin",
-    "TitleScreenMixin",
-    "UnitDoubleMixin",
-    "ItemInHandRendererMixin",
     "ScreenEffectRendererMixin",
     "ScreenMixin",
+    "TitleScreenMixin",
+    "UnitDoubleMixin",
     "accessors.MinecraftServerAccessor",
-    "ChatComponentMixin",
-    "CameraMixin"
+    "HudMixin"
   ]
 }

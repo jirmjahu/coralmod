@@ -46,7 +46,7 @@ public class ZoomModule extends Module {
             return;
         }
 
-        if (mc.screen != null) {
+        if (mc.gui.screen() != null) {
             return;
         }
 

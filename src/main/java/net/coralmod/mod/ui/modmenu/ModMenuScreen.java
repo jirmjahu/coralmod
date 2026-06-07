@@ -40,8 +40,12 @@ public class ModMenuScreen extends Screen {
 
     @Override
     protected void init() {
-        startX = (mc.screen.width - MENU_WIDTH) / 2;
-        startY = (mc.screen.height - MENU_HEIGHT) / 2;
+        if (mc.gui.screen() == null) {
+            return;
+        }
+
+        startX = (mc.gui.screen().width - MENU_WIDTH) / 2;
+        startY = (mc.gui.screen().height - MENU_HEIGHT) / 2;
 
         switchToModulesTab();
 

@@ -28,7 +28,7 @@ public final class ServerUtils {
     public static Identifier getServerIcon() {
         final Minecraft mc = Minecraft.getInstance();
 
-        if (mc.isSingleplayer()) {
+        if (mc.hasSingleplayerServer()) {
             if (mc.getSingleplayerServer() == null) {
                 return MISSING_LOCATION;
             }

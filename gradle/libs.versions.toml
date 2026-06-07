@@ -1,9 +1,9 @@
 [versions]
 
-minecraft = "26.1"
-loader = "0.18.5"
-loom = "1.15-SNAPSHOT"
-fabric = "0.144.3+26.1"
+minecraft = "26.2-pre-4"
+loader = "0.19.3"
+loom = "1.16-SNAPSHOT"
+fabric = "0.151.0+26.2"
 
 lombok = "1.18.42"
 gson = "2.13.2"

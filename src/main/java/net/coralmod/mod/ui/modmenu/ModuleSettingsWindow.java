@@ -40,7 +40,7 @@ public class ModuleSettingsWindow extends Window {
 
         final int widgetHeight = 15;
 
-        for (Setting<?> setting : module.getSettings()) {
+        for (Setting<?> setting : module.settings()) {
             Widget settingWidget = null;
 
             if (setting instanceof BooleanSetting booleanSetting) {
@@ -83,12 +83,12 @@ public class ModuleSettingsWindow extends Window {
         final Font font = Minecraft.getInstance().font;
 
 
-        if (module.getSettings().isEmpty()) {
+        if (module.settings().isEmpty()) {
             graphics.text(
                     font,
                     "This module has no settings",
                     x + ModMenuScreen.MENU_WIDTH / 2 - font.width("This module has no settings") / 2,
-                    getParent().height / 2,
+                    parent.height / 2,
                     new Color(255, 255, 255, 100).getRGB(),
                     true
             );
@@ -126,7 +126,7 @@ public class ModuleSettingsWindow extends Window {
                 backColor.darker().getRGB()
         );
 
-        if (!module.getSettings().isEmpty()) {
+        if (!module.settings().isEmpty()) {
             graphics.fillGradient(
                     resetX,
                     buttonY,
@@ -146,7 +146,7 @@ public class ModuleSettingsWindow extends Window {
                 true
         );
 
-        if (!module.getSettings().isEmpty()) {
+        if (!module.settings().isEmpty()) {
             graphics.text(
                     font,
                     "Reset",

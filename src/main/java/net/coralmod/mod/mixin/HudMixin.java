@@ -22,27 +22,19 @@ public abstract class HudMixin {
     @Shadow
     public abstract Font getFont();
 
-    @Inject(
-            method = "extractRenderState",
-            at = @At("RETURN")
-    )
+    @Inject(method = "extractRenderState", at = @At("RETURN"))
     private void onRender(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo info) {
-        for (HudModule hudModule : CoralMod.getInstance().getModuleManager().getHudModules()) {
-            if (!hudModule.isEnabled()) {
-                continue;
+        for (HudModule hudModule : CoralMod.instance().moduleManager().hudModules()) {
+            if (hudModule.enabled()) {
+                hudModule.render(graphics, getFont());
             }
-            hudModule.render(graphics, getFont());
         }
     }
 
-    @Inject(
-            method = "displayScoreboardSidebar",
-            at = @At("HEAD"),
-            cancellable = true
-    )
+    @Inject(method = "displayScoreboardSidebar", at = @At("HEAD"), cancellable = true)
     private void toggleSidebar(GuiGraphicsExtractor graphics, Objective objective, CallbackInfo info) {
-        final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
-        if (module.isEnabled() && !module.getEnableScoreboard().getValue()) {
+        final ScoreboardModule module = CoralMod.instance().moduleManager().module(ScoreboardModule.class);
+        if (module.enabled() && !module.enableScoreboard().value()) {
             info.cancel();
         }
     }
@@ -56,8 +48,8 @@ public abstract class HudMixin {
             )
     )
     private Component removeSidebarNumbers(Component component) {
-        final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
-        if (module.isEnabled() && !module.getNumbers().getValue()) {
+        final ScoreboardModule module = CoralMod.instance().moduleManager().module(ScoreboardModule.class);
+        if (module.enabled() && !module.numbers().value()) {
             return Component.empty();
         }
         return component;
@@ -73,8 +65,8 @@ public abstract class HudMixin {
             index = 5
     )
     private boolean setSidebarTitleShadow(boolean shadow) {
-        final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
-        return module.isEnabled() && module.getTextShadow().getValue();
+        final ScoreboardModule module = CoralMod.instance().moduleManager().module(ScoreboardModule.class);
+        return module.enabled() && module.textShadow().value();
     }
 
     @ModifyArg(
@@ -87,8 +79,8 @@ public abstract class HudMixin {
             index = 5
     )
     private boolean setSidebarTextShadow(boolean shadow) {
-        final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
-        return module.isEnabled() && module.getTextShadow().getValue();
+        final ScoreboardModule module = CoralMod.instance().moduleManager().module(ScoreboardModule.class);
+        return module.enabled() && module.textShadow().value();
     }
 
     @ModifyArg(
@@ -101,8 +93,8 @@ public abstract class HudMixin {
             index = 4
     )
     private int setSidebarTitleBackgroundColor(int color) {
-        final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
-        if (module.isEnabled() && !module.getTitleBackground().getValue()) {
+        final ScoreboardModule module = CoralMod.instance().moduleManager().module(ScoreboardModule.class);
+        if (module.enabled() && !module.titleBackground().value()) {
             return 0;
         }
         return color;
@@ -118,8 +110,8 @@ public abstract class HudMixin {
             index = 4
     )
     private int setSidebarBackgroundColor(int color) {
-        final ScoreboardModule module = CoralMod.getInstance().getModuleManager().getModule(ScoreboardModule.class);
-        if (module.isEnabled() && !module.getBackground().getValue()) {
+        final ScoreboardModule module = CoralMod.instance().moduleManager().module(ScoreboardModule.class);
+        if (module.enabled() && !module.background().value()) {
             return 0;
         }
         return color;

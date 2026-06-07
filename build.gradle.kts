@@ -12,9 +12,6 @@ dependencies {
     implementation(libs.loader)
     implementation(libs.api)
 
-    compileOnly(libs.lombok)
-    annotationProcessor(libs.lombok)
-
     implementation(libs.gson)
 }
 

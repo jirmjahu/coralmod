@@ -21,16 +21,12 @@ public class ClockModule extends HudModule {
 
     @Override
     public String getText() {
-        final LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
-        String pattern;
-
-        if (use24HourFormat.getValue()) {
-            pattern = showSeconds.getValue() ? "HH:mm:ss" : "HH:mm";
+        final String pattern;
+        if (use24HourFormat.value()) {
+            pattern = showSeconds.value() ? "HH:mm:ss" : "HH:mm";
         } else {
-            pattern = showSeconds.getValue() ? "hh:mm:ss a" : "hh:mm a";
+            pattern = showSeconds.value() ? "hh:mm:ss a" : "hh:mm a";
         }
-
-        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-        return now.format(formatter);
+        return LocalDateTime.now(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern(pattern));
     }
 }

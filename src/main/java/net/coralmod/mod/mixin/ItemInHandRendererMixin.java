@@ -2,7 +2,6 @@ package net.coralmod.mod.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.coralmod.mod.CoralMod;
-import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.modules.ViewTweaksModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemInHandRenderer;
@@ -20,21 +19,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ItemInHandRendererMixin {
 
     @Inject(method = "renderItem", at = @At("HEAD"))
-    public void onRenderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, CallbackInfo info) {
-        final Module viewTweaksModule = CoralMod.getInstance().getModuleManager().getModule(ViewTweaksModule.class);
+    public void onRenderItem(LivingEntity mob, ItemStack itemStack, ItemDisplayContext type, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo info) {
+        final ViewTweaksModule module = CoralMod.instance().moduleManager().module(ViewTweaksModule.class);
 
-        if (!viewTweaksModule.isEnabled()) {
+        if (!module.enabled() || !module.lowerShield().value()) {
             return;
         }
-
-        if (!(boolean) viewTweaksModule.getSetting("Lower Shield").getValue()) {
-            return;
-        }
-
         if (!Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
             return;
         }
-
         if (!(itemStack.getItem() instanceof ShieldItem)) {
             return;
         }

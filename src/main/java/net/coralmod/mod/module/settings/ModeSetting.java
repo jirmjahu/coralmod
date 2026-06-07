@@ -2,11 +2,9 @@ package net.coralmod.mod.module.settings;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import lombok.Getter;
 
 import java.util.List;
 
-@Getter
 public class ModeSetting extends Setting<String> {
 
     private final List<String> modes;
@@ -16,13 +14,17 @@ public class ModeSetting extends Setting<String> {
         this.modes = modes;
     }
 
+    public List<String> modes() {
+        return modes;
+    }
+
     @Override
     public JsonElement write() {
-        return new JsonPrimitive(getValue());
+        return new JsonPrimitive(value());
     }
 
     @Override
     public void read(JsonElement json) {
-        setValue(json.getAsString());
+        value(json.getAsString());
     }
 }

@@ -16,7 +16,7 @@ public class ScreenMixin {
 
     @Inject(method = "extractBackground", at = @At("HEAD"), cancellable = true)
     public void removeBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a, CallbackInfo info) {
-        if (!CoralMod.getInstance().getModuleManager().getModule(NoBackgroundModule.class).isEnabled()) {
+        if (!CoralMod.instance().moduleManager().module(NoBackgroundModule.class).enabled()) {
             return;
         }
 

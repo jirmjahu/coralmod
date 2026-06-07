@@ -19,15 +19,10 @@ public class CameraMixin {
             index = 3
     )
     private float modifyWidth(float width) {
-        final AspectModule module = CoralMod.getInstance()
-                .getModuleManager()
-                .getModule(AspectModule.class);
-
-        if (module == null || !module.isEnabled()) {
+        final AspectModule module = CoralMod.instance().moduleManager().module(AspectModule.class);
+        if (module == null || !module.enabled()) {
             return width;
         }
-
-        return width / (float) module.getStretchFactor();
+        return width / (float) module.stretchFactor();
     }
-
 }

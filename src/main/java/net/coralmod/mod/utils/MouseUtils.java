@@ -1,11 +1,11 @@
 package net.coralmod.mod.utils;
 
-import lombok.experimental.UtilityClass;
+public final class MouseUtils {
 
-@UtilityClass
-public class MouseUtils {
+    private MouseUtils() {
+    }
 
     public static boolean isMouseOver(double mouseX, double mouseY, float x, float y, float width, float height) {
-        return (mouseX >= x && mouseX <= x + width) && (mouseY >= y && mouseY <= y + height);
+        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
 }

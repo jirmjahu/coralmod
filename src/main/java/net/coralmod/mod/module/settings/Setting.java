@@ -1,20 +1,16 @@
 package net.coralmod.mod.module.settings;
 
 import com.google.gson.JsonElement;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-@Getter
 public abstract class Setting<T> {
 
     private final String name;
-
     private T value;
     private final T defaultValue;
-
     private final List<BiConsumer<T, T>> changeListeners = new ArrayList<>();
 
     public Setting(String name, T defaultValue) {
@@ -23,17 +19,29 @@ public abstract class Setting<T> {
         this.value = defaultValue;
     }
 
-    public void setValue(T value) {
-        final T oldValue = this.value;
+    public String name() {
+        return name;
+    }
 
-        if (oldValue.equals(value)) {
+    public T value() {
+        return value;
+    }
+
+    public T defaultValue() {
+        return defaultValue;
+    }
+
+    public void value(T newValue) {
+        final T old = this.value;
+
+        if (old.equals(newValue)) {
             return;
         }
 
-        this.value = value;
+        this.value = newValue;
 
         for (BiConsumer<T, T> listener : changeListeners) {
-            listener.accept(oldValue, value);
+            listener.accept(old, newValue);
         }
     }
 
@@ -48,5 +56,4 @@ public abstract class Setting<T> {
     public abstract JsonElement write();
 
     public abstract void read(JsonElement json);
-
 }

@@ -12,7 +12,7 @@ public class FullBrightModule extends Module {
 
     public FullBrightModule() {
         ClientTickEvents.START_CLIENT_TICK.register(mc -> {
-            if (!isEnabled()) {
+            if (!enabled()) {
                 return;
             }
 
@@ -21,7 +21,6 @@ public class FullBrightModule extends Module {
             if (oldGamma == -1) {
                 oldGamma = gamma.get();
             }
-
             if (gamma.get() < 1000.0) {
                 gamma.set(100000.0);
             }
@@ -37,7 +36,6 @@ public class FullBrightModule extends Module {
         if (oldGamma != -1) {
             mc.options.gamma().set(oldGamma);
         }
-
         oldGamma = -1;
     }
 }

@@ -1,11 +1,9 @@
 package net.coralmod.mod.module.modules;
 
-import lombok.Getter;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
 
-@Getter
 @ModuleInfo(name = "Scoreboard", description = "Customize your scoreboard")
 public class ScoreboardModule extends Module {
 
@@ -17,5 +15,25 @@ public class ScoreboardModule extends Module {
 
     public ScoreboardModule() {
         addSettings(enableScoreboard, numbers, background, titleBackground, textShadow);
+    }
+
+    public BooleanSetting enableScoreboard() {
+        return enableScoreboard;
+    }
+
+    public BooleanSetting numbers() {
+        return numbers;
+    }
+
+    public BooleanSetting background() {
+        return background;
+    }
+
+    public BooleanSetting titleBackground() {
+        return titleBackground;
+    }
+
+    public BooleanSetting textShadow() {
+        return textShadow;
     }
 }

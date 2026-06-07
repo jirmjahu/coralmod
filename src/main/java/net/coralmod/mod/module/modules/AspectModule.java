@@ -13,7 +13,7 @@ public class AspectModule extends Module {
         addSettings(stretchFactor);
     }
 
-    public double getStretchFactor() {
-        return stretchFactor.getValue() / 100;
+    public double stretchFactor() {
+        return stretchFactor.value() / 100;
     }
 }

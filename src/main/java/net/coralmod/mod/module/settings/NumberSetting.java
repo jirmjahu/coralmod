@@ -2,9 +2,7 @@ package net.coralmod.mod.module.settings;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import lombok.Getter;
 
-@Getter
 public class NumberSetting extends Setting<Double> {
 
     private final double min;
@@ -18,13 +16,25 @@ public class NumberSetting extends Setting<Double> {
         this.increment = increment;
     }
 
+    public double min() {
+        return min;
+    }
+
+    public double max() {
+        return max;
+    }
+
+    public double increment() {
+        return increment;
+    }
+
     @Override
     public JsonElement write() {
-        return new JsonPrimitive(getValue());
+        return new JsonPrimitive(value());
     }
 
     @Override
     public void read(JsonElement json) {
-        setValue(json.getAsDouble());
+        value(json.getAsDouble());
     }
 }

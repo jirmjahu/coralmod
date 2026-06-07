@@ -32,26 +32,22 @@ public class ModeSettingWidget extends Widget {
         final Font font = Minecraft.getInstance().font;
         final int textY = y + (height - font.lineHeight) / 2;
 
-        graphics.text(font, setting.getName(), x + 5, textY, Color.WHITE.getRGB());
+        graphics.text(font, setting.name(), x + 5, textY, Color.WHITE.getRGB());
 
-        final String value = setting.getValue();
-        final int valueX = x + width - font.width(value) - 5;
-        graphics.text(font, value, valueX, textY, CoralMod.getInstance().getSelectedTheme().getPrimaryColor().brighter().getRGB());
+        final String value = setting.value();
+        graphics.text(font, value, x + width - font.width(value) - 5, textY,
+                CoralMod.instance().selectedTheme().primaryColor().brighter().getRGB());
     }
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        super.mouseClicked(event);
-
-        final List<String> modes = setting.getModes();
-        final int currentIndex = modes.indexOf(setting.getValue());
+        final List<String> modes = setting.modes();
+        final int current = modes.indexOf(setting.value());
 
         if (event.button() == 0) {
-            final int nextIndex = (currentIndex + 1) % modes.size();
-            setting.setValue(modes.get(nextIndex));
+            setting.value(modes.get((current + 1) % modes.size()));
         } else if (event.button() == 1) {
-            final int prevIndex = (currentIndex - 1 + modes.size()) % modes.size();
-            setting.setValue(modes.get(prevIndex));
+            setting.value(modes.get((current - 1 + modes.size()) % modes.size()));
         }
     }
 }

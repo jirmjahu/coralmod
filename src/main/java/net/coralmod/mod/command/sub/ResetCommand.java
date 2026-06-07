@@ -11,19 +11,17 @@ public class ResetCommand {
 
     public static LiteralArgumentBuilder<FabricClientCommandSource> build() {
         return ClientCommands.literal("reset")
-                .executes(ctx -> {
-                    // Reset settings and positions of all modules
-                    for (Module module : CoralMod.getInstance().getModuleManager().getModules()) {
-                        module.setEnabled(false);
-
+                .executes(_ -> {
+                    // reset all module states and positions
+                    for (Module module : CoralMod.instance().moduleManager().modules()) {
+                        module.enabled(false);
                         module.reset();
                     }
 
-                    CoralMod.getInstance().getConfig().setDefaultValues();
+                    CoralMod.instance().config().resetToDefaults();
+                    CoralMod.instance().save();
 
-                    CoralMod.getInstance().save();
-
-                    Notification.sendNotification("Settings reset", "All settings have been reset");
+                    Notification.send("Settings reset", "All settings have been reset");
                     return 1;
                 });
     }

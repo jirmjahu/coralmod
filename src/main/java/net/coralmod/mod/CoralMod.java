@@ -1,6 +1,5 @@
 package net.coralmod.mod;
 
-import lombok.Getter;
 import net.coralmod.mod.command.CoralModCommand;
 import net.coralmod.mod.config.Config;
 import net.coralmod.mod.config.ConfigManager;
@@ -22,7 +21,6 @@ import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Getter
 public class CoralMod implements ModInitializer {
 
     public static final String MOD_ID = "coralmod";
@@ -31,25 +29,24 @@ public class CoralMod implements ModInitializer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static KeyMapping ZOOM_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+    public static final KeyMapping ZOOM_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "Zoom",
             GLFW.GLFW_KEY_C,
             KeyMapping.Category.register(Identifier.parse("coralmod.key.zoom"))
     ));
 
-    public static KeyMapping MODMENU_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+    public static final KeyMapping MODMENU_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "Mod Menu",
             GLFW.GLFW_KEY_RIGHT_SHIFT,
             KeyMapping.Category.register(Identifier.parse("coralmod.key.modmenu"))
     ));
 
-    public static KeyMapping HUD_EDITOR_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
+    public static final KeyMapping HUD_EDITOR_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "Hud Editor",
             GLFW.GLFW_KEY_P,
             KeyMapping.Category.register(Identifier.parse("coralmod.key.editor"))
     ));
 
-    @Getter
     private static CoralMod instance;
 
     private ModuleManager moduleManager;
@@ -66,14 +63,14 @@ public class CoralMod implements ModInitializer {
 
         instance = this;
 
-        ClientLifecycleEvents.CLIENT_STARTED.register(mc -> {
+        ClientLifecycleEvents.CLIENT_STARTED.register(_ -> {
             moduleManager = new ModuleManager();
             configStorage = new ConfigStorage();
             configManager = new ConfigManager(configStorage);
             profileStorage = new ProfileStorage(moduleManager);
-            profileManager = new ProfileManager(getConfig(), configStorage, profileStorage, moduleManager);
+            profileManager = new ProfileManager(config(), configStorage, profileStorage, moduleManager);
 
-            setSelectedTheme(Theme.valueOf(getConfig().getSelectedTheme()));
+            selectedTheme(Theme.valueOf(config().selectedTheme()));
 
             new CoralModCommand();
 
@@ -95,27 +92,37 @@ public class CoralMod implements ModInitializer {
         });
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            LOGGER.info("Shutting down...");
-            LOGGER.info("Saving modules...");
-
+            LOGGER.info("Shutting down, saving...");
             save();
         }));
     }
 
     /**
-     * Saves the current profile, including module states, positions, and the config settings.
+     * Saves the current profile including module states, positions, and config.
      */
     public void save() {
         profileManager.saveCurrentProfile();
         configManager.save();
     }
 
-    public Config getConfig() {
-        return configManager.getConfig();
+    public void selectedTheme(Theme theme) {
+        this.selectedTheme = theme;
+        config().selectedTheme(theme.toString());
     }
 
-    public void setSelectedTheme(Theme selectedTheme) {
-        this.selectedTheme = selectedTheme;
-        getConfig().setSelectedTheme(selectedTheme.toString());
+    public static CoralMod instance() {
+        return instance;
+    }
+
+    public ModuleManager moduleManager() {
+        return moduleManager;
+    }
+
+    public Theme selectedTheme() {
+        return selectedTheme;
+    }
+
+    public Config config() {
+        return configManager.config();
     }
 }

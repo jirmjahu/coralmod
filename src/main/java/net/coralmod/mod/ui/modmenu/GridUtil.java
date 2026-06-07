@@ -4,18 +4,17 @@ import net.coralmod.mod.ui.Position;
 
 import java.util.function.BiConsumer;
 
-public class GridUtil {
+public final class GridUtil {
 
-    public static <T> void layoutGrid(
-            Iterable<T> elements,
-            int x,
-            int y,
-            BiConsumer<T, Position> consumer
-    ) {
+    private GridUtil() {
+    }
+
+    public static <T> void layoutGrid(Iterable<T> elements, int x, int y, BiConsumer<T, Position> consumer) {
         final int totalSpacing = (ModMenuScreen.BUTTONS_PER_ROW - 1) * ModMenuScreen.BUTTON_SPACING;
         final int buttonWidth = (ModMenuScreen.MENU_WIDTH - 2 * ModMenuScreen.BUTTON_SPACING - totalSpacing) / ModMenuScreen.BUTTONS_PER_ROW;
         final int totalButtonsWidth = ModMenuScreen.BUTTONS_PER_ROW * buttonWidth + totalSpacing;
         final int startX = x + (ModMenuScreen.MENU_WIDTH - totalButtonsWidth) / 2;
+
         int buttonX = startX;
         int buttonY = y + ModMenuScreen.BUTTON_TOP_MARGIN;
 
@@ -30,7 +29,4 @@ public class GridUtil {
             }
         }
     }
-
 }
-
-

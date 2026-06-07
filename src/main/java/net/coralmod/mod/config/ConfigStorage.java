@@ -3,31 +3,35 @@ package net.coralmod.mod.config;
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.utils.JsonUtils;
 
-import java.io.File;
+import java.nio.file.Path;
 
 public class ConfigStorage {
 
-    private static final File CONFIG_FILE = new File("coralmod/config.json");
+    private static final Path CONFIG_PATH = Path.of("coralmod", "config.json");
 
     public Config load() {
-        Config config = JsonUtils.loadFromJson(CONFIG_FILE, Config.class);
+        Config config = JsonUtils.loadFromJson(CONFIG_PATH, Config.class);
 
         if (config == null) {
             config = new Config();
-            CONFIG_FILE.getParentFile().mkdirs();
             save(config);
+            return config;
         }
 
-        if (config.getVersion() != Config.VERSION) {
-            CoralMod.LOGGER.warn("Config version does not match the expected version! Expected {}, got {}", Config.VERSION, config.getVersion());
+        if (config.version() != Config.VERSION) {
+            CoralMod.LOGGER.warn(
+                   "Config version does not match the expected version! Expected {}, got {}",
+                    Config.VERSION,
+                    config.version()
+            );
         }
 
-        config.setVersion(Config.VERSION);
+        config.version(Config.VERSION);
         save(config);
         return config;
     }
 
     public void save(Config config) {
-        JsonUtils.saveToJson(CONFIG_FILE, config);
+        JsonUtils.saveToJson(CONFIG_PATH, config);
     }
 }

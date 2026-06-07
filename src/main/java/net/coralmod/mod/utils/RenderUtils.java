@@ -1,6 +1,5 @@
 package net.coralmod.mod.utils;
 
-import lombok.experimental.UtilityClass;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -14,10 +13,12 @@ import org.joml.Matrix3x2fStack;
 
 import java.awt.*;
 
-@UtilityClass
-public class RenderUtils {
+public final class RenderUtils {
 
-    public void drawTexture(GuiGraphicsExtractor graphics, Identifier texture, int x, int y, int size) {
+    private RenderUtils() {
+    }
+
+    public static void drawTexture(GuiGraphicsExtractor graphics, Identifier texture, int x, int y, int size) {
         graphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, 0.0F, 0, size, size, size, size, -1);
     }
 
@@ -25,7 +26,7 @@ public class RenderUtils {
         return new PlainTextButton(x, y, textRenderer.width(text), textRenderer.lineHeight, text, (button) -> onClick.run(), textRenderer);
     }
 
-    public void scaledText(Matrix3x2fStack stack, GuiGraphicsExtractor graphics, String text, int x, int y, float scale, int color, boolean shadow) {
+    public static void scaledText(Matrix3x2fStack stack, GuiGraphicsExtractor graphics, String text, int x, int y, float scale, int color, boolean shadow) {
         stack.pushMatrix();
         stack.translate(x, y);
         stack.scale(scale, scale);
@@ -33,7 +34,7 @@ public class RenderUtils {
         stack.popMatrix();
     }
 
-    public void scaledItem(Matrix3x2fStack stack, GuiGraphicsExtractor graphics, Item item, int centerX, int centerY, float scale) {
+    public static void scaledItem(Matrix3x2fStack stack, GuiGraphicsExtractor graphics, Item item, int centerX, int centerY, float scale) {
         stack.pushMatrix();
         float itemSize = 16 * scale;
         stack.translate(centerX - itemSize / 2f, centerY - itemSize / 2f);
@@ -42,7 +43,7 @@ public class RenderUtils {
         stack.popMatrix();
     }
 
-    public void outline(GuiGraphicsExtractor graphics, int x, int y, int x2, int y2, int size, Color color) {
+    public static void outline(GuiGraphicsExtractor graphics, int x, int y, int x2, int y2, int size, Color color) {
         graphics.fill(x, y, x2, y + size, color.getRGB());
         graphics.fill(x, y2 - size, x2, y2, color.getRGB());
         graphics.fill(x, y + size, x + size, y2 - size, color.getRGB());

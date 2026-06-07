@@ -11,11 +11,11 @@ public class BooleanSetting extends Setting<Boolean> {
 
     @Override
     public JsonElement write() {
-        return new JsonPrimitive(getValue());
+        return new JsonPrimitive(value());
     }
 
     @Override
     public void read(JsonElement json) {
-        setValue(json.getAsBoolean());
+        value(json.getAsBoolean());
     }
 }

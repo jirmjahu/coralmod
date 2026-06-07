@@ -15,13 +15,13 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 public class ModuleCommand {
 
-    private static final ModuleManager moduleManager = CoralMod.getInstance().getModuleManager();
+    private static final ModuleManager moduleManager = CoralMod.instance().moduleManager();
 
     public static LiteralArgumentBuilder<FabricClientCommandSource> build() {
         return ClientCommands.literal("module")
                 .then(ClientCommands.argument("moduleName", StringArgumentType.word())
                         .suggests((ctx, builder) -> {
-                            moduleManager.getModules().forEach(module -> builder.suggest(module.getName()));
+                            moduleManager.modules().forEach(module -> builder.suggest(module.name()));
                             return builder.buildFuture();
                         })
                         .then(ClientCommands.literal("enable").executes(ctx ->
@@ -32,11 +32,11 @@ public class ModuleCommand {
                                 .then(ClientCommands.argument("settingName", StringArgumentType.word())
                                         .suggests((ctx, builder) -> {
                                             final String moduleName = StringArgumentType.getString(ctx, "moduleName");
-                                            final Module module = moduleManager.getModule(moduleName);
+                                            final Module module = moduleManager.module(moduleName);
                                             if (module == null) {
                                                 return builder.buildFuture();
                                             }
-                                            module.getSettings().forEach(setting -> builder.suggest(setting.getName()));
+                                            module.settings().forEach(setting -> builder.suggest(setting.name()));
                                             return builder.buildFuture();
                                         })
                                         .then(ClientCommands.argument("value", StringArgumentType.word())
@@ -52,37 +52,37 @@ public class ModuleCommand {
     }
 
     private static int enableModule(String name) {
-        final Module module = moduleManager.getModule(name);
+        final Module module = moduleManager.module(name);
         if (module == null) {
             ChatUtils.sendToPlayer("Module " + name + " not found");
             return 0;
         }
 
-        module.setEnabled(true);
+        module.enabled(true);
         ChatUtils.sendToPlayer("Module " + name + " enabled");
         return 1;
     }
 
     private static int disableModule(String name) {
-        final Module module = moduleManager.getModule(name);
+        final Module module = moduleManager.module(name);
         if (module == null) {
             ChatUtils.sendToPlayer("Module " + name + " not found");
             return 0;
         }
 
-        module.setEnabled(false);
+        module.enabled(false);
         ChatUtils.sendToPlayer("Module " + name + " disabled");
         return 1;
     }
 
     private static int setModuleSetting(String moduleName, String settingName, String value) {
-        final Module module = moduleManager.getModule(moduleName);
+        final Module module = moduleManager.module(moduleName);
         if (module == null) {
             ChatUtils.sendToPlayer("Module " + moduleName + " not found");
             return 0;
         }
 
-        final Setting<?> setting = module.getSetting(settingName);
+        final Setting<?> setting = module.setting(settingName);
         if (setting == null) {
             ChatUtils.sendToPlayer("Setting " + settingName + " not found");
             return 0;
@@ -90,22 +90,22 @@ public class ModuleCommand {
 
         try {
             if (setting instanceof BooleanSetting booleanSetting) {
-                booleanSetting.setValue(Boolean.parseBoolean(value));
+                booleanSetting.value(Boolean.parseBoolean(value));
                 ChatUtils.sendToPlayer("Setting " + settingName + " set to " + value);
                 return 1;
             }
 
             if (setting instanceof NumberSetting numberSetting) {
-                numberSetting.setValue(Double.parseDouble(value));
+                numberSetting.value(Double.parseDouble(value));
                 ChatUtils.sendToPlayer("Setting " + settingName + " set to " + value);
                 return 1;
             }
 
             if (setting instanceof ModeSetting modeSetting) {
-                if (!modeSetting.getModes().contains(value)) {
+                if (!modeSetting.modes().contains(value)) {
                     return 0;
                 }
-                modeSetting.setValue(value);
+                modeSetting.value(value);
                 ChatUtils.sendToPlayer("Setting " + settingName + " set to " + value);
                 return 1;
             }

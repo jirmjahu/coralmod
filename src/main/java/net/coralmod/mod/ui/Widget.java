@@ -1,11 +1,9 @@
 package net.coralmod.mod.ui;
 
-import lombok.RequiredArgsConstructor;
 import net.coralmod.mod.utils.MouseUtils;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 
-@RequiredArgsConstructor
 public class Widget {
 
     protected final int x;
@@ -22,26 +20,12 @@ public class Widget {
         this.height = height;
     }
 
-    public void init() {
-    }
+    public void init() {}
 
     public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
-        final int renderY = y - scrollOffset;
-
-        hovered = MouseUtils.isMouseOver(
-                mouseX,
-                mouseY,
-                x,
-                renderY,
-                width,
-                height
-        );
+        hovered = MouseUtils.isMouseOver(mouseX, mouseY, x, y - scrollOffset, width, height);
     }
 
-    public void mouseClicked(MouseButtonEvent event) {
-    }
-
-    public void mouseReleased(MouseButtonEvent event) {
-    }
-
+    public void mouseClicked(MouseButtonEvent event) {}
+    public void mouseReleased(MouseButtonEvent event) {}
 }

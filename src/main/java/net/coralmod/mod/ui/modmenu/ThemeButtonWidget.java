@@ -27,8 +27,8 @@ public class ThemeButtonWidget extends Widget {
     public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
         super.render(graphics, mouseX, mouseY, scrollOffset);
 
-        int borderColor = theme.getPrimaryColor().getRGB();
-        int backgroundColor = ColorUtils.blendColors(ModMenuScreen.BASE_GRAY, ColorUtils.modifyAlpha(theme.getPrimaryColor(), 100)).getRGB();
+        int borderColor = theme.primaryColor().getRGB();
+        int backgroundColor = ColorUtils.blendColors(ModMenuScreen.BASE_GRAY, ColorUtils.modifyAlpha(theme.primaryColor(), 100)).getRGB();
 
         if (hovered) {
             backgroundColor = ColorUtils.blendColors(new Color(backgroundColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
@@ -47,7 +47,7 @@ public class ThemeButtonWidget extends Widget {
         RenderUtils.scaledItem(
                 graphics.pose(),
                 graphics,
-                theme.getDisplayItem(),
+                theme.displayItem(),
                 x + width / 2,
                 y + height / 2,
                 2
@@ -56,8 +56,8 @@ public class ThemeButtonWidget extends Widget {
         final Font font = Minecraft.getInstance().font;
         graphics.text(
                 font,
-                theme.getName(),
-                x + width / 2 - font.width(theme.getName()) / 2,
+                theme.name(),
+                x + width / 2 - font.width(theme.name()) / 2,
                 y + height - (BORDER_THICKNESS * 2) - 10,
                 -1,
                 true
@@ -67,8 +67,7 @@ public class ThemeButtonWidget extends Widget {
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        CoralMod.getInstance().setSelectedTheme(theme);
-
-        Notification.sendNotification("Updated Theme", "Theme was updated to: " + theme.getName());
+        CoralMod.instance().selectedTheme(theme);
+        Notification.send("Updated Theme", "Theme was updated to: " + theme.name());
     }
 }

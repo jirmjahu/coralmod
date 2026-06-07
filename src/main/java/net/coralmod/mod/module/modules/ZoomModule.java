@@ -1,6 +1,5 @@
 package net.coralmod.mod.module.modules;
 
-import lombok.Getter;
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.event.KeyPressedEvent;
 import net.coralmod.mod.module.Module;
@@ -12,15 +11,13 @@ import net.minecraft.client.Options;
 @ModuleInfo(name = "Zoom", description = "Zooms in the game")
 public class ZoomModule extends Module {
 
-    @Getter
     private boolean zooming = false;
-
     private int oldFov;
     private double oldSensitivity;
 
     public ZoomModule() {
         KeyPressedEvent.KEY_PRESSED_EVENT.register(key -> {
-            if (!isEnabled()) {
+            if (!enabled()) {
                 return;
             }
 
@@ -42,16 +39,11 @@ public class ZoomModule extends Module {
     }
 
     private void startZooming() {
-        if (mc == null) {
-            return;
-        }
-
-        if (mc.gui.screen() != null) {
+        if (mc == null || mc.gui.screen() != null) {
             return;
         }
 
         final Options options = mc.options;
-
         oldFov = options.fov().get();
         oldSensitivity = options.sensitivity().get();
 
@@ -68,11 +60,14 @@ public class ZoomModule extends Module {
         }
 
         final Options options = mc.options;
-
         options.fov().set(oldFov);
         options.smoothCamera = false;
         options.sensitivity().set(oldSensitivity);
 
         zooming = false;
+    }
+
+    public boolean zooming() {
+        return zooming;
     }
 }

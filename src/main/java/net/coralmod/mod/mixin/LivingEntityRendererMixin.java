@@ -16,24 +16,23 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntityRenderer.class)
-public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>> extends EntityRenderer<T, S> implements RenderLayerParent<S, M> {
+public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>>
+        extends EntityRenderer<T, S> implements RenderLayerParent<S, M> {
 
     protected LivingEntityRendererMixin(EntityRendererProvider.Context context) {
         super(context);
     }
 
     @Inject(method = "shouldShowName(Lnet/minecraft/world/entity/LivingEntity;D)Z", at = @At("HEAD"), cancellable = true)
-    private void onShouldShowName(T livingEntity, double d, CallbackInfoReturnable<Boolean> info) {
-        final NametagsModule module = CoralMod.getInstance().getModuleManager().getModule(NametagsModule.class);
-        if (!module.isEnabled()) {
+    private void onShouldShowName(T entity, double distanceToCameraSq, CallbackInfoReturnable<Boolean> info) {
+        final NametagsModule module = CoralMod.instance().moduleManager().module(NametagsModule.class);
+        if (!module.enabled()) {
             return;
         }
 
         final Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null && livingEntity.getId() != mc.player.getId()) {
-            return;
+        if (mc.player != null && entity.getId() != mc.player.getId()) {
+            info.setReturnValue(true);
         }
-
-        info.setReturnValue(true);
     }
 }

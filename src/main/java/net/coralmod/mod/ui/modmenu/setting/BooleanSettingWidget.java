@@ -30,22 +30,17 @@ public class BooleanSettingWidget extends Widget {
         final Font font = Minecraft.getInstance().font;
         final int textY = y + (height - font.lineHeight) / 2;
 
-        graphics.text(font, setting.getName(), x + 5, textY, Color.WHITE.getRGB());
+        graphics.text(font, setting.name(), x + 5, textY, Color.WHITE.getRGB());
 
-        final String value = setting.getValue() ? "On" : "Off";
-        final int valueColor = setting.getValue()
-                ? new Color(80, 255, 80).getRGB()
-                : new Color(255, 80, 80).getRGB();
-
-        final int valueX = x + width - font.width(value) - 5;
-        graphics.text(font, value, valueX, textY, valueColor);
+        final String value = setting.value() ? "On" : "Off";
+        final int valueColor = setting.value() ? new Color(80, 255, 80).getRGB() : new Color(255, 80, 80).getRGB();
+        graphics.text(font, value, x + width - font.width(value) - 5, textY, valueColor);
     }
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        super.mouseClicked(event);
         if (hovered && event.button() == 0) {
-            setting.setValue(!setting.getValue());
+            setting.value(!setting.value());
         }
     }
 }

@@ -25,10 +25,10 @@ public class ServerAddressModule extends HudModule {
         super(20, 20);
         addSettings(showServerIcon, serverIconSize);
 
-        brackets.setValue(false);
+        brackets.value(false);
 
-        ClientPlayConnectionEvents.JOIN.register((clientPacketListener, packetSender, minecraft) -> {
-            // Update the server icon after joining a new server
+        ClientPlayConnectionEvents.JOIN.register((_, _, _) -> {
+            // update server icon after joining a new server
             currentServerIcon = ServerUtils.getServerIcon();
         });
     }
@@ -40,40 +40,39 @@ public class ServerAddressModule extends HudModule {
 
     @Override
     public void render(GuiGraphicsExtractor graphics, Font font) {
-        final String text = brackets.getValue() ? "[" + getText() + "]" : getText();
+        final String text = brackets.value() ? "[" + getText() + "]" : getText();
 
         final int textWidth = font.width(text);
         final int textHeight = font.lineHeight;
 
-        final int padding = background.getValue() ? 2 : 0;
-        final int iconSize = showServerIcon.getValue() && currentServerIcon != null ? this.serverIconSize.getValue().intValue() : 0;
+        final int padding = background.value() ? 2 : 0;
+        final int iconSize = showServerIcon.value() && currentServerIcon != null ? this.serverIconSize.value().intValue() : 0;
 
-        setWidth(iconSize + (showServerIcon.getValue() ? 4 : 0) + textWidth + padding * 2);
-        setHeight(Math.max(iconSize, textHeight) + padding * 2);
+        width(iconSize + (showServerIcon.value() ? 4 : 0) + textWidth + padding * 2);
+        height(Math.max(iconSize, textHeight) + padding * 2);
 
-        if (background.getValue()) {
+        if (background.value()) {
             graphics.fill(
-                    getX(),
-                    getY(),
-                    getX() + getWidth(),
-                    getY() + getHeight(),
+                    x(),
+                    y(),
+                    x() + width(),
+                    y() + height(),
                     new Color(0, 0, 0, 140).getRGB()
             );
         }
 
-        if (showServerIcon.getValue() && currentServerIcon != null) {
-            final int iconX = getX() + padding;
-            final int iconY = getY() + padding + (getHeight() - padding * 2 - iconSize) / 2;
+        if (showServerIcon.value() && currentServerIcon != null) {
+            final int iconX = x() + padding;
+            final int iconY = y() + padding + (height() - padding * 2 - iconSize) / 2;
 
             RenderUtils.drawTexture(graphics, currentServerIcon, iconX, iconY, iconSize);
         }
 
-        final int textX = getX() + padding + iconSize + (showServerIcon.getValue() ? 4 : 0);
-        final int textY = getY() + padding + (getHeight() - padding * 2 - textHeight) / 2;
+        final int textX = x() + padding + iconSize + (showServerIcon.value() ? 4 : 0);
+        final int textY = y() + padding + (height() - padding * 2 - textHeight) / 2;
 
-        graphics.text(font, text, textX, textY + 1, -1, textShadow.getValue());
+        graphics.text(font, text, textX, textY + 1, -1, textShadow.value());
     }
-
 
     @Override
     public String getText() {

@@ -1,6 +1,5 @@
 package net.coralmod.mod.module.modules;
 
-import lombok.RequiredArgsConstructor;
 import net.coralmod.mod.event.AddChatMessageEvent;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.ModuleInfo;
@@ -15,7 +14,7 @@ import java.util.List;
 @ModuleInfo(name = "AutoGG", description = "Automatically sends GG at the end of a round")
 public class AutoGGModule extends Module {
 
-    private static final long DELAY_TIME = 1000;
+    private static final long DELAY_MS = 1000;
 
     private final BooleanSetting gomme = new BooleanSetting("GommeHD", true);
     private final BooleanSetting hypixel = new BooleanSetting("Hypixel", true);
@@ -47,7 +46,7 @@ public class AutoGGModule extends Module {
         addSettings(gomme, hypixel, cytooxien);
 
         AddChatMessageEvent.ADD_CHAT_MESSAGE_EVENT.register(message -> {
-            if (!isEnabled() || ServerUtils.getCurrentServerIp() == null) {
+            if (!enabled() || ServerUtils.getCurrentServerIp() == null) {
                 return;
             }
 
@@ -58,11 +57,11 @@ public class AutoGGModule extends Module {
         });
 
         ClientTickEvents.START_CLIENT_TICK.register(mc -> {
-            if (!isEnabled()) {
+            if (!enabled()) {
                 return;
             }
 
-            if (shouldSend && delay.hasPassed(DELAY_TIME)) {
+            if (shouldSend && delay.hasPassed(DELAY_MS)) {
                 ChatUtils.sendAsPlayer("GG");
                 shouldSend = false;
             }
@@ -80,22 +79,17 @@ public class AutoGGModule extends Module {
                 .anyMatch(s -> s.matchesServer(currentIp) && s.matchesMessage(message));
     }
 
-    @RequiredArgsConstructor
-    private static class ServerConfig {
+    private record ServerConfig(BooleanSetting setting, List<String> ips, List<String> triggers) {
 
-        private final BooleanSetting setting;
-        private final List<String> ips;
-        private final List<String> triggers;
-
-        public boolean isEnabled() {
-            return setting.getValue();
+        boolean isEnabled() {
+            return setting.value();
         }
 
-        public boolean matchesServer(String currentIp) {
-            return ips.stream().anyMatch(currentIp::contains);
+        boolean matchesServer(String ip) {
+            return ips.stream().anyMatch(ip::contains);
         }
 
-        public boolean matchesMessage(String message) {
+        boolean matchesMessage(String message) {
             return triggers.stream().anyMatch(message::contains);
         }
     }

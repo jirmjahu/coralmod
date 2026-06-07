@@ -1,6 +1,5 @@
 package net.coralmod.mod.ui;
 
-import lombok.Getter;
 import net.coralmod.mod.ui.modmenu.ModMenuScreen;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -9,8 +8,6 @@ import java.awt.*;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-
-@Getter
 public class Window {
 
     protected final ModMenuScreen parent;
@@ -36,12 +33,8 @@ public class Window {
     public void init() {
         for (Widget widget : widgets) {
             widget.init();
-            maxScroll = Math.max(
-                    maxScroll,
-                    (widget.y + widget.height) - (y + height)
-            );
+            maxScroll = Math.max(maxScroll, (widget.y + widget.height) - (y + height));
         }
-
         maxScroll = Math.max(0, maxScroll + 10);
     }
 
@@ -56,13 +49,13 @@ public class Window {
         graphics.disableScissor();
 
         if (maxScroll > 10) {
-            final int scrollbarWidth = 2;
-            final int scrollbarX = x + width - scrollbarWidth - 2;
-            final int scrollbarHeight = (int) ((float) contentHeight / (contentHeight + maxScroll) * contentHeight);
-            final int scrollbarY = contentY + (int) ((float) scrollOffset / maxScroll * (contentHeight - scrollbarHeight));
+            final int barWidth = 2;
+            final int barX = x + width - barWidth - 2;
+            final int barHeight = (int) ((float) contentHeight / (contentHeight + maxScroll) * contentHeight);
+            final int barY = contentY + (int) ((float) scrollOffset / maxScroll * (contentHeight - barHeight));
 
-            graphics.fill(scrollbarX, contentY, scrollbarX + scrollbarWidth, contentY + contentHeight, ModMenuScreen.BASE_GRAY.darker().getRGB());
-            graphics.fill(scrollbarX, scrollbarY, scrollbarX + scrollbarWidth, scrollbarY + scrollbarHeight, Color.GRAY.getRGB());
+            graphics.fill(barX, contentY, barX + barWidth, contentY + contentHeight, ModMenuScreen.BASE_GRAY.darker().getRGB());
+            graphics.fill(barX, barY, barX + barWidth, barY + barHeight, Color.GRAY.getRGB());
         }
     }
 
@@ -86,7 +79,22 @@ public class Window {
     }
 
     public void mouseScrolled(double delta) {
-        scrollOffset -= (int) (delta * 10);
-        scrollOffset = Math.max(0, Math.min(scrollOffset, maxScroll));
+        scrollOffset = Math.clamp(scrollOffset - (int) (delta * 10), 0, maxScroll);
+    }
+
+    public ModMenuScreen parent() {
+        return parent;
+    }
+
+    public int x() {
+        return x;
+    }
+
+    public int y() {
+        return y;
+    }
+
+    public int scrollOffset() {
+        return scrollOffset;
     }
 }

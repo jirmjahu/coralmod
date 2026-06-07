@@ -1,10 +1,5 @@
 package net.coralmod.mod.config;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class Config {
 
     public static final int VERSION = 1;
@@ -14,12 +9,36 @@ public class Config {
     private String selectedTheme;
 
     public Config() {
-        setDefaultValues();
+        resetToDefaults();
     }
 
-    public void setDefaultValues() {
+    public void resetToDefaults() {
         this.version = VERSION;
         this.currentProfile = "Default";
         this.selectedTheme = "TUBE";
+    }
+
+    public int version() {
+        return version;
+    }
+
+    public String currentProfile() {
+        return currentProfile;
+    }
+
+    public String selectedTheme() {
+        return selectedTheme;
+    }
+
+    public void version(int version) {
+        this.version = version;
+    }
+
+    public void currentProfile(String currentProfile) {
+        this.currentProfile = currentProfile;
+    }
+
+    public void selectedTheme(String selectedTheme) {
+        this.selectedTheme = selectedTheme;
     }
 }

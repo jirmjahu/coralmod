@@ -13,4 +13,12 @@ public class ViewTweaksModule extends Module {
     public ViewTweaksModule() {
         addSettings(lowerShield, lowerFire);
     }
+
+    public BooleanSetting lowerShield() {
+        return lowerShield;
+    }
+
+    public BooleanSetting lowerFire() {
+        return lowerFire;
+    }
 }

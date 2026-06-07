@@ -1,6 +1,5 @@
 package net.coralmod.mod.config.profile;
 
-import lombok.Getter;
 import net.coralmod.mod.config.Config;
 import net.coralmod.mod.config.ConfigStorage;
 import net.coralmod.mod.module.ModuleManager;
@@ -17,11 +16,15 @@ public class ProfileManager {
     private final ProfileStorage storage;
     private final ModuleManager moduleManager;
 
-    @Getter
     private Profile currentProfile;
     private final List<Profile> profiles;
 
-    public ProfileManager(Config config, ConfigStorage configStorage, ProfileStorage storage, ModuleManager moduleManager) {
+    public ProfileManager(
+            Config config,
+            ConfigStorage configStorage,
+            ProfileStorage storage,
+            ModuleManager moduleManager
+    ) {
         this.config = config;
         this.configStorage = configStorage;
         this.storage = storage;
@@ -30,22 +33,25 @@ public class ProfileManager {
         this.profiles = new ArrayList<>(storage.loadProfiles());
 
         if (profiles.isEmpty()) {
-            // Create default profile if no profiles exist
             createProfile(DEFAULT_PROFILE_NAME);
         }
 
-        load(config.getCurrentProfile());
+        load(config.currentProfile());
     }
 
-    public Profile getProfile(String name) {
+    public Profile currentProfile() {
+        return currentProfile;
+    }
+
+    public Profile profile(String name) {
         return profiles.stream()
-                .filter(profile -> profile.getName().equals(name))
+                .filter(profile -> profile.name().equals(name))
                 .findFirst()
                 .orElse(null);
     }
 
     public void createProfile(String name) {
-        final Profile profile = new Profile(name, moduleManager.getEnabledModules());
+        final Profile profile = new Profile(name, moduleManager.enabledModules());
         storage.save(profile);
         profiles.add(profile);
     }
@@ -54,39 +60,21 @@ public class ProfileManager {
         storage.save(profile);
     }
 
-    public void saveProfile(String name) {
-        final Profile profile = getProfile(name);
-        if (profile == null) {
-            return;
-        }
-        saveProfile(profile);
-    }
-
     public void saveCurrentProfile() {
         saveProfile(currentProfile);
     }
 
     public void load(String name) {
         final Profile profile = storage.load(name);
-        if (profile == null) {
-            return;
-        }
 
-        setCurrentProfile(profile);
+        if (profile != null) {
+            currentProfile(profile);
+        }
     }
 
-    public void setCurrentProfile(Profile profile) {
-        currentProfile = profile;
-        config.setCurrentProfile(profile.getName());
+    public void currentProfile(Profile profile) {
+        this.currentProfile = profile;
+        config.currentProfile(profile.name());
         saveCurrentProfile();
-    }
-
-    public void setCurrentProfile(String name) {
-        final Profile profile = getProfile(name);
-        if (profile == null) {
-            return;
-        }
-
-        setCurrentProfile(profile);
     }
 }

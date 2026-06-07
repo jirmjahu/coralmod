@@ -18,7 +18,7 @@ public class ModMenuScreen extends Screen {
     private final Minecraft mc = Minecraft.getInstance();
 
     public static final int MENU_WIDTH = 400;
-    public static int MENU_HEIGHT = 200;
+    public static final int MENU_HEIGHT = 200;
     public static final int MENU_TITLE_BAR_HEIGHT = 20;
 
     public static final int BUTTONS_PER_ROW = 4;
@@ -87,7 +87,7 @@ public class ModMenuScreen extends Screen {
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
         graphics.fill(startX, startY, startX + MENU_WIDTH, startY + MENU_HEIGHT, new Color(0, 0, 0, 160).getRGB());
 
-        graphics.item(new ItemStack(CoralMod.getInstance().getSelectedTheme().getDisplayItem()), startX + 10, startY + 10);
+        graphics.item(new ItemStack(CoralMod.instance().selectedTheme().displayItem()), startX + 10, startY + 10);
 
         RenderUtils.scaledText(
                 graphics.pose(),

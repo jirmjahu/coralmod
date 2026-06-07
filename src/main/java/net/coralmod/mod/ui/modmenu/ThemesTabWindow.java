@@ -22,8 +22,10 @@ public class ThemesTabWindow extends Window {
                 (theme, pos) -> {
                     addWidget(new ThemeButtonWidget(
                             theme,
-                            pos.getX(), pos.getY(),
-                            pos.getWidth(), pos.getHeight()
+                            pos.x(),
+                            pos.y(),
+                            pos.width(),
+                            pos.height()
                     ));
                 }
         );

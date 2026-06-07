@@ -11,12 +11,10 @@ public class MinecraftMixin {
 
     /**
      * @author jirmjahu
-     * @reason Change the window title
+     * @reason Change the window title to display the mod name and version
      */
     @Overwrite
     private String createTitle() {
-        final String minecraftVersion = SharedConstants.getCurrentVersion().name();
-
-        return CoralMod.MOD_NAME + " " + minecraftVersion + " (v" + CoralMod.MOD_VERSION + ")";
+        return CoralMod.MOD_NAME + " " + SharedConstants.getCurrentVersion().name() + " (v" + CoralMod.MOD_VERSION + ")";
     }
 }

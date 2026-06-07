@@ -30,31 +30,31 @@ public class ModuleManager {
         modules.put(module.getClass(), module);
     }
 
-    public <T extends Module> T getModule(Class<T> moduleClass) {
+    public <T extends Module> T module(Class<T> moduleClass) {
         return moduleClass.cast(modules.get(moduleClass));
     }
 
-    public Module getModule(String name) {
+    public Module module(String name) {
         return modules.values().stream()
-                .filter(module -> module.getName().equalsIgnoreCase(name))
+                .filter(module -> module.name().equalsIgnoreCase(name))
                 .findFirst()
                 .orElse(null);
     }
 
-    public Collection<Module> getModules() {
+    public Collection<Module> modules() {
         return modules.values();
     }
 
-    public List<HudModule> getHudModules() {
+    public List<HudModule> hudModules() {
         return modules.values().stream()
-                .filter(module -> module instanceof HudModule)
-                .map(module -> (HudModule) module)
+                .filter(HudModule.class::isInstance)
+                .map(HudModule.class::cast)
                 .toList();
     }
 
-    public List<Module> getEnabledModules() {
+    public List<Module> enabledModules() {
         return modules.values().stream()
-                .filter(Module::isEnabled)
+                .filter(Module::enabled)
                 .toList();
     }
 }

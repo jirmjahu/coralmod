@@ -2,41 +2,58 @@ package net.coralmod.mod.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import lombok.experimental.UtilityClass;
 import net.coralmod.mod.CoralMod;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-@UtilityClass
-public class JsonUtils {
+public final class JsonUtils {
 
     private static final Gson DEFAULT_GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public <T> T loadFromJson(File file, Class<T> clazz) {
-        return loadFromJson(DEFAULT_GSON, file, clazz);
+    private JsonUtils() {
     }
 
-    public <T> T loadFromJson(Gson gson, File file, Class<T> clazz) {
-        try (FileReader reader = new FileReader(file)) {
+    public static <T> T loadFromJson(Path path, Class<T> clazz) {
+        return loadFromJson(DEFAULT_GSON, path, clazz);
+    }
+
+    public static <T> T loadFromJson(Gson gson, Path path, Class<T> clazz) {
+        if (!Files.exists(path)) {
+            return null;
+        }
+
+        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
             return gson.fromJson(reader, clazz);
         } catch (IOException e) {
-            CoralMod.LOGGER.error("Failed to load json from file: {}", file.getName(), e);
+            CoralMod.LOGGER.error("Failed to load json from {}", path.getFileName(), e);
         }
+
         return null;
     }
 
-    public void saveToJson(File file, Object object) {
-        saveToJson(DEFAULT_GSON, file, object);
+    public static void saveToJson(Path path, Object object) {
+        saveToJson(DEFAULT_GSON, path, object);
     }
 
-    public void saveToJson(Gson gson, File file, Object object) {
-        try (FileWriter writer = new FileWriter(file)) {
+    public static void saveToJson(Gson gson, Path path, Object object) {
+        try {
+            if (path.getParent() != null) {
+                Files.createDirectories(path.getParent());
+            }
+        } catch (IOException e) {
+            CoralMod.LOGGER.error("Failed to create directories for {}", path, e);
+            return;
+        }
+
+        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
             gson.toJson(object, writer);
         } catch (IOException e) {
-            CoralMod.LOGGER.error("Failed to save json to file: {}", file.getName(), e);
+            CoralMod.LOGGER.error("Failed to save json to {}", path.getFileName(), e);
         }
     }
 }

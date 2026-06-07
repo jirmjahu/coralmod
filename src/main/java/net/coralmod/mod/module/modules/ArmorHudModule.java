@@ -24,8 +24,7 @@ public class ArmorHudModule extends HudModule {
 
     public ArmorHudModule() {
         super(20, 20);
-
-        getSettings().remove(brackets);
+        settings().remove(brackets);
         addSettings(showDurability, showDurabilityPercent);
     }
 
@@ -38,32 +37,31 @@ public class ArmorHudModule extends HudModule {
         final List<ItemStack> armor = Arrays.stream(EquipmentSlot.values())
                 .filter(slot -> slot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR)
                 .map(mc.player::getItemBySlot)
-                .filter(itemStack -> !itemStack.isEmpty())
+                .filter(stack -> !stack.isEmpty())
                 .toList();
 
-        final int padding = background.getValue() ? BACKGROUND_PADDING : 0;
+        final int padding = background.value() ? BACKGROUND_PADDING : 0;
 
         final int maxTextWidth = armor.stream()
-                .filter(itemStack -> showDurability.getValue())
+                .filter(itemStack -> showDurability.value())
                 .mapToInt(itemStack -> font.width(getDurabilityText(itemStack)))
                 .max()
                 .orElse(0);
 
-        // Add a little more padding if show durability is enabled
-        setWidth(ITEM_SIZE + maxTextWidth + padding * 2 + (showDurability.getValue() ? 4 : 0));
+        // add a little extra padding when durability text is visible
+        width(ITEM_SIZE + maxTextWidth + padding * 2 + (showDurability.value() ? 4 : 0));
+        height(armor.size() * (ITEM_SIZE + ITEM_PADDING) - ITEM_PADDING + padding * 2);
 
-        setHeight(armor.size() * (ITEM_SIZE + ITEM_PADDING) - ITEM_PADDING + padding * 2);
-
-        if (background.getValue()) {
-            graphics.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), new Color(0, 0, 0, 150).getRGB());
+        if (background.value()) {
+            graphics.fill(x(), y(), x() + width(), y() + height(), new Color(0, 0, 0, 150).getRGB());
         }
 
         int offset = padding;
-        for (ItemStack itemStack : armor.reversed()) {
-            graphics.item(itemStack, getX() + padding, getY() + offset);
+        for (ItemStack stack : armor.reversed()) {
+            graphics.item(stack, x() + padding, y() + offset);
 
-            if (showDurability.getValue()) {
-                graphics.text(font, getDurabilityText(itemStack), getX() + ITEM_SIZE + padding + 2, getY() + offset + 5, -1, textShadow.getValue());
+            if (showDurability.value()) {
+                graphics.text(font, getDurabilityText(stack), x() + ITEM_SIZE + padding + 2, y() + offset + 5, -1, textShadow.value());
             }
 
             offset += ITEM_SIZE + ITEM_PADDING;
@@ -74,11 +72,9 @@ public class ArmorHudModule extends HudModule {
         final int maxDamage = item.getMaxDamage();
         final int damage = item.getDamageValue();
 
-        if (showDurabilityPercent.getValue()) {
-            final int percent = (int) (((float) (maxDamage - damage) / maxDamage) * 100);
-            return percent + "%";
+        if (showDurabilityPercent.value()) {
+            return (int) (((float) (maxDamage - damage) / maxDamage) * 100) + "%";
         }
-
         return (maxDamage - damage) + "/" + maxDamage;
     }
 

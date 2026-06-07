@@ -12,14 +12,16 @@ public class ModulesTabWindow extends Window {
     @Override
     public void init() {
         GridUtil.layoutGrid(
-                CoralMod.getInstance().getModuleManager().getModules(),
+                CoralMod.instance().moduleManager().modules(),
                 x,
                 y,
                 (module, pos) -> {
                     addWidget(new ModuleButtonWidget(
                             module,
-                            pos.getX(), pos.getY(),
-                            pos.getWidth(), pos.getHeight()
+                            pos.x(),
+                            pos.y(),
+                            pos.width(),
+                            pos.height()
                     ));
                 }
         );

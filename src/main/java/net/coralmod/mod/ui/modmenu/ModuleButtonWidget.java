@@ -30,17 +30,15 @@ public class ModuleButtonWidget extends Widget {
         super.render(graphics, mouseX, mouseY, scrollOffset);
 
         final int renderY = y - scrollOffset;
-
-        final Theme theme = CoralMod.getInstance().getSelectedTheme();
-
+        final Theme theme = CoralMod.instance().selectedTheme();
         final Color baseGray = ModMenuScreen.BASE_GRAY;
+
         int backgroundColor = baseGray.getRGB();
         int borderColor = baseGray.brighter().getRGB();
 
-        if (module.isEnabled()) {
-            final Color themeColor = ColorUtils.modifyAlpha(theme.getPrimaryColor(), 100);
-
-            borderColor = theme.getPrimaryColor().getRGB();
+        if (module.enabled()) {
+            final Color themeColor = ColorUtils.modifyAlpha(theme.primaryColor(), 100);
+            borderColor = theme.primaryColor().getRGB();
             backgroundColor = ColorUtils.blendColors(baseGray, themeColor).getRGB();
         }
 
@@ -63,14 +61,13 @@ public class ModuleButtonWidget extends Widget {
         final int toggleY = renderY + height - BUTTON_HEIGHT * 2 - 10;
         final int settingY = renderY + height - BUTTON_HEIGHT - 5;
 
-        final boolean hoveringToggle = MouseUtils.isMouseOver(mouseX, mouseY, x, toggleY, width, BUTTON_HEIGHT);
-        final boolean hoveringSettings = MouseUtils.isMouseOver(mouseX, mouseY, x, settingY, width, BUTTON_HEIGHT);
+        final boolean hoverToggle = MouseUtils.isMouseOver(mouseX, mouseY, x, toggleY, width, BUTTON_HEIGHT);
+        final boolean hoverSettings = MouseUtils.isMouseOver(mouseX, mouseY, x, settingY, width, BUTTON_HEIGHT);
 
-        final Color buttonBackgroundColor = ColorUtils.removeAlpha(baseGray).brighter().brighter();
-        final Color buttonHoverColor = buttonBackgroundColor.brighter().brighter();
+        final Color buttonBase = ColorUtils.removeAlpha(baseGray).brighter().brighter();
 
-        final Color toggleButtonColor = hoveringToggle ? buttonHoverColor : buttonBackgroundColor;
-        final Color settingsButtonColor = hoveringSettings ? buttonHoverColor : buttonBackgroundColor;
+        final Color toggleColor = hoverToggle ? buttonBase.brighter().brighter() : buttonBase;
+        final Color settingsColor = hoverSettings ? buttonBase.brighter().brighter() : buttonBase;
 
         // toggle button background
         graphics.fillGradient(
@@ -78,8 +75,8 @@ public class ModuleButtonWidget extends Widget {
                 toggleY,
                 x + width - BUTTON_PADDING,
                 toggleY + BUTTON_HEIGHT,
-                toggleButtonColor.getRGB(),
-                toggleButtonColor.darker().getRGB()
+                toggleColor.getRGB(),
+                toggleColor.darker().getRGB()
         );
 
         // settings button background
@@ -88,11 +85,11 @@ public class ModuleButtonWidget extends Widget {
                 settingY,
                 x + width - BUTTON_PADDING,
                 settingY + BUTTON_HEIGHT,
-                settingsButtonColor.getRGB(),
-                settingsButtonColor.darker().getRGB()
+                settingsColor.getRGB(),
+                settingsColor.darker().getRGB()
         );
 
-        final String toggleText = module.isEnabled() ? "Disable" : "Enable";
+        final String toggleText = module.enabled() ? "Disable" : "Enable";
         final String settingsText = "Settings";
 
         graphics.text(
@@ -112,36 +109,27 @@ public class ModuleButtonWidget extends Widget {
                 true
         );
 
-        final int textX = x + width / 2 - font.width(module.getName()) / 2;
+        final int textX = x + width / 2 - font.width(module.name()) / 2;
         final int textY = renderY + BORDER_THICKNESS + (toggleY - (renderY + BORDER_THICKNESS) - font.lineHeight) / 2;
-        graphics.text(font, module.getName(), textX, textY, -1, true);
+        graphics.text(font, module.name(), textX, textY, -1, true);
     }
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        int mouseX = (int) event.x();
-        int mouseY = (int) event.y();
+        final int mouseX = (int) event.x();
+        final int mouseY = (int) event.y();
+        final int renderY = y - parent.scrollOffset();
 
-        int renderY = y - parent.getScrollOffset();
-
-        int toggleY = renderY + height - BUTTON_HEIGHT * 2 - 10;
-        int settingY = renderY + height - BUTTON_HEIGHT - 5;
+        final int toggleY = renderY + height - BUTTON_HEIGHT * 2 - 10;
+        final int settingY = renderY + height - BUTTON_HEIGHT - 5;
 
         if (MouseUtils.isMouseOver(mouseX, mouseY, x, toggleY, width, BUTTON_HEIGHT)) {
-            module.setEnabled(!module.isEnabled());
+            module.enabled(!module.enabled());
             return;
         }
 
         if (MouseUtils.isMouseOver(mouseX, mouseY, x, settingY, width, BUTTON_HEIGHT)) {
-            parent.getParent().switchWindow(
-                    new ModuleSettingsWindow(
-                            parent.getParent(),
-                            module,
-                            "Settings",
-                            parent.getX(),
-                            parent.getY()
-                    )
-            );
+            parent.parent().switchWindow(new ModuleSettingsWindow(parent.parent(), module, "Settings", parent.x(), parent.y()));
         }
     }
 }

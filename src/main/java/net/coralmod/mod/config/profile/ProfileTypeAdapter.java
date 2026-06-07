@@ -1,7 +1,6 @@
 package net.coralmod.mod.config.profile;
 
 import com.google.gson.*;
-import lombok.RequiredArgsConstructor;
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.Module;
@@ -12,40 +11,43 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
 public class ProfileTypeAdapter implements JsonSerializer<Profile>, JsonDeserializer<Profile> {
 
     private static final int VERSION = 1;
 
     private final ModuleManager moduleManager;
 
+    public ProfileTypeAdapter(ModuleManager moduleManager) {
+        this.moduleManager = moduleManager;
+    }
+
     @Override
     public JsonElement serialize(Profile src, Type typeOfSrc, JsonSerializationContext context) {
         final JsonObject root = new JsonObject();
         root.addProperty("version", VERSION);
-        root.addProperty("name", src.getName());
+        root.addProperty("name", src.name());
 
         final JsonObject modulesObject = new JsonObject();
 
-        for (Module module : moduleManager.getModules()) {
+        for (Module module : moduleManager.modules()) {
             final JsonObject moduleObject = new JsonObject();
-            moduleObject.addProperty("enabled", module.isEnabled());
+            moduleObject.addProperty("enabled", module.enabled());
 
             final JsonObject moduleSettings = new JsonObject();
-            for (Setting<?> setting : module.getSettings()) {
-                moduleSettings.add(setting.getName(), setting.write());
+            for (Setting<?> setting : module.settings()) {
+                moduleSettings.add(setting.name(), setting.write());
             }
 
             moduleObject.add("settings", moduleSettings);
 
             if (module instanceof HudModule hudModule) {
                 final JsonObject hudObject = new JsonObject();
-                hudObject.addProperty("x", hudModule.getX());
-                hudObject.addProperty("y", (hudModule.getY()));
+                hudObject.addProperty("x", hudModule.x());
+                hudObject.addProperty("y", (hudModule.y()));
                 moduleObject.add("hud", hudObject);
             }
 
-            modulesObject.add(module.getName(), moduleObject);
+            modulesObject.add(module.name(), moduleObject);
         }
 
         root.add("modules", modulesObject);
@@ -64,35 +66,35 @@ public class ProfileTypeAdapter implements JsonSerializer<Profile>, JsonDeserial
 
         final List<Module> enabledModules = new ArrayList<>();
 
-        for (Module module : moduleManager.getModules()) {
-            final JsonObject moduleObject = modulesObject.getAsJsonObject(module.getName());
+        for (Module module : moduleManager.modules()) {
+            final JsonObject moduleObject = modulesObject.getAsJsonObject(module.name());
             if (moduleObject == null) {
                 continue;
             }
 
-            module.setEnabled(moduleObject.get("enabled").getAsBoolean());
+            module.enabled(moduleObject.get("enabled").getAsBoolean());
 
             final JsonObject settingsObject = moduleObject.getAsJsonObject("settings");
             if (settingsObject != null) {
-                for (Setting<?> setting : module.getSettings()) {
+                for (Setting<?> setting : module.settings()) {
                     if (setting == null) {
                         continue;
                     }
                     try {
-                        setting.read(settingsObject.get(setting.getName()));
+                        setting.read(settingsObject.get(setting.name()));
                     } catch (Exception e) {
-                        CoralMod.LOGGER.error("Failed to read setting {} for module {}", setting.getName(), module.getName(), e);
+                        CoralMod.LOGGER.error("Failed to read setting {} for module {}", setting.name(), module.name(), e);
                     }
                 }
             }
 
             if (module instanceof HudModule hud && moduleObject.has("hud")) {
                 final JsonObject hudObject = moduleObject.getAsJsonObject("hud");
-                hud.setX(hudObject.get("x").getAsInt());
-                hud.setY(hudObject.get("y").getAsInt());
+                hud.x(hudObject.get("x").getAsInt());
+                hud.y(hudObject.get("y").getAsInt());
             }
 
-            if (module.isEnabled()) {
+            if (module.enabled()) {
                 enabledModules.add(module);
             }
         }

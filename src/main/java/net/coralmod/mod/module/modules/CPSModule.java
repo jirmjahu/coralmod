@@ -25,16 +25,15 @@ public class CPSModule extends HudModule {
         addSettings(showCpsText, showLeftButton, showRightButton);
 
         MouseButtonClickedEvent.MOUSE_BUTTON_CLICKED_EVENT.register(event -> {
-            final long currentTime = System.currentTimeMillis();
-
+            final long now = System.currentTimeMillis();
             if (event.button() == GLFW.GLFW_MOUSE_BUTTON_1) {
-                leftPresses.add(currentTime);
+                leftPresses.add(now);
             } else if (event.button() == GLFW.GLFW_MOUSE_BUTTON_2) {
-                rightPresses.add(currentTime);
+                rightPresses.add(now);
             }
         });
 
-        ClientTickEvents.START_CLIENT_TICK.register(mc -> {
+        ClientTickEvents.START_CLIENT_TICK.register(_ -> {
             leftPresses.removeIf(lastPress -> System.currentTimeMillis() - lastPress > 1000);
             rightPresses.removeIf(lastPress -> System.currentTimeMillis() - lastPress > 1000);
         });
@@ -44,21 +43,19 @@ public class CPSModule extends HudModule {
     public String getText() {
         final StringBuilder builder = new StringBuilder();
 
-        if (showCpsText.getValue()) {
+        if (showCpsText.value()) {
             builder.append("CPS: ");
         }
-
-        if (showLeftButton.getValue()) {
+        if (showLeftButton.value()) {
             builder.append(leftPresses.size());
         }
-
-        if (showLeftButton.getValue() && showRightButton.getValue()) {
+        if (showLeftButton.value() && showRightButton.value()) {
             builder.append(" | ");
         }
-
-        if (showRightButton.getValue()) {
+        if (showRightButton.value()) {
             builder.append(rightPresses.size());
         }
+
         return builder.toString();
     }
 }

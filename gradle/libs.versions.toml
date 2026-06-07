@@ -5,7 +5,6 @@ loader = "0.19.3"
 loom = "1.16-SNAPSHOT"
 fabric = "0.151.0+26.2"
 
-lombok = "1.18.42"
 gson = "2.13.2"
 
 [libraries]
@@ -13,7 +12,6 @@ minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 loader = { module = "net.fabricmc:fabric-loader", version.ref = "loader" }
 api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric" }
 
-lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 [plugins]

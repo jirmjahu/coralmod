@@ -34,17 +34,17 @@ public class NumberSettingWidget extends Widget {
         updateValue(mouseX);
 
         final Color baseGray = ModMenuScreen.BASE_GRAY;
-        final Theme theme = CoralMod.getInstance().getSelectedTheme();
+        final Theme theme = CoralMod.instance().selectedTheme();
 
-        final double renderWidth = (double) (width) * (setting.getValue() - setting.getMin()) / (setting.getMax() - setting.getMin());
+        final double renderWidth = (double) (width) * (setting.value() - setting.min()) / (setting.max() - setting.min());
 
         graphics.fillGradient(x, y, x + width, y + height, baseGray.getRGB(), baseGray.darker().getRGB());
         graphics.fillGradient(x,
                 y,
                 (int) (x + renderWidth),
                 y + height,
-                theme.getPrimaryColor().getRGB(),
-                theme.getSecondaryColor().getRGB()
+                theme.primaryColor().getRGB(),
+                theme.secondaryColor().getRGB()
         );
 
         if (hovered) {
@@ -54,14 +54,14 @@ public class NumberSettingWidget extends Widget {
         final Font font = Minecraft.getInstance().font;
         final int textY = y + (height - font.lineHeight) / 2;
 
-        graphics.text(font, setting.getName(), x + 5, textY, Color.WHITE.getRGB());
+        graphics.text(font, setting.name(), x + 5, textY, Color.WHITE.getRGB());
 
-        final String valueText = formatValue(setting.getValue()) + "/" + setting.getMax();
+        final String valueText = formatValue(setting.value()) + "/" + setting.max();
         graphics.text(font, valueText, x + width - 5 - font.width(valueText), textY, Color.WHITE.getRGB());
     }
 
     private String formatValue(double value) {
-        if (setting.getIncrement() < 1) {
+        if (setting.increment() < 1) {
             return String.format("%.2f", value);
         }
         return String.valueOf((int) value);
@@ -69,15 +69,15 @@ public class NumberSettingWidget extends Widget {
 
     private void updateValue(int mouseX) {
         if (sliding) {
-            final double diff = Math.min(width, Math.max(0, mouseX - x));
-            final double range = setting.getMax() - setting.getMin();
-            final double newValue = setting.getMin() + (diff / width) * range;
-            setting.setValue(roundToIncrement(Mth.clamp(newValue, setting.getMin(), setting.getMax())));
+            final double diff = Math.clamp(mouseX - x, 0, width);
+            final double range = setting.max() - setting.min();
+            final double newValue = setting.min() + (diff / width) * range;
+            setting.value(roundToIncrement(Mth.clamp(newValue, setting.min(), setting.max())));
         }
     }
 
     private double roundToIncrement(double value) {
-        double increment = setting.getIncrement();
+        final double increment = setting.increment();
         return Math.round(value / increment) * increment;
     }
 

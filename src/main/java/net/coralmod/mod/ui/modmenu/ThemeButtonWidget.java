@@ -56,8 +56,8 @@ public class ThemeButtonWidget extends Widget {
         final Font font = Minecraft.getInstance().font;
         graphics.text(
                 font,
-                theme.name(),
-                x + width / 2 - font.width(theme.name()) / 2,
+                theme.displayName(),
+                x + width / 2 - font.width(theme.displayName()) / 2,
                 y + height - (BORDER_THICKNESS * 2) - 10,
                 -1,
                 true

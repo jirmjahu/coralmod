@@ -1,4 +1,4 @@
-package net.coralmod.mod.ui.modmenu;
+package net.coralmod.mod.ui.screens.modmenu;
 
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.settings.BooleanSetting;
@@ -7,9 +7,9 @@ import net.coralmod.mod.module.settings.NumberSetting;
 import net.coralmod.mod.module.settings.Setting;
 import net.coralmod.mod.ui.Widget;
 import net.coralmod.mod.ui.Window;
-import net.coralmod.mod.ui.modmenu.setting.BooleanSettingWidget;
-import net.coralmod.mod.ui.modmenu.setting.ModeSettingWidget;
-import net.coralmod.mod.ui.modmenu.setting.NumberSettingWidget;
+import net.coralmod.mod.ui.screens.modmenu.setting.BooleanSettingWidget;
+import net.coralmod.mod.ui.screens.modmenu.setting.ModeSettingWidget;
+import net.coralmod.mod.ui.screens.modmenu.setting.NumberSettingWidget;
 import net.coralmod.mod.utils.ColorUtils;
 import net.coralmod.mod.utils.MouseUtils;
 import net.minecraft.client.Minecraft;

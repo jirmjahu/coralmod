@@ -1,4 +1,4 @@
-package net.coralmod.mod.ui.modmenu;
+package net.coralmod.mod.ui.screens.modmenu;
 
 import net.coralmod.mod.theme.Theme;
 import net.coralmod.mod.ui.Window;

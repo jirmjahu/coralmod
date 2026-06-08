@@ -1,9 +1,9 @@
-package net.coralmod.mod.ui.modmenu.setting;
+package net.coralmod.mod.ui.screens.modmenu.setting;
 
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.settings.ModeSetting;
 import net.coralmod.mod.ui.Widget;
-import net.coralmod.mod.ui.modmenu.ModMenuScreen;
+import net.coralmod.mod.ui.screens.modmenu.ModMenuScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

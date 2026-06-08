@@ -1,6 +1,6 @@
 package net.coralmod.mod.ui;
 
-import net.coralmod.mod.ui.modmenu.ModMenuScreen;
+import net.coralmod.mod.ui.screens.modmenu.ModMenuScreen;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 

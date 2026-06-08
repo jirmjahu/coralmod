@@ -1,8 +1,10 @@
-package net.coralmod.mod.ui.editor;
+package net.coralmod.mod.ui.screens.editor;
 
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.Module;
+import net.coralmod.mod.render.DrawContext;
+import net.coralmod.mod.render.impl.DefaultDrawContext;
 import net.coralmod.mod.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -43,6 +45,15 @@ public class EditHudScreen extends Screen {
                     : Color.WHITE;
 
             RenderUtils.outline(graphics, hud.x(), hud.y(), hud.x() + hud.width(), hud.y() + hud.height(), 1, outlineColor);
+
+
+            final DrawContext context = new DefaultDrawContext(graphics);
+
+            context.fonts().inter().draw("Abc", 100, 100, 2.0F, Color.WHITE);
+
+            context.fonts().cascadiaCode().draw("Abc", 100, 200, 8.5F, Color.WHITE);
+
+            context.shapes().roundedRect(100, 250, 50, 50, 10, Color.PINK);
         }
     }
 
@@ -113,7 +124,8 @@ public class EditHudScreen extends Screen {
     }
 
     @Override
-    protected void extractBlurredBackground(GuiGraphicsExtractor graphics) {}
+    protected void extractBlurredBackground(GuiGraphicsExtractor graphics) {
+    }
 
     @Override
     public boolean isPauseScreen() {

@@ -22,22 +22,22 @@ public class CustomFontRenderer implements FontRenderer {
     }
 
     @Override
-    public void draw(String text, float x, float y, Color color) {
+    public void draw(String text, int x, int y, Color color) {
         draw(text, x, y, color, true);
     }
 
     @Override
-    public void draw(String text, float x, float y, Color color, boolean shadow) {
+    public void draw(String text, int x, int y, Color color, boolean shadow) {
         draw(text, x, y, 1.0F, color, shadow);
     }
 
     @Override
-    public void draw(String text, float x, float y, float scale, Color color) {
+    public void draw(String text, int x, int y, float scale, Color color) {
         draw(text, x, y, scale, color, true);
     }
 
     @Override
-    public void draw(String text, float x, float y, float scale, Color color, boolean shadow) {
+    public void draw(String text, int x, int y, float scale, Color color, boolean shadow) {
         final Matrix3x2fStack stack = graphics.pose();
         stack.pushMatrix();
         stack.translate(x, y);

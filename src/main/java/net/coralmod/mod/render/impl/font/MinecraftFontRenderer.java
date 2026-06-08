@@ -16,24 +16,24 @@ public class MinecraftFontRenderer implements FontRenderer {
     }
 
     @Override
-    public void draw(String text, float x, float y, Color color) {
+    public void draw(String text, int x, int y, Color color) {
         draw(text, x, y, color, true);
     }
 
     @Override
-    public void draw(String text, float x, float y, Color color, boolean shadow) {
+    public void draw(String text, int x, int y, Color color, boolean shadow) {
         draw(text, x, y, 1.0F, color, shadow);
     }
 
     @Override
-    public void draw(String text, float x, float y, float scale, Color color) {
+    public void draw(String text, int x, int y, float scale, Color color) {
         draw(text, x, y, scale, color, true);
     }
 
     @Override
-    public void draw(String text, float x, float y, float scale, Color color, boolean shadow) {
+    public void draw(String text, int x, int y, float scale, Color color, boolean shadow) {
         if (scale == 1.0F) {
-            graphics.text(Minecraft.getInstance().font, text, (int) x, (int) y, color.getRGB(), shadow);
+            graphics.text(Minecraft.getInstance().font, text, x, y, color.getRGB(), shadow);
             return;
         }
 

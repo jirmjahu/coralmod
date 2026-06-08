@@ -17,12 +17,12 @@ public class DefaultTextureRenderer implements TextureRenderer {
     }
 
     @Override
-    public void draw(Identifier texture, float x, float y, int width, int height) {
-        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, (int) x, (int) y, 0.0F, 0, width, height, width, height, -1);
+    public void draw(Identifier texture, int x, int y, int width, int height) {
+        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, x, y, 0.0F, 0, width, height, width, height, -1);
     }
 
     @Override
-    public void item(Item item, float x, float y, float scale) {
+    public void item(Item item, int x, int y, float scale) {
         final Matrix3x2fStack stack = graphics.pose();
         final float itemSize = 16 * scale;
 

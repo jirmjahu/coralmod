@@ -2,7 +2,6 @@ package net.coralmod.mod.render.impl.shape;
 
 import net.coralmod.mod.render.ShapeRenderer;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import org.joml.Vector4f;
 
 import java.awt.*;
 
@@ -15,26 +14,25 @@ public class DefaultShapeRenderer implements ShapeRenderer {
     }
 
     @Override
-    public void rect(float x, float y, float width, float height, Color color) {
-        graphics.fill(Math.round(x), Math.round(y), Math.round(x + width), Math.round(y + height), color.getRGB());
+    public void rect(int x, int y, float width, float height, Color color) {
+        graphics.fill(x, y, Math.round(x + width), Math.round(y + height), color.getRGB());
     }
 
     @Override
-    public void rectGradient(float x, float y, float width, float height, Color top, Color bottom) {
-        graphics.fillGradient(Math.round(x), Math.round(y), Math.round(x + width), Math.round(y + height), top.getRGB(), bottom.getRGB());
+    public void rectGradient(int x, int y, float width, float height, Color top, Color bottom) {
+        graphics.fillGradient(x, y, Math.round(x + width), Math.round(y + height), top.getRGB(), bottom.getRGB());
     }
 
     @Override
-    public void outline(float x, float y, float width, float height, int thickness, Color color) {
-        int x1 = Math.round(x), y1 = Math.round(y), x2 = Math.round(x + width), y2 = Math.round(y + height);
-        graphics.fill(x1, y1, x2, y1 + thickness, color.getRGB());
-        graphics.fill(x1, y2 - thickness, x2, y2, color.getRGB());
-        graphics.fill(x1, y1 + thickness, x1 + thickness, y2 - thickness, color.getRGB());
-        graphics.fill(x2 - thickness, y1 + thickness, x2, y2 - thickness, color.getRGB());
+    public void outline(int x, int y, int x2, int y2, int size, Color color) {
+        graphics.fill(x, y, x2, y + size, color.getRGB());
+        graphics.fill(x, y2 - size, x2, y2, color.getRGB());
+        graphics.fill(x, y + size, x + size, y2 - size, color.getRGB());
+        graphics.fill(x2 - size, y + size, x2, y2 - size, color.getRGB());
     }
 
     @Override
-    public void roundedRect(float x, float y, float width, float height, float radius, Color color) {
+    public void roundedRect(int x, int y, float width, float height, float radius, Color color) {
         RoundedRectRenderer.render(graphics, x, y, width, height, radius, color);
     }
 }

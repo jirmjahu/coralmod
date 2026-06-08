@@ -4,13 +4,13 @@ import java.awt.Color;
 
 public interface FontRenderer {
 
-    void draw(String text, float x, float y, Color color);
+    void draw(String text, int x, int y, Color color);
 
-    void draw(String text, float x, float y, Color color, boolean shadow);
+    void draw(String text, int x, int y, Color color, boolean shadow);
 
-    void draw(String text, float x, float y, float scale, Color color);
+    void draw(String text, int x, int y, float scale, Color color);
 
-    void draw(String text, float x, float y, float scale, Color color, boolean shadow);
+    void draw(String text, int x, int y, float scale, Color color, boolean shadow);
 
     float width(String text, float scale);
 

@@ -31,7 +31,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
         }
 
         final Minecraft mc = Minecraft.getInstance();
-        if (mc.player != null && entity.getId() != mc.player.getId()) {
+        if (mc.player != null && entity.getId() == mc.player.getId()) {
             info.setReturnValue(true);
         }
     }

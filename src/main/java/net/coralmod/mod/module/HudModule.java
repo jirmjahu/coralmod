@@ -1,6 +1,8 @@
 package net.coralmod.mod.module;
 
 import net.coralmod.mod.module.settings.BooleanSetting;
+import net.coralmod.mod.render.DrawContext;
+import net.coralmod.mod.render.FontRenderer;
 import net.coralmod.mod.utils.MouseUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -24,30 +26,31 @@ public abstract class HudModule extends Module {
         addSettings(background, brackets, textShadow);
     }
 
-    public void render(GuiGraphicsExtractor graphics, Font font) {
+    public void render(DrawContext context) {
         final String text = brackets.value() ? "[" + getText() + "]" : getText();
+        final FontRenderer font = context.fonts().cascadiaCode();
 
         final int textWidth = font.width(text);
-        final int textHeight = font.lineHeight;
+        final int textHeight = font.height();
         final int padding = background.value() ? 4 : 0;
 
         width = textWidth + padding * 2;
         height = textHeight + padding * 2;
 
         if (background.value()) {
-            graphics.fill(
+            context.shapes().rect(
                     x,
                     y,
                     x + width,
                     y + height,
-                    new Color(0, 0, 0, 140).getRGB()
+                    new Color(0, 0, 0, 140)
             );
         }
 
         final int textX = x + (width - textWidth) / 2;
         final int textY = y + (height - textHeight) / 2 + 1;
 
-        graphics.text(font, text, textX, textY, -1, textShadow.value());
+        font.draw(text, textX, textY, Color.WHITE, textShadow.value());
     }
 
     public abstract String getText();

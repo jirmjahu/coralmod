@@ -65,12 +65,12 @@ public class CustomFontRenderer implements FontRenderer {
     }
 
     @Override
-    public float width(String text, float scale) {
-        return Minecraft.getInstance().font.width(Component.literal(text).withStyle(fontStyle)) * scale;
+    public int width(String text, float scale) {
+        return (int) (Minecraft.getInstance().font.width(Component.literal(text).withStyle(fontStyle)) * scale);
     }
 
     @Override
-    public float height(float scale) {
-        return 1 * scale;
+    public int height(float scale) {
+        return (int) (1 * scale);
     }
 }

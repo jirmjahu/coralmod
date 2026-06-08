@@ -38,7 +38,7 @@ public class EditHudScreen extends Screen {
                 continue;
             }
 
-            hud.render(graphics, font);
+            hud.render(new DefaultDrawContext(graphics));
 
             final Color outlineColor = hud == selectedModule
                     ? CoralMod.instance().selectedTheme().primaryColor().brighter()

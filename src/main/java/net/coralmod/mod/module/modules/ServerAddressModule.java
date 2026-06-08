@@ -4,11 +4,10 @@ import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
 import net.coralmod.mod.module.settings.NumberSetting;
-import net.coralmod.mod.utils.RenderUtils;
+import net.coralmod.mod.render.DrawContext;
+import net.coralmod.mod.render.FontRenderer;
 import net.coralmod.mod.utils.ServerUtils;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 
 import java.awt.*;
@@ -39,11 +38,13 @@ public class ServerAddressModule extends HudModule {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, Font font) {
+    public void render(DrawContext context) {
         final String text = brackets.value() ? "[" + getText() + "]" : getText();
 
+        final FontRenderer font = context.fonts().minecraft();
+
         final int textWidth = font.width(text);
-        final int textHeight = font.lineHeight;
+        final int textHeight = font.height();
 
         final int padding = background.value() ? 2 : 0;
         final int iconSize = showServerIcon.value() && currentServerIcon != null ? this.serverIconSize.value().intValue() : 0;
@@ -52,12 +53,12 @@ public class ServerAddressModule extends HudModule {
         height(Math.max(iconSize, textHeight) + padding * 2);
 
         if (background.value()) {
-            graphics.fill(
+            context.shapes().rect(
                     x(),
                     y(),
                     x() + width(),
                     y() + height(),
-                    new Color(0, 0, 0, 140).getRGB()
+                    new Color(0, 0, 0, 140)
             );
         }
 
@@ -65,13 +66,13 @@ public class ServerAddressModule extends HudModule {
             final int iconX = x() + padding;
             final int iconY = y() + padding + (height() - padding * 2 - iconSize) / 2;
 
-            RenderUtils.drawTexture(graphics, currentServerIcon, iconX, iconY, iconSize);
+            context.textures().draw(currentServerIcon, iconX, iconY, iconSize, iconSize);
         }
 
         final int textX = x() + padding + iconSize + (showServerIcon.value() ? 4 : 0);
         final int textY = y() + padding + (height() - padding * 2 - textHeight) / 2;
 
-        graphics.text(font, text, textX, textY + 1, -1, textShadow.value());
+        context.fonts().minecraft().draw(text, textX, textY + 1, Color.WHITE, textShadow.value());
     }
 
     @Override

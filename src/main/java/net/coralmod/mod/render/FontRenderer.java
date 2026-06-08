@@ -12,8 +12,15 @@ public interface FontRenderer {
 
     void draw(String text, int x, int y, float scale, Color color, boolean shadow);
 
-    float width(String text, float scale);
+    int width(String text, float scale);
 
-    float height(float scale);
+    int height(float scale);
 
+    default int width(String text) {
+        return width(text, 1.0F);
+    }
+
+    default int height() {
+        return height(1.0F);
+    }
 }

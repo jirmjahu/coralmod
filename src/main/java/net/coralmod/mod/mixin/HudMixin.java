@@ -3,6 +3,7 @@ package net.coralmod.mod.mixin;
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.modules.ScoreboardModule;
+import net.coralmod.mod.render.impl.DefaultDrawContext;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -26,7 +27,7 @@ public abstract class HudMixin {
     private void onRender(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo info) {
         for (HudModule hudModule : CoralMod.instance().moduleManager().hudModules()) {
             if (hudModule.enabled()) {
-                hudModule.render(graphics, getFont());
+                hudModule.render(new DefaultDrawContext(graphics));
             }
         }
     }

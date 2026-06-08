@@ -46,12 +46,12 @@ public class MinecraftFontRenderer implements FontRenderer {
     }
 
     @Override
-    public float width(String text, float scale) {
-        return Minecraft.getInstance().font.width(text) * scale;
+    public int width(String text, float scale) {
+        return (int) (Minecraft.getInstance().font.width(text) * scale);
     }
 
     @Override
-    public float height(float scale) {
-        return Minecraft.getInstance().font.lineHeight * scale;
+    public int height(float scale) {
+        return (int) (Minecraft.getInstance().font.lineHeight * scale);
     }
 }

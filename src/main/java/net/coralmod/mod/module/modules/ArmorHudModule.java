@@ -3,8 +3,8 @@ package net.coralmod.mod.module.modules;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.coralmod.mod.render.DrawContext;
+import net.coralmod.mod.render.FontRenderer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
@@ -29,10 +29,12 @@ public class ArmorHudModule extends HudModule {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, Font font) {
+    public void render(DrawContext context) {
         if (mc.player == null) {
             return;
         }
+
+        final FontRenderer font = context.fonts().minecraft();
 
         final List<ItemStack> armor = Arrays.stream(EquipmentSlot.values())
                 .filter(slot -> slot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR)
@@ -43,7 +45,7 @@ public class ArmorHudModule extends HudModule {
         final int padding = background.value() ? BACKGROUND_PADDING : 0;
 
         final int maxTextWidth = armor.stream()
-                .filter(itemStack -> showDurability.value())
+                .filter(_ -> showDurability.value())
                 .mapToInt(itemStack -> font.width(getDurabilityText(itemStack)))
                 .max()
                 .orElse(0);
@@ -53,15 +55,15 @@ public class ArmorHudModule extends HudModule {
         height(armor.size() * (ITEM_SIZE + ITEM_PADDING) - ITEM_PADDING + padding * 2);
 
         if (background.value()) {
-            graphics.fill(x(), y(), x() + width(), y() + height(), new Color(0, 0, 0, 150).getRGB());
+            context.shapes().rect(x(), y(), x() + width(), y() + height(), new Color(0, 0, 0, 150));
         }
 
         int offset = padding;
         for (ItemStack stack : armor.reversed()) {
-            graphics.item(stack, x() + padding, y() + offset);
+            context.textures().item(stack.getItem(), x() + padding, y() + offset, 1.0F);
 
             if (showDurability.value()) {
-                graphics.text(font, getDurabilityText(stack), x() + ITEM_SIZE + padding + 2, y() + offset + 5, -1, textShadow.value());
+                font.draw(getDurabilityText(stack), x() + ITEM_SIZE + padding + 2, y() + offset + 5, Color.WHITE, textShadow.value());
             }
 
             offset += ITEM_SIZE + ITEM_PADDING;

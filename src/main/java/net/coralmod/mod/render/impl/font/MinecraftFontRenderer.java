@@ -3,6 +3,7 @@ package net.coralmod.mod.render.impl.font;
 import net.coralmod.mod.render.FontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import org.joml.Matrix3x2fStack;
 
 import java.awt.*;
 
@@ -21,16 +22,36 @@ public class MinecraftFontRenderer implements FontRenderer {
 
     @Override
     public void draw(String text, float x, float y, Color color, boolean shadow) {
-        graphics.text(Minecraft.getInstance().font, text, (int) x, (int) y, color.getRGB(), shadow);
+        draw(text, x, y, 1.0F, color, shadow);
     }
 
     @Override
-    public float width(String text) {
-        return Minecraft.getInstance().font.width(text);
+    public void draw(String text, float x, float y, float scale, Color color) {
+        draw(text, x, y, scale, color, true);
     }
 
     @Override
-    public float height() {
-        return Minecraft.getInstance().font.lineHeight;
+    public void draw(String text, float x, float y, float scale, Color color, boolean shadow) {
+        if (scale == 1.0F) {
+            graphics.text(Minecraft.getInstance().font, text, (int) x, (int) y, color.getRGB(), shadow);
+            return;
+        }
+
+        final Matrix3x2fStack stack = graphics.pose();
+        stack.pushMatrix();
+        stack.translate(x, y);
+        stack.scale(scale, scale);
+        graphics.text(Minecraft.getInstance().font, text, 0, 0, color.getRGB(), shadow);
+        stack.popMatrix();
+    }
+
+    @Override
+    public float width(String text, float scale) {
+        return Minecraft.getInstance().font.width(text) * scale;
+    }
+
+    @Override
+    public float height(float scale) {
+        return Minecraft.getInstance().font.lineHeight * scale;
     }
 }

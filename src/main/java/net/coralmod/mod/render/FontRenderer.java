@@ -8,8 +8,12 @@ public interface FontRenderer {
 
     void draw(String text, float x, float y, Color color, boolean shadow);
 
-    float width(String text);
+    void draw(String text, float x, float y, float scale, Color color);
 
-    float height();
+    void draw(String text, float x, float y, float scale, Color color, boolean shadow);
+
+    float width(String text, float scale);
+
+    float height(float scale);
 
 }

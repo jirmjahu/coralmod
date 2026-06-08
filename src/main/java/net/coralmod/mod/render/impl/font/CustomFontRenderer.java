@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
+import org.joml.Matrix3x2fStack;
 
 import java.awt.Color;
 
@@ -27,12 +28,26 @@ public class CustomFontRenderer implements FontRenderer {
 
     @Override
     public void draw(String text, float x, float y, Color color, boolean shadow) {
+        draw(text, x, y, 1.0F, color, shadow);
+    }
+
+    @Override
+    public void draw(String text, float x, float y, float scale, Color color) {
+        draw(text, x, y, scale, color, true);
+    }
+
+    @Override
+    public void draw(String text, float x, float y, float scale, Color color, boolean shadow) {
+        final Matrix3x2fStack stack = graphics.pose();
+        stack.pushMatrix();
+        stack.translate(x, y);
+        stack.scale(scale, scale);
+
         if (shadow) {
             graphics.text(
                     Minecraft.getInstance().font,
                     Component.literal(text).withStyle(fontStyle),
-                    (int) x + 1,
-                    (int) y + 1,
+                    1, 1,
                     Color.BLACK.getRGB(),
                     false
             );
@@ -41,20 +56,21 @@ public class CustomFontRenderer implements FontRenderer {
         graphics.text(
                 Minecraft.getInstance().font,
                 Component.literal(text).withStyle(fontStyle),
-                (int) x,
-                (int) y,
+                0, 0,
                 color.getRGB(),
                 false
         );
+
+        stack.popMatrix();
     }
 
     @Override
-    public float width(String text) {
-        return Minecraft.getInstance().font.width(Component.literal(text).withStyle(fontStyle));
+    public float width(String text, float scale) {
+        return Minecraft.getInstance().font.width(Component.literal(text).withStyle(fontStyle)) * scale;
     }
 
     @Override
-    public float height() {
-        return 0; // todo
+    public float height(float scale) {
+        return 1 * scale;
     }
 }

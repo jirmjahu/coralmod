@@ -3,8 +3,8 @@
     {
       "type": "ttf",
       "file": "coralmod:inter_18pt-semibold.ttf",
-      "size": 16.0,
-      "oversample": 16.0,
+      "size": 10.0,
+      "oversample": 32.0,
       "shift": [0, 0],
       "skip": ""
     }

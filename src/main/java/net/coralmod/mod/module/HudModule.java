@@ -28,7 +28,7 @@ public abstract class HudModule extends Module {
 
     public void render(DrawContext context) {
         final String text = brackets.value() ? "[" + getText() + "]" : getText();
-        final FontRenderer font = context.fonts().cascadiaCode();
+        final FontRenderer font = context.fonts().minecraft();
 
         final int textWidth = font.width(text);
         final int textHeight = font.height();

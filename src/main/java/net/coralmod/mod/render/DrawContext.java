@@ -8,4 +8,8 @@ public interface DrawContext {
 
     TextureRenderer textures();
 
+    void enableScissor(int x, int y, int x1, int y1);
+
+    void disableScissor();
+
 }

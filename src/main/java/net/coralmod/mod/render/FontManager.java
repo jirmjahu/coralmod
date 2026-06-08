@@ -6,4 +6,8 @@ public interface FontManager {
 
     FontRenderer minecraft();
 
+    FontRenderer inter();
+
+    FontRenderer cascadiaCode();
+
 }

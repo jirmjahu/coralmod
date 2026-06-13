@@ -11,6 +11,7 @@ public class Module {
 
     private final String name;
     private final String description;
+    private final ModuleCategory category;
     private boolean enabled;
     private final List<Setting<?>> settings = new ArrayList<>();
     protected final Minecraft mc = Minecraft.getInstance();
@@ -24,6 +25,7 @@ public class Module {
 
         this.name = info.name();
         this.description = info.description();
+        this.category = info.category();
     }
 
     public void onEnable() {}
@@ -46,6 +48,10 @@ public class Module {
 
     public String description() {
         return description;
+    }
+
+    public ModuleCategory category() {
+        return category;
     }
 
     public boolean enabled() {

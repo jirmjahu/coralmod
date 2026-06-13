@@ -1,5 +1,6 @@
 package net.coralmod.mod.module.modules;
 
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
@@ -12,7 +13,7 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-@ModuleInfo(name = "ArmorHud", description = "Displays armor with durability")
+@ModuleInfo(name = "ArmorHud", description = "Displays armor with durability", category = ModuleCategory.HUD)
 public class ArmorHudModule extends HudModule {
 
     private static final int ITEM_SIZE = 16;

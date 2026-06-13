@@ -1,6 +1,7 @@
 package net.coralmod.mod.module.modules;
 
 import net.coralmod.mod.event.AddChatMessageEvent;
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
@@ -11,7 +12,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 import java.util.List;
 
-@ModuleInfo(name = "AutoGG", description = "Automatically sends GG at the end of a round")
+@ModuleInfo(name = "AutoGG", description = "Automatically sends GG at the end of a round", category = ModuleCategory.MISC)
 public class AutoGGModule extends Module {
 
     private static final long DELAY_MS = 1000;

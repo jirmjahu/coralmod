@@ -13,4 +13,6 @@ public @interface ModuleInfo {
 
     String description() default "";
 
+    ModuleCategory category() default ModuleCategory.MISC;
+
 }

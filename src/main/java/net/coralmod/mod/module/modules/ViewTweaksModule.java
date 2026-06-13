@@ -1,10 +1,11 @@
 package net.coralmod.mod.module.modules;
 
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
 
-@ModuleInfo(name = "View Tweaks", description = "Several tweaks for the view")
+@ModuleInfo(name = "View Tweaks", description = "Several tweaks for the view", category = ModuleCategory.RENDER)
 public class ViewTweaksModule extends Module {
 
     private final BooleanSetting lowerShield = new BooleanSetting("Lower Shield", true);

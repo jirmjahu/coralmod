@@ -1,5 +1,6 @@
 package net.coralmod.mod.module.modules;
 
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
@@ -12,7 +13,7 @@ import net.minecraft.resources.Identifier;
 
 import java.awt.*;
 
-@ModuleInfo(name = "Server Address", description = "Displays the server address")
+@ModuleInfo(name = "Server Address", description = "Displays the server address", category = ModuleCategory.HUD)
 public class ServerAddressModule extends HudModule {
 
     private Identifier currentServerIcon;

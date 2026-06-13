@@ -1,10 +1,11 @@
 package net.coralmod.mod.module.modules;
 
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
 
-@ModuleInfo(name = "Nametags", description = "Modify nametags")
+@ModuleInfo(name = "Nametags", description = "Modify nametags", category = ModuleCategory.RENDER)
 public class NametagsModule extends Module {
 
     private final BooleanSetting nametagInPerspective = new BooleanSetting("Nametag in Perspective", true);

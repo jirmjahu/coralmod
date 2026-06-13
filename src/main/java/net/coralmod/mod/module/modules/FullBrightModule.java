@@ -1,11 +1,12 @@
 package net.coralmod.mod.module.modules;
 
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.ModuleInfo;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.OptionInstance;
 
-@ModuleInfo(name = "FullBright", description = "Makes everything bright")
+@ModuleInfo(name = "FullBright", description = "Makes everything bright", category = ModuleCategory.RENDER)
 public class FullBrightModule extends Module {
 
     private double oldGamma = -1;

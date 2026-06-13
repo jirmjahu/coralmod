@@ -1,10 +1,11 @@
 package net.coralmod.mod.module.modules;
 
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.minecraft.client.multiplayer.PlayerInfo;
 
-@ModuleInfo(name = "Ping", description = "Displays your Ping")
+@ModuleInfo(name = "Ping", description = "Displays your Ping", category = ModuleCategory.HUD)
 public class PingModule extends HudModule {
 
     public PingModule() {

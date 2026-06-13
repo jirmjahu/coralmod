@@ -1,5 +1,6 @@
 package net.coralmod.mod.module.modules;
 
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-@ModuleInfo(name = "Clock", description = "Displays the current time")
+@ModuleInfo(name = "Clock", description = "Displays the current time", category = ModuleCategory.HUD)
 public class ClockModule extends HudModule {
 
     private final BooleanSetting use24HourFormat = new BooleanSetting("24-Hour Format", true);

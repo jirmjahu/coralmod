@@ -1,6 +1,7 @@
 package net.coralmod.mod.module.modules;
 
 import net.coralmod.mod.event.MouseButtonClickedEvent;
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
@@ -10,7 +11,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleInfo(name = "CPS", description = "Shows your CPS")
+@ModuleInfo(name = "CPS", description = "Shows your CPS", category = ModuleCategory.HUD)
 public class CPSModule extends HudModule {
 
     private final BooleanSetting showCpsText = new BooleanSetting("Show CPS Text", true);

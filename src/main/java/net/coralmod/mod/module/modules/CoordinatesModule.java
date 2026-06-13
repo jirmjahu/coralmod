@@ -1,9 +1,10 @@
 package net.coralmod.mod.module.modules;
 
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 
-@ModuleInfo(name = "Coordinates", description = "Shows your coordinates")
+@ModuleInfo(name = "Coordinates", description = "Shows your coordinates", category = ModuleCategory.HUD)
 public class CoordinatesModule extends HudModule {
 
     public CoordinatesModule() {

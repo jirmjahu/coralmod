@@ -1,10 +1,11 @@
 package net.coralmod.mod.module.modules;
 
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
 
-@ModuleInfo(name = "Scoreboard", description = "Customize your scoreboard")
+@ModuleInfo(name = "Scoreboard", description = "Customize your scoreboard", category = ModuleCategory.RENDER)
 public class ScoreboardModule extends Module {
 
     private final BooleanSetting enableScoreboard = new BooleanSetting("Enable Scoreboard", true);

@@ -1,10 +1,11 @@
 package net.coralmod.mod.module.modules;
 
+import net.coralmod.mod.module.ModuleCategory;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.minecraft.client.Minecraft;
 
-@ModuleInfo(name = "FPS", description = "Displays your FPS")
+@ModuleInfo(name = "FPS", description = "Displays your FPS", category = ModuleCategory.HUD)
 public class FpsModule extends HudModule {
 
     public FpsModule() {

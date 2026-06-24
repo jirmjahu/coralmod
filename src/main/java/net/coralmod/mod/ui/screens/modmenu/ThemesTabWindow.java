@@ -13,21 +13,19 @@ public class ThemesTabWindow extends Window {
 
     @Override
     public void init() {
-        super.init();
-
         GridUtil.layoutGrid(
                 Arrays.stream(Theme.values()).toList(),
                 x,
                 y,
-                (theme, pos) -> {
-                    addWidget(new ThemeButtonWidget(
-                            theme,
-                            pos.x(),
-                            pos.y(),
-                            pos.width(),
-                            pos.height()
-                    ));
-                }
+                (theme, pos) -> addWidget(new ThemeButtonWidget(
+                        theme,
+                        pos.x(),
+                        pos.y(),
+                        pos.width(),
+                        pos.height()
+                ))
         );
+
+        super.init();
     }
 }

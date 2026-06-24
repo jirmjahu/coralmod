@@ -1,5 +1,6 @@
 package net.coralmod.mod.ui;
 
+import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.render.DrawContext;
 import net.coralmod.mod.ui.screens.modmenu.ModMenuScreen;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -49,13 +50,13 @@ public class Window {
         context.disableScissor();
 
         if (maxScroll > 10) {
-            final int barWidth = 2;
+            final int barWidth = 3;
             final int barX = x + width - barWidth - 2;
             final int barHeight = (int) ((float) contentHeight / (contentHeight + maxScroll) * contentHeight);
             final int barY = contentY + (int) ((float) scrollOffset / maxScroll * (contentHeight - barHeight));
 
-            context.shapes().rect(barX, contentY, barX + barWidth, contentY + contentHeight, ModMenuScreen.BASE_GRAY.darker());
-            context.shapes().rect(barX, barY, barX + barWidth, barY + barHeight, Color.GRAY);
+            context.shapes().roundedRect(barX, contentY, barWidth, contentHeight, 2, ModMenuScreen.BASE_GRAY);
+            context.shapes().roundedRect(barX, barY, barWidth, barHeight, 2, CoralMod.instance().selectedTheme().secondaryColor());
         }
     }
 

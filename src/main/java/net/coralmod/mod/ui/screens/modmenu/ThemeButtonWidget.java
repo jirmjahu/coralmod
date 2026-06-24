@@ -26,7 +26,7 @@ public class ThemeButtonWidget extends Widget {
     public void render(DrawContext context, int mouseX, int mouseY, int scrollOffset) {
         super.render(context, mouseX, mouseY, scrollOffset);
 
-        final int renderY = y - scrollOffset + 4;
+        final int renderY = y - scrollOffset;
         final Color themeColor = theme.primaryColor();
 
         Color borderColor = themeColor;
@@ -38,19 +38,19 @@ public class ThemeButtonWidget extends Widget {
         }
 
         context.shapes().roundedRect(
-                x + 2,
-                renderY + 2,
-                width - 4,
-                height - 4,
+                x,
+                renderY,
+                width,
+                height,
                 6,
                 borderColor
         );
 
         context.shapes().roundedRect(
-                x + 2 + BORDER_THICKNESS,
-                renderY + 2 + BORDER_THICKNESS,
-                width - 4 - BORDER_THICKNESS * 2,
-                height - 4 - BORDER_THICKNESS * 2,
+                x + BORDER_THICKNESS,
+                renderY + BORDER_THICKNESS,
+                width - BORDER_THICKNESS * 2,
+                height - BORDER_THICKNESS * 2,
                 4,
                 backgroundColor
         );

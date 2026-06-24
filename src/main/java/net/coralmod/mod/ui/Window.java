@@ -33,16 +33,16 @@ public class Window {
     public void init() {
         for (Widget widget : widgets) {
             widget.init();
-            maxScroll = Math.max(maxScroll, (widget.y + widget.height) - (y + height));
+            maxScroll = Math.max(maxScroll, (widget.y + widget.height) - (y + height - ModMenuScreen.PADDING));
         }
-        maxScroll = Math.max(0, maxScroll + 10);
+        maxScroll = Math.max(0, maxScroll);
     }
 
     public void render(DrawContext context, int mouseX, int mouseY) {
-        final int contentY = y + ModMenuScreen.BUTTON_TOP_MARGIN;
-        final int contentHeight = height - ModMenuScreen.BUTTON_TOP_MARGIN;
+        final int contentY = y + ModMenuScreen.PADDING;
+        final int contentHeight = height - 2 * ModMenuScreen.PADDING;
 
-        context.enableScissor(x, contentY, x + width, y + height);
+        context.enableScissor(x, contentY, x + width, y + height - ModMenuScreen.PADDING);
         for (Widget widget : widgets) {
             widget.render(context, mouseX, mouseY, scrollOffset);
         }

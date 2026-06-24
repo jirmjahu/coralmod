@@ -30,7 +30,7 @@ public class ModuleButtonWidget extends Widget {
     public void render(DrawContext context, int mouseX, int mouseY, int scrollOffset) {
         super.render(context, mouseX, mouseY, scrollOffset);
 
-        final int renderY = y - scrollOffset + 4;
+        final int renderY = y - scrollOffset;
         final Theme theme = CoralMod.instance().selectedTheme();
         final Color baseGray = ModMenuScreen.BASE_GRAY;
 
@@ -46,10 +46,10 @@ public class ModuleButtonWidget extends Widget {
         }
 
         context.shapes().roundedRect(
-                x + 2,
-                renderY + 2,
-                width - 2 * 2,
-                height - 2 * 2,
+                x,
+                renderY,
+                width,
+                height,
                 6,
                 backgroundColor
         );
@@ -69,7 +69,7 @@ public class ModuleButtonWidget extends Widget {
         final int tagHeight = font.height(TAG_SCALE) + TAG_PADDING_Y * 2;
 
         final int contentHeight = nameHeight + 4 + tagHeight;
-        final int contentY = renderY + (height - contentHeight) / 2 + 2;
+        final int contentY = renderY + (height - contentHeight) / 2;
 
         final int textX = x + iconSize + margin * 2;
 

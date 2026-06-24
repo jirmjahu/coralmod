@@ -10,22 +10,31 @@ public final class GridUtil {
     }
 
     public static <T> void layoutGrid(Iterable<T> elements, int x, int y, BiConsumer<T, Position> consumer) {
-        final int totalSpacing = (ModMenuScreen.BUTTONS_PER_ROW - 1) * ModMenuScreen.BUTTON_SPACING;
-        final int buttonWidth = (ModMenuScreen.MENU_WIDTH - 2 * ModMenuScreen.BUTTON_SPACING - totalSpacing) / ModMenuScreen.BUTTONS_PER_ROW;
-        final int totalButtonsWidth = ModMenuScreen.BUTTONS_PER_ROW * buttonWidth + totalSpacing;
-        final int startX = x + (ModMenuScreen.MENU_WIDTH - totalButtonsWidth) / 2;
+        final int startX = x + ModMenuScreen.PADDING;
+        final int usableWidth = ModMenuScreen.MENU_WIDTH - 2 * ModMenuScreen.PADDING - (ModMenuScreen.BUTTONS_PER_ROW - 1) * ModMenuScreen.PADDING;
+        final int buttonWidth = usableWidth / ModMenuScreen.BUTTONS_PER_ROW;
+        final int leftoverPixels = usableWidth % ModMenuScreen.BUTTONS_PER_ROW;
 
-        int buttonX = startX;
-        int buttonY = y;
+        int currentX = startX;
+        int currentY = y + ModMenuScreen.PADDING;
+        int column = 0;
 
         for (T element : elements) {
-            consumer.accept(element, new Position(buttonX, buttonY, buttonWidth, ModMenuScreen.BUTTON_HEIGHT));
+            int width = buttonWidth;
 
-            buttonX += buttonWidth + ModMenuScreen.BUTTON_SPACING;
+            if (column < leftoverPixels) {
+                width++;
+            }
 
-            if (buttonX + buttonWidth > startX + totalButtonsWidth) {
-                buttonX = startX;
-                buttonY += ModMenuScreen.BUTTON_HEIGHT + ModMenuScreen.BUTTON_SPACING;
+            consumer.accept(element, new Position(currentX, currentY, width, ModMenuScreen.BUTTON_HEIGHT));
+
+            currentX += width + ModMenuScreen.PADDING;
+            column++;
+
+            if (column == ModMenuScreen.BUTTONS_PER_ROW) {
+                column = 0;
+                currentX = startX;
+                currentY += ModMenuScreen.BUTTON_HEIGHT + ModMenuScreen.PADDING;
             }
         }
     }

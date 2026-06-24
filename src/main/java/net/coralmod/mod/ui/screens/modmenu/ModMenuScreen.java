@@ -25,9 +25,8 @@ public class ModMenuScreen extends CoralScreen {
     private static final int SIDEBAR_BUTTON_MARGIN = 5;
 
     public static final int BUTTONS_PER_ROW = 3;
-    public static final int BUTTON_SPACING = 10;
     public static final int BUTTON_HEIGHT = 50;
-    public static final int BUTTON_TOP_MARGIN = 5;
+    public static final int PADDING = 8;
 
     public static final Color HOVER_COLOR = new Color(255, 255, 255, 30);
     public static final Color BASE_GRAY = new Color(20, 20, 20);

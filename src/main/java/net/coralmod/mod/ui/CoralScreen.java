@@ -58,11 +58,6 @@ public class CoralScreen extends Screen {
     }
 
     @Override
-    protected void extractBlurredBackground(@NonNull GuiGraphicsExtractor graphics) {
-        super.extractBlurredBackground(graphics);
-    }
-
-    @Override
     public boolean isPauseScreen() {
         return false;
     }

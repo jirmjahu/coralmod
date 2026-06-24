@@ -4,20 +4,17 @@ import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.render.DrawContext;
-import net.coralmod.mod.render.impl.DefaultDrawContext;
-import net.coralmod.mod.utils.RenderUtils;
+import net.coralmod.mod.ui.CoralScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
+import org.jspecify.annotations.NonNull;
 import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 
-public class EditHudScreen extends Screen {
-
-    public static final EditHudScreen INSTANCE = new EditHudScreen();
+public class EditHudScreen extends CoralScreen {
 
     private final Minecraft mc = Minecraft.getInstance();
 
@@ -25,40 +22,29 @@ public class EditHudScreen extends Screen {
     private int offsetX;
     private int offsetY;
 
-    protected EditHudScreen() {
+    public EditHudScreen() {
         super(Component.literal("Edit HUD"));
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
-        super.extractRenderState(graphics, mouseX, mouseY, a);
-
+    protected void render(DrawContext context, int mouseX, int mouseY) {
         for (HudModule hud : CoralMod.instance().moduleManager().hudModules()) {
             if (!hud.enabled()) {
                 continue;
             }
 
-            hud.render(new DefaultDrawContext(graphics));
+            hud.render(context);
 
             final Color outlineColor = hud == selectedModule
                     ? CoralMod.instance().selectedTheme().primaryColor().brighter()
                     : Color.WHITE;
 
-            RenderUtils.outline(graphics, hud.x(), hud.y(), hud.x() + hud.width(), hud.y() + hud.height(), 1, outlineColor);
-
-
-            final DrawContext context = new DefaultDrawContext(graphics);
-
-            context.fonts().inter().draw("Abc", 100, 100, 2.0F, Color.WHITE);
-
-            context.fonts().cascadiaCode().draw("Abc", 100, 200, 8.5F, Color.WHITE);
-
-            context.shapes().roundedRect(100, 250, 50, 50, 10, Color.PINK);
+            context.shapes().outline(hud.x(), hud.y(), hud.x() + hud.width(), hud.y() + hud.height(), 1, outlineColor);
         }
     }
 
     @Override
-    public boolean mouseClicked(MouseButtonEvent event, boolean bl) {
+    public boolean mouseClicked(@NonNull MouseButtonEvent event, boolean b) {
         if (event.button() == 0) {
             final HudModule module = moduleAt((int) event.x(), (int) event.y());
             if (module != null) {
@@ -68,11 +54,11 @@ public class EditHudScreen extends Screen {
                 return true;
             }
         }
-        return super.mouseClicked(event, bl);
+        return super.mouseClicked(event, b);
     }
 
     @Override
-    public boolean mouseReleased(MouseButtonEvent event) {
+    public boolean mouseReleased(@NonNull MouseButtonEvent event) {
         if (event.button() == 0 && selectedModule != null) {
             selectedModule = null;
             return true;
@@ -86,8 +72,8 @@ public class EditHudScreen extends Screen {
             int newX = (int) event.x() - offsetX;
             int newY = (int) event.y() - offsetY;
 
-            newX = Math.max(0, Math.min(newX, mc.getWindow().getScreenWidth() - selectedModule.width()));
-            newY = Math.max(0, Math.min(newY, mc.getWindow().getScreenHeight() - selectedModule.height()));
+            newX = Math.clamp(newX, 0, mc.getWindow().getScreenWidth() - selectedModule.width());
+            newY = Math.clamp(newY, 0, mc.getWindow().getScreenHeight() - selectedModule.height());
 
             final int snap = 5;
 
@@ -124,11 +110,6 @@ public class EditHudScreen extends Screen {
     }
 
     @Override
-    protected void extractBlurredBackground(GuiGraphicsExtractor graphics) {
-    }
+    protected void extractBlurredBackground(@NonNull GuiGraphicsExtractor graphics) {}
 
-    @Override
-    public boolean isPauseScreen() {
-        return false;
-    }
 }

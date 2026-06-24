@@ -87,7 +87,7 @@ public class CoralMod implements ModInitializer {
             }
 
             if (key == KeyMappingHelper.getBoundKeyOf(HUD_EDITOR_KEY_MAPPING).getValue()) {
-                Minecraft.getInstance().gui.setScreen(EditHudScreen.INSTANCE);
+                Minecraft.getInstance().gui.setScreen(new EditHudScreen());
             }
         });
 

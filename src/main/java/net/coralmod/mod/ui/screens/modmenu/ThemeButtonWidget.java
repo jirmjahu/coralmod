@@ -15,6 +15,7 @@ public class ThemeButtonWidget extends Widget {
 
     private final Theme theme;
     private static final int BORDER_THICKNESS = 2;
+    private static final float NAME_SCALE = 0.55f;
 
     public ThemeButtonWidget(Theme theme, int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -25,39 +26,57 @@ public class ThemeButtonWidget extends Widget {
     public void render(DrawContext context, int mouseX, int mouseY, int scrollOffset) {
         super.render(context, mouseX, mouseY, scrollOffset);
 
-        Color borderColor = theme.primaryColor();
-        Color backgroundColor = ColorUtils.blendColors(ModMenuScreen.BASE_GRAY, ColorUtils.modifyAlpha(theme.primaryColor(), 100));
+        final int renderY = y - scrollOffset + 4;
+        final Color themeColor = theme.primaryColor();
+
+        Color borderColor = themeColor;
+        Color backgroundColor = ColorUtils.blendColors(ModMenuScreen.BASE_GRAY, ColorUtils.modifyAlpha(themeColor, 100));
 
         if (hovered) {
             backgroundColor = ColorUtils.blendColors(backgroundColor, ModMenuScreen.HOVER_COLOR);
             borderColor = ColorUtils.blendColors(borderColor, ModMenuScreen.HOVER_COLOR);
         }
 
-        context.shapes().rect(x, y, x + width, y + height, borderColor);
-        context.shapes().rect(
-                x + BORDER_THICKNESS,
-                y + BORDER_THICKNESS,
-                x + width - BORDER_THICKNESS,
-                y + height - BORDER_THICKNESS,
+        context.shapes().roundedRect(
+                x + 2,
+                renderY + 2,
+                width - 4,
+                height - 4,
+                6,
+                borderColor
+        );
+
+        context.shapes().roundedRect(
+                x + 2 + BORDER_THICKNESS,
+                renderY + 2 + BORDER_THICKNESS,
+                width - 4 - BORDER_THICKNESS * 2,
+                height - 4 - BORDER_THICKNESS * 2,
+                4,
                 backgroundColor
         );
 
-        context.textures().item(theme.displayItem(), x + width / 2, y + height / 2, 2);
+        final FontRenderer font = context.fonts().interExtraBold();
 
-        final FontRenderer font = context.fonts().minecraft();
+        context.textures().item(
+                theme.displayItem(),
+                x + width / 2,
+                renderY + height / 2 - 7,
+                1.5f
+        );
+
         font.draw(
                 theme.displayName(),
-                x + width / 2 - font.width(theme.displayName()) / 2,
-                y + height - (BORDER_THICKNESS * 2) - 10,
+                x + width / 2 - font.width(theme.displayName(), NAME_SCALE) / 2,
+                renderY + height / 2 + 13,
+                NAME_SCALE,
                 Color.WHITE,
-                true
+                false
         );
     }
-
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
         CoralMod.instance().selectedTheme(theme);
-        Notification.send("Updated Theme", "Theme was updated to: " + theme.name());
+        Notification.send("Updated Theme", "Theme was updated to: " + theme.displayName());
     }
 }

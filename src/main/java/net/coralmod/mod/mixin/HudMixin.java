@@ -2,6 +2,7 @@ package net.coralmod.mod.mixin;
 
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.HudModule;
+import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.modules.ScoreboardModule;
 import net.coralmod.mod.render.impl.DefaultDrawContext;
 import net.minecraft.client.DeltaTracker;
@@ -25,11 +26,9 @@ public abstract class HudMixin {
 
     @Inject(method = "extractRenderState", at = @At("RETURN"))
     private void onRender(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo info) {
-        for (HudModule hudModule : CoralMod.instance().moduleManager().hudModules()) {
-            if (hudModule.enabled()) {
-                hudModule.render(new DefaultDrawContext(graphics));
-            }
-        }
+        CoralMod.instance().moduleManager().hudModules().stream()
+                .filter(Module::enabled)
+                .forEach(hudModule -> hudModule.render(new DefaultDrawContext(graphics)));
     }
 
     @Inject(method = "displayScoreboardSidebar", at = @At("HEAD"), cancellable = true)

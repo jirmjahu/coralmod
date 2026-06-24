@@ -2,12 +2,11 @@ package net.coralmod.mod.ui.screens.modmenu.setting;
 
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.settings.NumberSetting;
+import net.coralmod.mod.render.DrawContext;
+import net.coralmod.mod.render.FontRenderer;
 import net.coralmod.mod.theme.Theme;
 import net.coralmod.mod.ui.Widget;
 import net.coralmod.mod.ui.screens.modmenu.ModMenuScreen;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.util.Mth;
 
@@ -29,8 +28,8 @@ public class NumberSettingWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
-        super.render(graphics, mouseX, mouseY, scrollOffset);
+    public void render(DrawContext context, int mouseX, int mouseY, int scrollOffset) {
+        super.render(context, mouseX, mouseY, scrollOffset);
         updateValue(mouseX);
 
         final Color baseGray = ModMenuScreen.BASE_GRAY;
@@ -38,26 +37,26 @@ public class NumberSettingWidget extends Widget {
 
         final double renderWidth = (double) (width) * (setting.value() - setting.min()) / (setting.max() - setting.min());
 
-        graphics.fillGradient(x, y, x + width, y + height, baseGray.getRGB(), baseGray.darker().getRGB());
-        graphics.fillGradient(x,
+        context.shapes().rectGradient(x, y, x + width, y + height, baseGray, baseGray.darker());
+        context.shapes().rectGradient(x,
                 y,
                 (int) (x + renderWidth),
                 y + height,
-                theme.primaryColor().getRGB(),
-                theme.secondaryColor().getRGB()
+                theme.primaryColor(),
+                theme.secondaryColor()
         );
 
         if (hovered) {
-            graphics.fill(x, y, x + width, y + height, ModMenuScreen.HOVER_COLOR.getRGB());
+            context.shapes().rect(x, y, x + width, y + height, ModMenuScreen.HOVER_COLOR);
         }
 
-        final Font font = Minecraft.getInstance().font;
-        final int textY = y + (height - font.lineHeight) / 2;
+        final FontRenderer font = context.fonts().minecraft();
+        final int textY = y + (height - font.height()) / 2;
 
-        graphics.text(font, setting.name(), x + 5, textY, Color.WHITE.getRGB());
+        font.draw(setting.name(), x + 5, textY, Color.WHITE);
 
         final String valueText = formatValue(setting.value()) + "/" + setting.max();
-        graphics.text(font, valueText, x + width - 5 - font.width(valueText), textY, Color.WHITE.getRGB());
+        font.draw(valueText, x + width - 5 - font.width(valueText), textY, Color.WHITE);
     }
 
     private String formatValue(double value) {

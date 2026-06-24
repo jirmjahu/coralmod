@@ -1,7 +1,7 @@
 package net.coralmod.mod.ui;
 
+import net.coralmod.mod.render.DrawContext;
 import net.coralmod.mod.utils.MouseUtils;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 
 public class Widget {
@@ -22,7 +22,7 @@ public class Widget {
 
     public void init() {}
 
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
+    public void render(DrawContext context, int mouseX, int mouseY, int scrollOffset) {
         hovered = MouseUtils.isMouseOver(mouseX, mouseY, x, y - scrollOffset, width, height);
     }
 

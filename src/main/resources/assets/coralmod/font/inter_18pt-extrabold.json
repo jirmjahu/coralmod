@@ -2,7 +2,7 @@
   "providers": [
     {
       "type": "ttf",
-      "file": "coralmod:inter_18pt-semibold.ttf",
+      "file": "coralmod:inter_18pt-extrabold.ttf",
       "size": 16.0,
       "oversample": 4.0,
       "shift": [0, 0],

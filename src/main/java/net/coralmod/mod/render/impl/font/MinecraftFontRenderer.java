@@ -33,15 +33,32 @@ public class MinecraftFontRenderer implements FontRenderer {
     @Override
     public void draw(String text, int x, int y, float scale, Color color, boolean shadow) {
         if (scale == 1.0F) {
-            graphics.text(Minecraft.getInstance().font, text, x, y, color.getRGB(), shadow);
+            graphics.text(
+                    Minecraft.getInstance().font,
+                    text,
+                    x,
+                    y,
+                    color.getRGB(),
+                    shadow
+            );
             return;
         }
 
         final Matrix3x2fStack stack = graphics.pose();
+
         stack.pushMatrix();
         stack.translate(x, y);
         stack.scale(scale, scale);
-        graphics.text(Minecraft.getInstance().font, text, 0, 0, color.getRGB(), shadow);
+
+        graphics.text(
+                Minecraft.getInstance().font,
+                text,
+                0,
+                0,
+                color.getRGB(),
+                shadow
+        );
+
         stack.popMatrix();
     }
 

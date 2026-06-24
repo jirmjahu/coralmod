@@ -1,14 +1,12 @@
 package net.coralmod.mod.ui.screens.modmenu;
 
 import net.coralmod.mod.CoralMod;
+import net.coralmod.mod.render.DrawContext;
+import net.coralmod.mod.render.FontRenderer;
 import net.coralmod.mod.theme.Theme;
 import net.coralmod.mod.ui.Widget;
 import net.coralmod.mod.utils.ColorUtils;
 import net.coralmod.mod.utils.Notification;
-import net.coralmod.mod.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 
 import java.awt.*;
@@ -24,19 +22,19 @@ public class ThemeButtonWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
-        super.render(graphics, mouseX, mouseY, scrollOffset);
+    public void render(DrawContext context, int mouseX, int mouseY, int scrollOffset) {
+        super.render(context, mouseX, mouseY, scrollOffset);
 
-        int borderColor = theme.primaryColor().getRGB();
-        int backgroundColor = ColorUtils.blendColors(ModMenuScreen.BASE_GRAY, ColorUtils.modifyAlpha(theme.primaryColor(), 100)).getRGB();
+        Color borderColor = theme.primaryColor();
+        Color backgroundColor = ColorUtils.blendColors(ModMenuScreen.BASE_GRAY, ColorUtils.modifyAlpha(theme.primaryColor(), 100));
 
         if (hovered) {
-            backgroundColor = ColorUtils.blendColors(new Color(backgroundColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
-            borderColor = ColorUtils.blendColors(new Color(borderColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
+            backgroundColor = ColorUtils.blendColors(backgroundColor, ModMenuScreen.HOVER_COLOR);
+            borderColor = ColorUtils.blendColors(borderColor, ModMenuScreen.HOVER_COLOR);
         }
 
-        graphics.fill(x, y, x + width, y + height, borderColor);
-        graphics.fill(
+        context.shapes().rect(x, y, x + width, y + height, borderColor);
+        context.shapes().rect(
                 x + BORDER_THICKNESS,
                 y + BORDER_THICKNESS,
                 x + width - BORDER_THICKNESS,
@@ -44,22 +42,14 @@ public class ThemeButtonWidget extends Widget {
                 backgroundColor
         );
 
-        RenderUtils.scaledItem(
-                graphics.pose(),
-                graphics,
-                theme.displayItem(),
-                x + width / 2,
-                y + height / 2,
-                2
-        );
+        context.textures().item(theme.displayItem(), x + width / 2, y + height / 2, 2);
 
-        final Font font = Minecraft.getInstance().font;
-        graphics.text(
-                font,
+        final FontRenderer font = context.fonts().minecraft();
+        font.draw(
                 theme.displayName(),
                 x + width / 2 - font.width(theme.displayName()) / 2,
                 y + height - (BORDER_THICKNESS * 2) - 10,
-                -1,
+                Color.WHITE,
                 true
         );
     }

@@ -1,7 +1,7 @@
 package net.coralmod.mod.ui;
 
+import net.coralmod.mod.render.DrawContext;
 import net.coralmod.mod.ui.screens.modmenu.ModMenuScreen;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 
 import java.awt.*;
@@ -16,7 +16,7 @@ public class Window {
     protected int y;
 
     protected int width = ModMenuScreen.MENU_WIDTH;
-    protected int height = ModMenuScreen.MENU_HEIGHT - ModMenuScreen.MENU_TITLE_BAR_HEIGHT;
+    protected int height = ModMenuScreen.MENU_HEIGHT;
 
     protected int scrollOffset = 0;
     protected int maxScroll = 0;
@@ -38,15 +38,15 @@ public class Window {
         maxScroll = Math.max(0, maxScroll + 10);
     }
 
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+    public void render(DrawContext context, int mouseX, int mouseY) {
         final int contentY = y + ModMenuScreen.BUTTON_TOP_MARGIN;
         final int contentHeight = height - ModMenuScreen.BUTTON_TOP_MARGIN;
 
-        graphics.enableScissor(x, contentY, x + width, y + height);
+        context.enableScissor(x, contentY, x + width, y + height);
         for (Widget widget : widgets) {
-            widget.render(graphics, mouseX, mouseY, scrollOffset);
+            widget.render(context, mouseX, mouseY, scrollOffset);
         }
-        graphics.disableScissor();
+        context.disableScissor();
 
         if (maxScroll > 10) {
             final int barWidth = 2;
@@ -54,23 +54,17 @@ public class Window {
             final int barHeight = (int) ((float) contentHeight / (contentHeight + maxScroll) * contentHeight);
             final int barY = contentY + (int) ((float) scrollOffset / maxScroll * (contentHeight - barHeight));
 
-            graphics.fill(barX, contentY, barX + barWidth, contentY + contentHeight, ModMenuScreen.BASE_GRAY.darker().getRGB());
-            graphics.fill(barX, barY, barX + barWidth, barY + barHeight, Color.GRAY.getRGB());
+            context.shapes().rect(barX, contentY, barX + barWidth, contentY + contentHeight, ModMenuScreen.BASE_GRAY.darker());
+            context.shapes().rect(barX, barY, barX + barWidth, barY + barHeight, Color.GRAY);
         }
     }
 
     public void mouseClicked(MouseButtonEvent event) {
-        for (Widget widget : widgets) {
-            if (widget.hovered) {
-                widget.mouseClicked(event);
-            }
-        }
+        widgets.stream().filter(widget -> widget.hovered).forEach(widget -> widget.mouseClicked(event));
     }
 
     public void mouseReleased(MouseButtonEvent event) {
-        for (Widget widget : widgets) {
-            widget.mouseReleased(event);
-        }
+        widgets.forEach(widget -> widget.mouseReleased(event));
     }
 
     protected void addWidget(Widget widget) {

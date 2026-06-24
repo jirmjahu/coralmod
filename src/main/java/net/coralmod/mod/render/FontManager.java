@@ -8,6 +8,10 @@ public interface FontManager {
 
     FontRenderer inter();
 
+    FontRenderer interBold();
+
+    FontRenderer interExtraBold();
+
     FontRenderer cascadiaCode();
 
 }

@@ -5,6 +5,8 @@ import net.coralmod.mod.module.settings.BooleanSetting;
 import net.coralmod.mod.module.settings.ModeSetting;
 import net.coralmod.mod.module.settings.NumberSetting;
 import net.coralmod.mod.module.settings.Setting;
+import net.coralmod.mod.render.DrawContext;
+import net.coralmod.mod.render.FontRenderer;
 import net.coralmod.mod.ui.Widget;
 import net.coralmod.mod.ui.Window;
 import net.coralmod.mod.ui.screens.modmenu.setting.BooleanSettingWidget;
@@ -12,9 +14,6 @@ import net.coralmod.mod.ui.screens.modmenu.setting.ModeSettingWidget;
 import net.coralmod.mod.ui.screens.modmenu.setting.NumberSettingWidget;
 import net.coralmod.mod.utils.ColorUtils;
 import net.coralmod.mod.utils.MouseUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 
 import java.awt.*;
@@ -77,19 +76,17 @@ public class ModuleSettingsWindow extends Window {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
-        super.render(graphics, mouseX, mouseY);
+    public void render(DrawContext context, int mouseX, int mouseY) {
+        super.render(context, mouseX, mouseY);
 
-        final Font font = Minecraft.getInstance().font;
-
+        final FontRenderer font = context.fonts().minecraft();
 
         if (module.settings().isEmpty()) {
-            graphics.text(
-                    font,
+            font.draw(
                     "This module has no settings",
                     x + ModMenuScreen.MENU_WIDTH / 2 - font.width("This module has no settings") / 2,
                     parent.height / 2,
-                    new Color(255, 255, 255, 100).getRGB(),
+                    new Color(255, 255, 255, 100),
                     true
             );
         }
@@ -109,61 +106,59 @@ public class ModuleSettingsWindow extends Window {
 
         Color backColor = ModMenuScreen.BASE_GRAY;
         if (hoverBack) {
-            backColor = ColorUtils.blendColors(new Color(backColor.getRGB(), true), ModMenuScreen.HOVER_COLOR);
+            backColor = ColorUtils.blendColors(backColor, ModMenuScreen.HOVER_COLOR);
         }
 
         Color resetColor = new Color(160, 70, 70, 200);
         if (hoverReset) {
-            resetColor = ColorUtils.blendColors(new Color(resetColor.getRGB(), true), ModMenuScreen.HOVER_COLOR);
+            resetColor = ColorUtils.blendColors(resetColor, ModMenuScreen.HOVER_COLOR);
         }
 
-        graphics.fillGradient(
+        context.shapes().rectGradient(
                 backX,
                 buttonY,
                 backX + TOP_BUTTON_WIDTH,
                 buttonY + TOP_BUTTON_HEIGHT,
-                backColor.getRGB(),
-                backColor.darker().getRGB()
+                backColor,
+                backColor.darker()
         );
 
         if (!module.settings().isEmpty()) {
-            graphics.fillGradient(
+            context.shapes().rectGradient(
                     resetX,
                     buttonY,
                     resetX + TOP_BUTTON_WIDTH,
                     buttonY + TOP_BUTTON_HEIGHT,
-                    resetColor.getRGB(),
-                    resetColor.darker().getRGB()
+                    resetColor,
+                    resetColor.darker()
             );
         }
 
-        graphics.text(
-                font,
+        font.draw(
                 "← Back",
                 backX + TOP_BUTTON_WIDTH / 2 - font.width("← Back") / 2,
                 buttonY + 3,
-                -1,
+                Color.WHITE,
                 true
         );
 
         if (!module.settings().isEmpty()) {
-            graphics.text(
-                    font,
+            font.draw(
                     "Reset",
                     resetX + TOP_BUTTON_WIDTH / 2 - font.width("Reset") / 2,
                     buttonY + 3,
-                    -1,
+                    Color.WHITE,
                     true
             );
         }
 
         final int dividerY = buttonY + TOP_BUTTON_HEIGHT + 4;
-        graphics.fill(
+        context.shapes().rect(
                 x + 6,
                 dividerY,
                 x + ModMenuScreen.MENU_WIDTH - 6,
                 dividerY + 1,
-                new Color(255, 255, 255, 20).getRGB()
+                new Color(255, 255, 255, 20)
         );
 
     }

@@ -71,6 +71,6 @@ public class CustomFontRenderer implements FontRenderer {
 
     @Override
     public int height(float scale) {
-        return (int) (1 * scale);
+        return (int) (Minecraft.getInstance().font.lineHeight * scale);
     }
 }

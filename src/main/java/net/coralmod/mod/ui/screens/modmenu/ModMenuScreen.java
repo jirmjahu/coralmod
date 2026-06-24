@@ -1,38 +1,32 @@
 package net.coralmod.mod.ui.screens.modmenu;
 
-import net.coralmod.mod.CoralMod;
-import net.coralmod.mod.ui.Window;
-import net.coralmod.mod.utils.RenderUtils;
+import net.coralmod.mod.render.DrawContext;
+import net.coralmod.mod.ui.CoralScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class ModMenuScreen extends Screen {
+public class ModMenuScreen extends CoralScreen {
 
     private final Minecraft mc = Minecraft.getInstance();
 
     public static final int MENU_WIDTH = 400;
     public static final int MENU_HEIGHT = 200;
-    public static final int MENU_TITLE_BAR_HEIGHT = 20;
 
-    public static final int BUTTONS_PER_ROW = 4;
+    private static final int SIDEBAR_WIDTH = 25;
+    private static final int GAP = 5;
+
+    public static final int BUTTONS_PER_ROW = 3;
     public static final int BUTTON_SPACING = 10;
-    public static final int BUTTON_HEIGHT = 75;
-    public static final int BUTTON_TOP_MARGIN = 15;
+    public static final int BUTTON_HEIGHT = 50;
+    public static final int BUTTON_TOP_MARGIN = 5;
 
     public static final Color HOVER_COLOR = new Color(255, 255, 255, 30);
     public static final Color BASE_GRAY = new Color(20, 20, 20, 200);
 
     private int startX;
     private int startY;
-
-    private Window currentWindow;
 
     public ModMenuScreen() {
         super(Component.literal("Mod Menu"));
@@ -44,96 +38,36 @@ public class ModMenuScreen extends Screen {
             return;
         }
 
-        startX = (mc.gui.screen().width - MENU_WIDTH) / 2;
+        startX = (mc.gui.screen().width - (SIDEBAR_WIDTH + GAP + MENU_WIDTH)) / 2;
         startY = (mc.gui.screen().height - MENU_HEIGHT) / 2;
 
         switchToModulesTab();
+    }
 
-        final int textSpacing = 10;
-        final String modsText = "Mods";
-        final String themesText = "Themes";
-        final String profilesText = "Profiles";
-
-        final int totalWidth = font.width(modsText) + font.width(themesText) + font.width(profilesText) + 2 * textSpacing;
-        final int startButtonX = startX + (MENU_WIDTH - totalWidth) / 2;
-        final int buttonY = startY + 15;
-
-        addRenderableWidget(RenderUtils.pressableText(
-                font,
-                Component.literal(modsText),
-                startButtonX,
-                buttonY,
-                this::switchToModulesTab
-        ));
-
-        addRenderableWidget(RenderUtils.pressableText(
-                font,
-                Component.literal(themesText),
-                startButtonX + font.width(modsText) + textSpacing,
-                buttonY,
-                () -> switchWindow(new ThemesTabWindow(this, "Themes", startX, startY + MENU_TITLE_BAR_HEIGHT)))
+    @Override
+    protected void render(DrawContext context, int mouseX, int mouseY) {
+        context.shapes().roundedRect(
+                startX,
+                startY,
+                SIDEBAR_WIDTH,
+                MENU_HEIGHT,
+                6,
+                new Color(26, 26, 30)
         );
 
-        addRenderableWidget(RenderUtils.pressableText(
-                font,
-                Component.literal(profilesText),
-                startButtonX + font.width(modsText) + textSpacing + font.width(themesText) + textSpacing,
-                buttonY,
-                () -> System.out.println("Profiles clicked"))
-        );
-    }
-
-    @Override
-    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
-        graphics.fill(startX, startY, startX + MENU_WIDTH, startY + MENU_HEIGHT, new Color(0, 0, 0, 160).getRGB());
-
-        graphics.item(new ItemStack(CoralMod.instance().selectedTheme().displayItem()), startX + 10, startY + 10);
-
-        RenderUtils.scaledText(
-                graphics.pose(),
-                graphics,
-                "CoralMod",
-                startX + mc.font.width("CoralMod") - 10,
-                startY + 15,
-                1.35f,
-                -1,
-                true
+        context.shapes().roundedRect(
+                startX + SIDEBAR_WIDTH + GAP,
+                startY,
+                MENU_WIDTH,
+                MENU_HEIGHT,
+                6,
+                new Color(26, 26, 30)
         );
 
-        currentWindow.render(graphics, mouseX, mouseY);
-
-        super.extractRenderState(graphics, mouseX, mouseY, a);
-    }
-
-    @Override
-    public boolean mouseClicked(@NotNull MouseButtonEvent event, boolean b) {
-        currentWindow.mouseClicked(event);
-        return super.mouseClicked(event, b);
-    }
-
-    @Override
-    public boolean mouseReleased(@NotNull MouseButtonEvent event) {
-        currentWindow.mouseReleased(event);
-        return super.mouseReleased(event);
-    }
-
-    @Override
-    public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
-        currentWindow.mouseScrolled(scrollY);
-        return super.mouseScrolled(x, y, scrollX, scrollY);
+        super.render(context, mouseX, mouseY);
     }
 
     public void switchToModulesTab() {
-        switchWindow(new ModulesTabWindow(this, "Modules", startX, startY + MENU_TITLE_BAR_HEIGHT));
-    }
-
-    public void switchWindow(Window window) {
-        currentWindow = window;
-        window.init();
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-        return false;
+       switchWindow(new ModulesTabWindow(this, "Modules", startX + SIDEBAR_WIDTH + GAP, startY));
     }
 }

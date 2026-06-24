@@ -16,7 +16,7 @@ public final class GridUtil {
         final int startX = x + (ModMenuScreen.MENU_WIDTH - totalButtonsWidth) / 2;
 
         int buttonX = startX;
-        int buttonY = y + ModMenuScreen.BUTTON_TOP_MARGIN;
+        int buttonY = y;
 
         for (T element : elements) {
             consumer.accept(element, new Position(buttonX, buttonY, buttonWidth, ModMenuScreen.BUTTON_HEIGHT));

@@ -2,23 +2,24 @@ package net.coralmod.mod.ui.screens.modmenu;
 
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.Module;
+import net.coralmod.mod.render.DrawContext;
+import net.coralmod.mod.render.FontRenderer;
 import net.coralmod.mod.theme.Theme;
 import net.coralmod.mod.ui.Widget;
 import net.coralmod.mod.utils.ColorUtils;
-import net.coralmod.mod.utils.MouseUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.resources.Identifier;
 
 import java.awt.*;
 
 public class ModuleButtonWidget extends Widget {
 
+    private static final float NAME_SCALE = 0.55f;
+    private static final float TAG_SCALE = 0.45f;
+    private static final int TAG_PADDING_X = 5;
+    private static final int TAG_PADDING_Y = 3;
+
     private final Module module;
-    private static final int BORDER_THICKNESS = 2;
-    private static final int BUTTON_HEIGHT = 15;
-    private static final int BUTTON_PADDING = 6;
 
     public ModuleButtonWidget(Module module, int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -26,110 +27,91 @@ public class ModuleButtonWidget extends Widget {
     }
 
     @Override
-    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, int scrollOffset) {
-        super.render(graphics, mouseX, mouseY, scrollOffset);
+    public void render(DrawContext context, int mouseX, int mouseY, int scrollOffset) {
+        super.render(context, mouseX, mouseY, scrollOffset);
 
-        final int renderY = y - scrollOffset;
+        final int renderY = y - scrollOffset + 4;
         final Theme theme = CoralMod.instance().selectedTheme();
         final Color baseGray = ModMenuScreen.BASE_GRAY;
 
-        int backgroundColor = baseGray.getRGB();
-        int borderColor = baseGray.brighter().getRGB();
+        Color backgroundColor = baseGray;
 
         if (module.enabled()) {
             final Color themeColor = ColorUtils.modifyAlpha(theme.primaryColor(), 100);
-            borderColor = theme.primaryColor().getRGB();
-            backgroundColor = ColorUtils.blendColors(baseGray, themeColor).getRGB();
+            backgroundColor = ColorUtils.blendColors(baseGray, themeColor);
         }
 
         if (hovered) {
-            backgroundColor = ColorUtils.blendColors(new Color(backgroundColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
-            borderColor = ColorUtils.blendColors(new Color(borderColor, true), ModMenuScreen.HOVER_COLOR).getRGB();
+            backgroundColor = ColorUtils.blendColors(backgroundColor, ModMenuScreen.HOVER_COLOR);
         }
 
-        graphics.fill(x, renderY, x + width, renderY + height, borderColor);
-        graphics.fill(
-                x + BORDER_THICKNESS,
-                renderY + BORDER_THICKNESS,
-                x + width - BORDER_THICKNESS,
-                renderY + height - BORDER_THICKNESS,
+        context.shapes().roundedRect(
+                x + 2,
+                renderY + 2,
+                width - 2 * 2,
+                height - 2 * 2,
+                6,
                 backgroundColor
         );
 
-        final Font font = Minecraft.getInstance().font;
-
-        final int toggleY = renderY + height - BUTTON_HEIGHT * 2 - 10;
-        final int settingY = renderY + height - BUTTON_HEIGHT - 5;
-
-        final boolean hoverToggle = MouseUtils.isMouseOver(mouseX, mouseY, x, toggleY, width, BUTTON_HEIGHT);
-        final boolean hoverSettings = MouseUtils.isMouseOver(mouseX, mouseY, x, settingY, width, BUTTON_HEIGHT);
-
-        final Color buttonBase = ColorUtils.removeAlpha(baseGray).brighter().brighter();
-
-        final Color toggleColor = hoverToggle ? buttonBase.brighter().brighter() : buttonBase;
-        final Color settingsColor = hoverSettings ? buttonBase.brighter().brighter() : buttonBase;
-
-        // toggle button background
-        graphics.fillGradient(
-                x + BUTTON_PADDING,
-                toggleY,
-                x + width - BUTTON_PADDING,
-                toggleY + BUTTON_HEIGHT,
-                toggleColor.getRGB(),
-                toggleColor.darker().getRGB()
+        final int margin = 8;
+        final int iconSize = width / 6;
+        context.textures().draw(
+                Identifier.fromNamespaceAndPath("coralmod", "textures/fullbright.png"),
+                x + margin,
+                renderY + (height - iconSize) / 2,
+                iconSize,
+                iconSize
         );
 
-        // settings button background
-        graphics.fillGradient(
-                x + BUTTON_PADDING,
-                settingY,
-                x + width - BUTTON_PADDING,
-                settingY + BUTTON_HEIGHT,
-                settingsColor.getRGB(),
-                settingsColor.darker().getRGB()
+        final FontRenderer font = context.fonts().interExtraBold();
+        final int nameHeight = font.height(NAME_SCALE);
+        final int tagHeight = font.height(TAG_SCALE) + TAG_PADDING_Y * 2;
+
+        final int contentHeight = nameHeight + 4 + tagHeight;
+        final int contentY = renderY + (height - contentHeight) / 2 + 2;
+
+        final int textX = x + iconSize + margin * 2;
+
+        font.draw(module.name(), textX, contentY, NAME_SCALE, Color.WHITE, false);
+
+        drawTag(context, module.category().displayName(), theme.primaryColor().brighter(), textX, contentY + nameHeight + 4);
+    }
+
+    private void drawTag(DrawContext context, String text, Color tagColor, int x, int y) {
+        final FontRenderer font = context.fonts().interExtraBold();
+
+        final int textWidth = font.width(text, TAG_SCALE);
+        final int tagWidth = textWidth + TAG_PADDING_X * 2;
+        final int tagHeight = font.height(TAG_SCALE) + TAG_PADDING_Y * 2;
+
+        final Color background = new Color(
+                tagColor.getRed(),
+                tagColor.getGreen(),
+                tagColor.getBlue(),
+                60
         );
 
-        final String toggleText = module.enabled() ? "Disable" : "Enable";
-        final String settingsText = "Settings";
+        context.shapes().roundedRect(x, y, tagWidth, tagHeight, 3, background);
 
-        graphics.text(
-                font,
-                toggleText,
-                x + width / 2 - font.width(toggleText) / 2,
-                toggleY + 4,
-                -1,
-                true
+        font.draw(
+                text,
+                x + TAG_PADDING_X,
+                y + TAG_PADDING_Y + 1,
+                0.4F,
+                tagColor,
+                false
         );
-
-        graphics.text(font,
-                settingsText,
-                x + width / 2 - font.width(settingsText) / 2,
-                settingY + 4,
-                -1,
-                true
-        );
-
-        final int textX = x + width / 2 - font.width(module.name()) / 2;
-        final int textY = renderY + BORDER_THICKNESS + (toggleY - (renderY + BORDER_THICKNESS) - font.lineHeight) / 2;
-        graphics.text(font, module.name(), textX, textY, -1, true);
     }
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        final int mouseX = (int) event.x();
-        final int mouseY = (int) event.y();
-        final int renderY = y - parent.scrollOffset();
-
-        final int toggleY = renderY + height - BUTTON_HEIGHT * 2 - 10;
-        final int settingY = renderY + height - BUTTON_HEIGHT - 5;
-
-        if (MouseUtils.isMouseOver(mouseX, mouseY, x, toggleY, width, BUTTON_HEIGHT)) {
-            module.enabled(!module.enabled());
-            return;
-        }
-
-        if (MouseUtils.isMouseOver(mouseX, mouseY, x, settingY, width, BUTTON_HEIGHT)) {
-            parent.parent().switchWindow(new ModuleSettingsWindow(parent.parent(), module, "Settings", parent.x(), parent.y()));
+        if (hovered) {
+            if (event.button() == 0) {
+                module.enabled(!module.enabled());
+            } else if (event.button() == 1) {
+                parent.parent().switchWindow(new ModuleSettingsWindow(parent.parent(), module, "Settings", parent.x(), parent.y()));
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class SidebarButtonWidget extends Widget {
 
-    private static final Color BASE_COLOR = new Color(50, 50, 50);
+    private static final Color BASE_COLOR = ModMenuScreen.BASE_GRAY;
     private static final int RADIUS = 5;
     private static final int ICON_PADDING = 3;
 

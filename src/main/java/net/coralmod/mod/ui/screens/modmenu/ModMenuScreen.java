@@ -96,8 +96,8 @@ public class ModMenuScreen extends CoralScreen {
                 startY,
                 SIDEBAR_WIDTH,
                 MENU_HEIGHT,
-                6,
-                new Color(26, 26, 30)
+                8,
+                new Color(25, 25, 30)
         );
 
         context.shapes().roundedRect(
@@ -105,8 +105,8 @@ public class ModMenuScreen extends CoralScreen {
                 startY,
                 MENU_WIDTH,
                 MENU_HEIGHT,
-                6,
-                new Color(26, 26, 30)
+                8,
+                new Color(25, 25, 30)
         );
 
         modulesButton.render(context, mouseX, mouseY, 0);

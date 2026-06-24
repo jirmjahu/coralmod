@@ -57,7 +57,7 @@ public class ModuleButtonWidget extends Widget {
         final int margin = 8;
         final int iconSize = width / 6;
         context.textures().draw(
-                Identifier.fromNamespaceAndPath("coralmod", "textures/fullbright.png"),
+                Identifier.fromNamespaceAndPath("coralmod", "textures/module/" + module.name().replaceAll("\\s", "").toLowerCase() + ".png"),
                 x + margin,
                 renderY + (height - iconSize) / 2,
                 iconSize,

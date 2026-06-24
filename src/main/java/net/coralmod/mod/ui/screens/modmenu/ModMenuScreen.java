@@ -5,6 +5,7 @@ import net.coralmod.mod.ui.CoralScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.NonNull;
 
 import java.awt.*;
@@ -30,6 +31,10 @@ public class ModMenuScreen extends CoralScreen {
 
     public static final Color HOVER_COLOR = new Color(255, 255, 255, 30);
     public static final Color BASE_GRAY = new Color(20, 20, 20);
+
+    private static final Identifier MODULES_ICON = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/sidebar/modules.png");
+    private static final Identifier THEMES_ICON = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/sidebar/themes.png");
+    private static final Identifier CLOSE_ICON = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/sidebar/close.png");
 
     private int startX;
     private int startY;
@@ -60,6 +65,7 @@ public class ModMenuScreen extends CoralScreen {
                 startY + SIDEBAR_BUTTON_MARGIN,
                 SIDEBAR_BUTTON_SIZE,
                 SIDEBAR_BUTTON_SIZE,
+                MODULES_ICON,
                 this::switchToModulesTab
         );
 
@@ -68,6 +74,7 @@ public class ModMenuScreen extends CoralScreen {
                 startY + SIDEBAR_BUTTON_MARGIN + SIDEBAR_BUTTON_SIZE + SIDEBAR_BUTTON_GAP,
                 SIDEBAR_BUTTON_SIZE,
                 SIDEBAR_BUTTON_SIZE,
+                THEMES_ICON,
                 this::switchToThemesTab
         );
 
@@ -76,6 +83,7 @@ public class ModMenuScreen extends CoralScreen {
                 startY + MENU_HEIGHT - SIDEBAR_BUTTON_MARGIN - SIDEBAR_BUTTON_SIZE,
                 SIDEBAR_BUTTON_SIZE,
                 SIDEBAR_BUTTON_SIZE,
+                CLOSE_ICON,
                 () -> mc.gui.setScreen(null)
         );
 

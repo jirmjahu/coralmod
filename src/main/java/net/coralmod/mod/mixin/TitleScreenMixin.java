@@ -18,7 +18,7 @@ import java.net.URI;
 @Mixin(TitleScreen.class)
 public class TitleScreenMixin extends Screen {
 
-    private static final Identifier GITHUB_LOGO = Identifier.fromNamespaceAndPath("coralmod", "textures/github.png");
+    private static final Identifier GITHUB_LOGO = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/title/github.png");
     private static final int LOGO_SIZE = 20;
     private static final String GITHUB_REPO = "https://github.com/jirmjahu/coralmod";
 

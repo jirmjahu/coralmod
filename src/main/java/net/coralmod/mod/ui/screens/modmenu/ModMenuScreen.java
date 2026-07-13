@@ -2,6 +2,7 @@ package net.coralmod.mod.ui.screens.modmenu;
 
 import net.coralmod.mod.render.DrawContext;
 import net.coralmod.mod.ui.CoralScreen;
+import net.coralmod.mod.ui.screens.editor.EditHudScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -33,6 +34,8 @@ public class ModMenuScreen extends CoralScreen {
 
     private static final Identifier MODULES_ICON = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/sidebar/modules.png");
     private static final Identifier THEMES_ICON = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/sidebar/themes.png");
+    private static final Identifier PROFILES_ICON = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/sidebar/profiles.png");
+    private static final Identifier EDIT_ICON = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/sidebar/edit.png");
     private static final Identifier CLOSE_ICON = Identifier.fromNamespaceAndPath("coralmod", "textures/gui/sidebar/close.png");
 
     private int startX;
@@ -40,6 +43,8 @@ public class ModMenuScreen extends CoralScreen {
 
     private SidebarButtonWidget modulesButton;
     private SidebarButtonWidget themesButton;
+    private SidebarButtonWidget profilesButton;
+    private SidebarButtonWidget editButton;
     private SidebarButtonWidget closeButton;
 
     public ModMenuScreen() {
@@ -77,6 +82,26 @@ public class ModMenuScreen extends CoralScreen {
                 this::switchToThemesTab
         );
 
+        profilesButton = new SidebarButtonWidget(
+                buttonX,
+                startY + SIDEBAR_BUTTON_MARGIN + SIDEBAR_BUTTON_SIZE + SIDEBAR_BUTTON_GAP + SIDEBAR_BUTTON_SIZE + SIDEBAR_BUTTON_GAP,
+                SIDEBAR_BUTTON_SIZE,
+                SIDEBAR_BUTTON_SIZE,
+                PROFILES_ICON,
+                () -> {
+
+                }
+        );
+
+        editButton = new SidebarButtonWidget(
+                buttonX,
+                startY + MENU_HEIGHT - SIDEBAR_BUTTON_MARGIN - SIDEBAR_BUTTON_SIZE - SIDEBAR_BUTTON_SIZE - SIDEBAR_BUTTON_GAP,
+                SIDEBAR_BUTTON_SIZE,
+                SIDEBAR_BUTTON_SIZE,
+                EDIT_ICON,
+                () -> mc.gui.setScreen(new EditHudScreen())
+        );
+
         closeButton = new SidebarButtonWidget(
                 buttonX,
                 startY + MENU_HEIGHT - SIDEBAR_BUTTON_MARGIN - SIDEBAR_BUTTON_SIZE,
@@ -111,6 +136,8 @@ public class ModMenuScreen extends CoralScreen {
 
         modulesButton.render(context, mouseX, mouseY, 0);
         themesButton.render(context, mouseX, mouseY, 0);
+        profilesButton.render(context, mouseX, mouseY, 0);
+        editButton.render(context, mouseX, mouseY, 0);
         closeButton.render(context, mouseX, mouseY, 0);
 
         super.render(context, mouseX, mouseY);
@@ -120,6 +147,8 @@ public class ModMenuScreen extends CoralScreen {
     public boolean mouseClicked(@NonNull MouseButtonEvent event, boolean b) {
         modulesButton.mouseClicked(event);
         themesButton.mouseClicked(event);
+        profilesButton.mouseClicked(event);
+        editButton.mouseClicked(event);
         closeButton.mouseClicked(event);
         return super.mouseClicked(event, b);
     }

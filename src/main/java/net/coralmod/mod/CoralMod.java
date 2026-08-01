@@ -11,7 +11,7 @@ import net.coralmod.mod.module.ModuleManager;
 import net.coralmod.mod.theme.Theme;
 import net.coralmod.mod.ui.screens.editor.EditHudScreen;
 import net.coralmod.mod.ui.screens.modmenu.ModMenuScreen;
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
@@ -21,7 +21,7 @@ import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CoralMod implements ModInitializer {
+public class CoralMod implements ClientModInitializer {
 
     public static final String MOD_ID = "coralmod";
     public static final String MOD_NAME = "CoralMod";
@@ -58,7 +58,7 @@ public class CoralMod implements ModInitializer {
     private Theme selectedTheme;
 
     @Override
-    public void onInitialize() {
+    public void onInitializeClient() {
         LOGGER.info("Starting {} v{}...", MOD_NAME, MOD_VERSION);
 
         instance = this;

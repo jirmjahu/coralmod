@@ -1,5 +1,6 @@
 package net.coralmod.mod.config.profile;
 
+import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.config.Config;
 import net.coralmod.mod.config.ConfigStorage;
 import net.coralmod.mod.module.ModuleManager;
@@ -7,7 +8,7 @@ import net.coralmod.mod.module.ModuleManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileManager {
+public final class ProfileManager {
 
     public static final String DEFAULT_PROFILE_NAME = "Default";
 
@@ -32,7 +33,7 @@ public class ProfileManager {
 
         this.profiles = new ArrayList<>(storage.loadProfiles());
 
-        if (profiles.isEmpty()) {
+        if (profile(DEFAULT_PROFILE_NAME) == null) {
             createProfile(DEFAULT_PROFILE_NAME);
         }
 
@@ -65,7 +66,11 @@ public class ProfileManager {
     }
 
     public void load(String name) {
-        final Profile profile = storage.load(name);
+        Profile profile = name == null ? null : storage.load(name);
+
+        if (profile == null) {
+            profile = storage.load(DEFAULT_PROFILE_NAME);
+        }
 
         if (profile != null) {
             currentProfile(profile);

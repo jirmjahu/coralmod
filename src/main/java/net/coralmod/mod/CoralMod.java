@@ -74,7 +74,7 @@ public final class CoralMod implements ClientModInitializer {
             profileStorage = new ProfileStorage(moduleManager);
             profileManager = new ProfileManager(config(), configStorage, profileStorage, moduleManager);
 
-            selectedTheme(Theme.valueOf(config().selectedTheme()));
+            selectedTheme(loadConfiguredTheme());
 
             new CoralModCommand();
 
@@ -112,6 +112,20 @@ public final class CoralMod implements ClientModInitializer {
     public void selectedTheme(Theme theme) {
         this.selectedTheme = theme;
         config().selectedTheme(theme.toString());
+    }
+
+    private Theme loadConfiguredTheme() {
+        final String configuredTheme = config().selectedTheme();
+
+        if (configuredTheme == null) {
+            return Theme.TUBE;
+        }
+
+        try {
+            return Theme.valueOf(configuredTheme);
+        } catch (IllegalArgumentException exception) {
+            return Theme.TUBE;
+        }
     }
 
     public static CoralMod instance() {

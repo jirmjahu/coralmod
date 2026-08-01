@@ -5,7 +5,6 @@ import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.render.DrawContext;
 import net.coralmod.mod.ui.CoralScreen;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -15,8 +14,6 @@ import org.lwjgl.glfw.GLFW;
 import java.awt.*;
 
 public class EditHudScreen extends CoralScreen {
-
-    private final Minecraft mc = Minecraft.getInstance();
 
     private HudModule selectedModule;
     private int offsetX;
@@ -72,8 +69,11 @@ public class EditHudScreen extends CoralScreen {
             int newX = (int) event.x() - offsetX;
             int newY = (int) event.y() - offsetY;
 
-            newX = Math.clamp(newX, 0, mc.getWindow().getScreenWidth() - selectedModule.width());
-            newY = Math.clamp(newY, 0, mc.getWindow().getScreenHeight() - selectedModule.height());
+            final int maxX = Math.max(0, width - selectedModule.width());
+            final int maxY = Math.max(0, height - selectedModule.height());
+
+            newX = Math.clamp(newX, 0, maxX);
+            newY = Math.clamp(newY, 0, maxY);
 
             final int snap = 5;
 
@@ -94,6 +94,9 @@ public class EditHudScreen extends CoralScreen {
                     newY = other.y() - selectedModule.height();
                 }
             }
+
+            newX = Math.clamp(newX, 0, maxX);
+            newY = Math.clamp(newY, 0, maxY);
 
             selectedModule.move(newX, newY);
             return true;

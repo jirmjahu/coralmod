@@ -14,6 +14,7 @@ import net.coralmod.mod.ui.screens.modmenu.ModMenuScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
@@ -21,11 +22,14 @@ import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CoralMod implements ClientModInitializer {
+public final class CoralMod implements ClientModInitializer {
 
     public static final String MOD_ID = "coralmod";
     public static final String MOD_NAME = "CoralMod";
-    public static final String MOD_VERSION = "0.8.0";
+    public static final String MOD_VERSION = FabricLoader.getInstance()
+            .getModContainer(MOD_ID)
+            .map(container -> container.getMetadata().getVersion().getFriendlyString())
+            .orElse("unknown");
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 

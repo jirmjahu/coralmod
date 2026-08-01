@@ -95,10 +95,10 @@ public final class CoralMod implements ClientModInitializer {
             }
         });
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+        ClientLifecycleEvents.CLIENT_STOPPING.register(_ -> {
             LOGGER.info("Shutting down, saving...");
             save();
-        }));
+        });
     }
 
     /**

@@ -14,10 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 
 @ModuleInfo(name = "ArmorHud", description = "Displays armor with durability", category = ModuleCategory.HUD)
-public class ArmorHudModule extends HudModule {
+public final class ArmorHudModule extends HudModule {
 
     private static final int ITEM_SIZE = 16;
     private static final int ITEM_PADDING = 2;
+    private static final int TEXT_GAP = 3;
     private static final int BACKGROUND_PADDING = 4;
 
     private final BooleanSetting showDurability = new BooleanSetting("Show Durability", true);
@@ -47,12 +48,11 @@ public class ArmorHudModule extends HudModule {
 
         final int maxTextWidth = armor.stream()
                 .filter(_ -> showDurability.value())
-                .mapToInt(itemStack -> font.width(getDurabilityText(itemStack)))
+                .mapToInt(itemStack -> font.width(durabilityText(itemStack)))
                 .max()
                 .orElse(0);
 
-        // add a little extra padding when durability text is visible
-        width(ITEM_SIZE + maxTextWidth + padding * 2 + (showDurability.value() ? 4 : 0));
+        width(ITEM_SIZE + maxTextWidth + padding * 2 + (showDurability.value() ? TEXT_GAP : 0));
         height(armor.size() * (ITEM_SIZE + ITEM_PADDING) - ITEM_PADDING + padding * 2);
 
         if (background.value()) {
@@ -61,17 +61,19 @@ public class ArmorHudModule extends HudModule {
 
         int offset = padding;
         for (ItemStack stack : armor.reversed()) {
-            context.textures().item(stack.getItem(), x() + padding, y() + offset, 1.0F);
+            context.textures().item(stack.getItem(),  x() + padding + ITEM_SIZE / 2,  y() + offset + ITEM_SIZE / 2 - 1, 1.0F);
 
             if (showDurability.value()) {
-                font.draw(getDurabilityText(stack), x() + ITEM_SIZE + padding + 2, y() + offset + 5, Color.WHITE, textShadow.value());
+                final int textX = x() + padding + ITEM_SIZE + TEXT_GAP;
+                final int textY = y() + offset + (ITEM_SIZE - font.height()) / 2;
+                font.draw(durabilityText(stack), textX, textY, Color.WHITE, textShadow.value());
             }
 
             offset += ITEM_SIZE + ITEM_PADDING;
         }
     }
 
-    private String getDurabilityText(ItemStack item) {
+    private String durabilityText(ItemStack item) {
         final int maxDamage = item.getMaxDamage();
         final int damage = item.getDamageValue();
 

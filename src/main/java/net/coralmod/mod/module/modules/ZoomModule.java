@@ -7,14 +7,14 @@ import net.coralmod.mod.module.Module;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.utils.KeyUtils;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
-import net.minecraft.client.Options;
 
 @ModuleInfo(name = "Zoom", description = "Zooms in the game", category = ModuleCategory.PLAYER)
 public class ZoomModule extends Module {
 
+    public static final int ZOOM_FOV = 30;
+    public static final double ZOOM_SENSITIVITY = 0.2;
+
     private boolean zooming = false;
-    private int oldFov;
-    private double oldSensitivity;
 
     public ZoomModule() {
         KeyPressedEvent.KEY_PRESSED_EVENT.register(key -> {
@@ -24,47 +24,16 @@ public class ZoomModule extends Module {
 
             final boolean keyPressed = KeyUtils.isKeyPressed(KeyMappingHelper.getBoundKeyOf(CoralMod.ZOOM_KEY_MAPPING).getValue());
 
-            if (keyPressed && !zooming) {
-                startZooming();
+            if (keyPressed && !zooming && mc.gui.screen() == null) {
+                zooming = true;
             } else if (!keyPressed && zooming) {
-                stopZooming();
+                zooming = false;
             }
         });
     }
 
     @Override
     public void onDisable() {
-        if (zooming) {
-            stopZooming();
-        }
-    }
-
-    private void startZooming() {
-        if (mc == null || mc.gui.screen() != null) {
-            return;
-        }
-
-        final Options options = mc.options;
-        oldFov = options.fov().get();
-        oldSensitivity = options.sensitivity().get();
-
-        options.fov().set(30);
-        options.smoothCamera = true;
-        options.sensitivity().set(0.2);
-
-        zooming = true;
-    }
-
-    private void stopZooming() {
-        if (mc == null) {
-            return;
-        }
-
-        final Options options = mc.options;
-        options.fov().set(oldFov);
-        options.smoothCamera = false;
-        options.sensitivity().set(oldSensitivity);
-
         zooming = false;
     }
 

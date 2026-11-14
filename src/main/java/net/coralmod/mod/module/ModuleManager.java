@@ -18,6 +18,7 @@ public class ModuleManager {
         register(new ScoreboardModule());
         register(new FpsModule());
         register(new FullBrightModule());
+        register(new KeystrokesModule());
         register(new NametagsModule());
         register(new NoBackgroundModule());
         register(new PingModule());

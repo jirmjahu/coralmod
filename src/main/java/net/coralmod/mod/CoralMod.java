@@ -10,6 +10,7 @@ import net.coralmod.mod.module.ModuleManager;
 import net.coralmod.mod.theme.Theme;
 import net.coralmod.mod.ui.screens.editor.EditHudScreen;
 import net.coralmod.mod.ui.screens.modmenu.ModMenuScreen;
+import net.coralmod.mod.utils.ClickCounter;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -65,6 +66,8 @@ public final class CoralMod implements ClientModInitializer {
         LOGGER.info("Starting {} v{}...", MOD_NAME, MOD_VERSION);
 
         instance = this;
+
+        ClickCounter.init();
 
         ClientLifecycleEvents.CLIENT_STARTED.register(_ -> {
             moduleManager = new ModuleManager();

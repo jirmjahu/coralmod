@@ -20,7 +20,7 @@
     "ScreenEffectRendererMixin",
     "ScreenMixin",
     "TitleScreenMixin",
-    "UnitDoubleMixin",
+    "LightmapRenderStateExtractorMixin",
     "accessors.MinecraftServerAccessor",
     "accessors.BufferBuilderAccessor",
     "HudMixin"

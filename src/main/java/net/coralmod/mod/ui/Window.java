@@ -39,13 +39,18 @@ public class Window {
         maxScroll = Math.max(0, maxScroll);
     }
 
-    public void render(DrawContext context, int mouseX, int mouseY) {
-        final int contentY = y + ModMenuScreen.PADDING;
-        final int contentHeight = height - 2 * ModMenuScreen.PADDING;
+       public void render(DrawContext context, int mouseX, int mouseY) {
+        final int contentY = contentTop();
+        final int contentBottom = y + height - ModMenuScreen.PADDING;
+        final int contentHeight = contentBottom - contentY;
 
-        context.enableScissor(x, contentY, x + width, y + height - ModMenuScreen.PADDING);
+        // widgets scrolled out of the visible area shouldn't be hovered, so hide the mouse from them
+        final boolean mouseInContent = mouseY >= contentY && mouseY <= contentBottom;
+        final int widgetMouseY = mouseInContent ? mouseY : Integer.MIN_VALUE / 2;
+
+        context.enableScissor(x, contentY, x + width, contentBottom);
         for (Widget widget : widgets) {
-            widget.render(context, mouseX, mouseY, scrollOffset);
+            widget.render(context, mouseX, widgetMouseY, scrollOffset);
         }
         context.disableScissor();
 
@@ -58,6 +63,10 @@ public class Window {
             context.shapes().roundedRect(barX, contentY, barWidth, contentHeight, 2, ModMenuScreen.BASE_GRAY);
             context.shapes().roundedRect(barX, barY, barWidth, barHeight, 2, CoralMod.instance().selectedTheme().secondaryColor());
         }
+    }
+
+    protected int contentTop() {
+        return y + ModMenuScreen.PADDING;
     }
 
     public void mouseClicked(MouseButtonEvent event) {

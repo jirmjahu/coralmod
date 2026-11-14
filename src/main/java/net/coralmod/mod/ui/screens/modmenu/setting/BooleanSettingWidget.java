@@ -2,38 +2,37 @@ package net.coralmod.mod.ui.screens.modmenu.setting;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.coralmod.mod.module.settings.BooleanSetting;
- import net.coralmod.mod.render.DrawContext;
-import net.coralmod.mod.render.FontRenderer;
-import net.coralmod.mod.ui.Widget;
-import net.coralmod.mod.ui.screens.modmenu.ModMenuScreen;
+import net.coralmod.mod.render.DrawContext;
 import net.minecraft.client.input.MouseButtonEvent;
 
 import java.awt.*;
 
-public class BooleanSettingWidget extends Widget {
+public class BooleanSettingWidget extends SettingWidget<BooleanSetting> {
 
-    private final BooleanSetting setting;
+    private static final int TOGGLE_WIDTH = 22;
+    private static final int TOGGLE_KNOB_PADDING = 2;
+    private static final int TOGGLE_KNOB_SIZE = CONTROL_HEIGHT - TOGGLE_KNOB_PADDING * 2;
 
     public BooleanSettingWidget(BooleanSetting setting, int x, int y, int width, int height) {
-        super(x, y, width, height);
-        this.setting = setting;
+        super(setting, x, y, width, height);
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, int scrollOffset) {
         super.render(context, mouseX, mouseY, scrollOffset);
 
-        if (hovered) {
-            context.shapes().rect(x, y, x + width, y + height, ModMenuScreen.HOVER_COLOR);
-        }
+        final boolean enabled = setting.value();
+        final int toggleX = controlRightX() - TOGGLE_WIDTH;
+        final Color toggleColor = enabled ? accentColor() : CONTROL_BACKGROUND_COLOR;
 
-        final FontRenderer font = context.fonts().minecraft();
-        final int textY = y + (height - font.height()) / 2;
+        context.shapes().roundedRect(toggleX, controlY, TOGGLE_WIDTH, CONTROL_HEIGHT, CONTROL_HEIGHT / 2F, toggleColor);
 
-        font.draw(setting.name(), x + 5, textY, Color.WHITE);
+        final int knobX = enabled
+                ? toggleX + TOGGLE_WIDTH - TOGGLE_KNOB_PADDING - TOGGLE_KNOB_SIZE
+                : toggleX + TOGGLE_KNOB_PADDING;
+        final Color knobColor = enabled ? Color.WHITE : SECONDARY_TEXT_COLOR;
 
-        final String value = setting.value() ? "On" : "Off";
-        font.draw(value, x + width - font.width(value) - 5, textY, setting.value() ? new Color(80, 255, 80) : new Color(255, 80, 80));
+        context.shapes().roundedRect(knobX, controlY + TOGGLE_KNOB_PADDING, TOGGLE_KNOB_SIZE, TOGGLE_KNOB_SIZE, TOGGLE_KNOB_SIZE / 2F, knobColor);
     }
 
     @Override

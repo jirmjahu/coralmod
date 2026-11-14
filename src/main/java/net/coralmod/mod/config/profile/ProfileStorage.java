@@ -41,6 +41,11 @@ public final class ProfileStorage {
                 .forEach(path -> {
                     final Profile profile = load(path.getFileName().toString().substring(0, path.getFileName().toString().length() - 5));
 
+                    if (profile == null) {
+                        CoralMod.LOGGER.warn("Skipping profile {}, it could not be loaded", path.getFileName());
+                        return;
+                    }
+
                     profileList.add(profile);
                 });
 

@@ -29,7 +29,7 @@ public final class JsonUtils {
 
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
             return gson.fromJson(reader, clazz);
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             CoralMod.LOGGER.error("Failed to load json from {}", path.getFileName(), e);
         }
 

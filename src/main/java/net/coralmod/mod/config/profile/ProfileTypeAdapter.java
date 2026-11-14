@@ -58,40 +58,33 @@ public class ProfileTypeAdapter implements JsonSerializer<Profile>, JsonDeserial
     public Profile deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         final JsonObject root = json.getAsJsonObject();
 
-        if (root.get("version").getAsInt() != VERSION) {
+        if (!root.has("name")) {
+            throw new JsonParseException("Profile is missing a name");
+        }
+
+        final String name = root.get("name").getAsString();
+
+        if (!root.has("version") || root.get("version").getAsInt() != VERSION) {
             CoralMod.LOGGER.warn("Profile version does not match the expected version! Expected {}, got {}", VERSION, root.get("version").getAsInt());
+        }
+
+        final List<Module> enabledModules = new ArrayList<>();
+
+        if (!root.has("modules")) {
+            return new Profile(name, enabledModules);
         }
 
         final JsonObject modulesObject = root.getAsJsonObject("modules");
 
-        final List<Module> enabledModules = new ArrayList<>();
-
         for (Module module : moduleManager.modules()) {
-            final JsonObject moduleObject = modulesObject.getAsJsonObject(module.name());
-            if (moduleObject == null) {
+            if (!modulesObject.has(module.name())) {
                 continue;
             }
 
-            module.enabled(moduleObject.get("enabled").getAsBoolean());
-
-            final JsonObject settingsObject = moduleObject.getAsJsonObject("settings");
-            if (settingsObject != null) {
-                for (Setting<?> setting : module.settings()) {
-                    if (setting == null) {
-                        continue;
-                    }
-                    try {
-                        setting.read(settingsObject.get(setting.name()));
-                    } catch (Exception e) {
-                        CoralMod.LOGGER.error("Failed to read setting {} for module {}", setting.name(), module.name(), e);
-                    }
-                }
-            }
-
-            if (module instanceof HudModule hud && moduleObject.has("hud")) {
-                final JsonObject hudObject = moduleObject.getAsJsonObject("hud");
-                hud.x(hudObject.get("x").getAsInt());
-                hud.y(hudObject.get("y").getAsInt());
+            try {
+                readModule(module, modulesObject.getAsJsonObject(module.name()));
+            } catch (Exception e) {
+                CoralMod.LOGGER.error("Failed to read module {} in profile {}", module.name(), name, e);
             }
 
             if (module.enabled()) {
@@ -99,6 +92,39 @@ public class ProfileTypeAdapter implements JsonSerializer<Profile>, JsonDeserial
             }
         }
 
-        return new Profile(root.get("name").getAsString(), enabledModules);
+        return new Profile(name, enabledModules);
+    }
+
+    private void readModule(Module module, JsonObject moduleObject) {
+        if (moduleObject.has("enabled")) {
+            module.enabled(moduleObject.get("enabled").getAsBoolean());
+        }
+
+        if (moduleObject.has("settings")) {
+            final JsonObject settingsObject = moduleObject.getAsJsonObject("settings");
+
+            for (Setting<?> setting : module.settings()) {
+                if (!settingsObject.has(setting.name())) {
+                    continue;
+                }
+
+                try {
+                    setting.read(settingsObject.get(setting.name()));
+                } catch (Exception e) {
+                    CoralMod.LOGGER.error("Failed to read setting {} for module {}", setting.name(), module.name(), e);
+                }
+            }
+        }
+
+        if (module instanceof HudModule hud && moduleObject.has("hud")) {
+            final JsonObject hudObject = moduleObject.getAsJsonObject("hud");
+
+            if (hudObject.has("x")) {
+                hud.x(hudObject.get("x").getAsInt());
+            }
+            if (hudObject.has("y")) {
+                hud.y(hudObject.get("y").getAsInt());
+            }
+        }
     }
 }

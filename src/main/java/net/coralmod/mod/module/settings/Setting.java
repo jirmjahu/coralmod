@@ -32,9 +32,13 @@ public abstract class Setting<T> {
     }
 
     public void value(T newValue) {
+        if (newValue == null) {
+            return;
+        }
+
         final T old = this.value;
 
-        if (old.equals(newValue)) {
+        if (newValue.equals(old)) {
             return;
         }
 
@@ -50,7 +54,7 @@ public abstract class Setting<T> {
     }
 
     public void reset() {
-        value = defaultValue;
+        value(defaultValue);
     }
 
     public abstract JsonElement write();

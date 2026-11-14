@@ -5,9 +5,9 @@ import net.coralmod.mod.utils.JsonUtils;
 
 import java.nio.file.Path;
 
-public class ConfigStorage {
+public final class ConfigStorage {
 
-    private static final Path CONFIG_PATH = Path.of("coralmod", "config.json");
+    private static final Path CONFIG_PATH = ConfigPaths.CONFIG_FILE;
 
     public Config load() {
         Config config = JsonUtils.loadFromJson(CONFIG_PATH, Config.class);

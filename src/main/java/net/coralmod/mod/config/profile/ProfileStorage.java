@@ -3,20 +3,20 @@ package net.coralmod.mod.config.profile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.coralmod.mod.CoralMod;
+import net.coralmod.mod.config.ConfigPaths;
 import net.coralmod.mod.module.ModuleManager;
 import net.coralmod.mod.utils.FileUtils;
 import net.coralmod.mod.utils.JsonUtils;
 
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileStorage {
+public final class ProfileStorage {
 
-    private static final Path PROFILE_DIR = Path.of("coralmod", "profiles");
+    private static final Path PROFILE_DIR = ConfigPaths.PROFILES_DIR;
 
     private final Gson gson;
 

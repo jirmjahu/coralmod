@@ -13,7 +13,6 @@
     "ChatComponentMixin",
     "GameRendererMixin",
     "FirstPersonHandsAndItemsRendererMixin",
-    "KeyboardHandlerMixin",
     "LivingEntityRendererMixin",
     "MinecraftMixin",
     "MouseHandlerMixin",

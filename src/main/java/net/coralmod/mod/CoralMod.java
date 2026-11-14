@@ -6,17 +6,16 @@ import net.coralmod.mod.config.ConfigManager;
 import net.coralmod.mod.config.ConfigStorage;
 import net.coralmod.mod.config.profile.ProfileManager;
 import net.coralmod.mod.config.profile.ProfileStorage;
-import net.coralmod.mod.event.KeyPressedEvent;
 import net.coralmod.mod.module.ModuleManager;
 import net.coralmod.mod.theme.Theme;
 import net.coralmod.mod.ui.screens.editor.EditHudScreen;
 import net.coralmod.mod.ui.screens.modmenu.ModMenuScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import com.mojang.blaze3d.platform.InputConstants;
 import org.slf4j.Logger;
@@ -81,17 +80,12 @@ public final class CoralMod implements ClientModInitializer {
             LOGGER.info("Successfully initialized {}", MOD_NAME);
         });
 
-        KeyPressedEvent.KEY_PRESSED_EVENT.register(key -> {
-            if (Minecraft.getInstance().gui.screen() != null) {
-                return;
+        ClientTickEvents.END_CLIENT_TICK.register(mc -> {
+            if (MODMENU_KEY_MAPPING.consumeClick()) {
+                mc.gui.setScreen(new ModMenuScreen());
             }
-
-            if (key == KeyMappingHelper.getBoundKeyOf(MODMENU_KEY_MAPPING).getValue()) {
-                Minecraft.getInstance().gui.setScreen(new ModMenuScreen());
-            }
-
-            if (key == KeyMappingHelper.getBoundKeyOf(HUD_EDITOR_KEY_MAPPING).getValue()) {
-                Minecraft.getInstance().gui.setScreen(new EditHudScreen());
+            if (HUD_EDITOR_KEY_MAPPING.consumeClick()) {
+                mc.gui.setScreen(new EditHudScreen());
             }
         });
 

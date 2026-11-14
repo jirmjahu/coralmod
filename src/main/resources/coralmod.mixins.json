@@ -12,7 +12,7 @@
     "CameraMixin",
     "ChatComponentMixin",
     "GameRendererMixin",
-    "ItemInHandRendererMixin",
+    "FirstPersonHandsAndItemsRendererMixin",
     "KeyboardHandlerMixin",
     "LivingEntityRendererMixin",
     "MinecraftMixin",

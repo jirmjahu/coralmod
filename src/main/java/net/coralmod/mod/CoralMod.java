@@ -18,7 +18,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,19 +35,19 @@ public final class CoralMod implements ClientModInitializer {
 
     public static final KeyMapping ZOOM_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "Zoom",
-            GLFW.GLFW_KEY_C,
+            InputConstants.KEY_C,
             KeyMapping.Category.register(Identifier.parse("coralmod.key.zoom"))
     ));
 
     public static final KeyMapping MODMENU_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "Mod Menu",
-            GLFW.GLFW_KEY_RIGHT_SHIFT,
+            InputConstants.KEY_RSHIFT,
             KeyMapping.Category.register(Identifier.parse("coralmod.key.modmenu"))
     ));
 
     public static final KeyMapping HUD_EDITOR_KEY_MAPPING = KeyMappingHelper.registerKeyMapping(new KeyMapping(
             "Hud Editor",
-            GLFW.GLFW_KEY_P,
+            InputConstants.KEY_P,
             KeyMapping.Category.register(Identifier.parse("coralmod.key.editor"))
     ));
 

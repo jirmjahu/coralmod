@@ -1,5 +1,6 @@
 package net.coralmod.mod.ui.screens.modmenu.setting;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.coralmod.mod.module.settings.BooleanSetting;
  import net.coralmod.mod.render.DrawContext;
 import net.coralmod.mod.render.FontRenderer;
@@ -37,7 +38,7 @@ public class BooleanSettingWidget extends Widget {
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        if (hovered && event.button() == 0) {
+        if (hovered && event.button() == InputConstants.MOUSE_BUTTON_LEFT) {
             setting.value(!setting.value());
         }
     }

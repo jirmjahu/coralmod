@@ -9,7 +9,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.jspecify.annotations.NonNull;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 import java.awt.*;
 
@@ -42,7 +42,7 @@ public class EditHudScreen extends CoralScreen {
 
     @Override
     public boolean mouseClicked(@NonNull MouseButtonEvent event, boolean b) {
-        if (event.button() == 0) {
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT) {
             final HudModule module = moduleAt((int) event.x(), (int) event.y());
             if (module != null) {
                 selectedModule = module;
@@ -56,7 +56,7 @@ public class EditHudScreen extends CoralScreen {
 
     @Override
     public boolean mouseReleased(@NonNull MouseButtonEvent event) {
-        if (event.button() == 0 && selectedModule != null) {
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT && selectedModule != null) {
             selectedModule = null;
             return true;
         }
@@ -65,7 +65,7 @@ public class EditHudScreen extends CoralScreen {
 
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double d, double e) {
-        if (event.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT && selectedModule != null) {
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT && selectedModule != null) {
             int newX = (int) event.x() - offsetX;
             int newY = (int) event.y() - offsetY;
 

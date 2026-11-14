@@ -1,5 +1,6 @@
 package net.coralmod.mod.ui.screens.modmenu;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.coralmod.mod.render.DrawContext;
 import net.coralmod.mod.ui.Widget;
 import net.coralmod.mod.utils.ColorUtils;
@@ -42,7 +43,7 @@ public class SidebarButtonWidget extends Widget {
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        if (hovered && event.button() == 0) {
+        if (hovered && event.button() == InputConstants.MOUSE_BUTTON_LEFT) {
             onClick.run();
         }
     }

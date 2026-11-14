@@ -1,5 +1,6 @@
 package net.coralmod.mod.ui.screens.modmenu.setting;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.settings.NumberSetting;
 import net.coralmod.mod.render.DrawContext;
@@ -83,7 +84,7 @@ public class NumberSettingWidget extends Widget {
     @Override
     public void mouseClicked(MouseButtonEvent event) {
         super.mouseClicked(event);
-        if (hovered && event.button() == 0) {
+        if (hovered && event.button() == InputConstants.MOUSE_BUTTON_LEFT) {
             sliding = true;
         }
     }

@@ -1,13 +1,14 @@
-#version 150
+#version 330
+#extension GL_ARB_separate_shader_objects : require
 
-#moj_import <minecraft:dynamictransforms.glsl>
+#include <minecraft:dynamictransforms.glsl>
 
-in vec2 texCoord0;
-in vec2 widthHeight;
-in float radius;
-in vec4 vertexColor;
+layout(location = 0) in vec2 texCoord0;
+layout(location = 1) in vec2 widthHeight;
+layout(location = 2) in float radius;
+layout(location = 3) in vec4 vertexColor;
 
-out vec4 fragColor;
+layout(location = 0) out vec4 fragColor;
 
 float roundedRect(vec2 fragCoord, vec2 halfSize, float radius) {
     vec2 offset = abs(fragCoord) - halfSize + radius;

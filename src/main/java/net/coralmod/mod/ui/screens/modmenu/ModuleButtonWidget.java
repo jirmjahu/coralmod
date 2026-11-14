@@ -1,5 +1,6 @@
 package net.coralmod.mod.ui.screens.modmenu;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.Module;
 import net.coralmod.mod.render.DrawContext;
@@ -107,9 +108,9 @@ public class ModuleButtonWidget extends Widget {
     @Override
     public void mouseClicked(MouseButtonEvent event) {
         if (hovered) {
-            if (event.button() == 0) {
+            if (event.button() == InputConstants.MOUSE_BUTTON_LEFT) {
                 module.enabled(!module.enabled());
-            } else if (event.button() == 1) {
+            } else if (event.button() == InputConstants.MOUSE_BUTTON_RIGHT) {
                 parent.parent().switchWindow(new ModuleSettingsWindow(parent.parent(), module, "Settings", parent.x(), parent.y()));
             }
         }

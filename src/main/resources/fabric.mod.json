@@ -3,7 +3,7 @@
 	"id": "coralmod",
 	"version": "${version}",
 	"name": "CoralMod",
-	"description": "26.2 Minecraft PvP Client",
+	"description": "26.3 Minecraft PvP Client",
 	"authors": [
 		"jahuuh"
 	],
@@ -23,8 +23,8 @@
 		"coralmod.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.19.3",
-		"minecraft": "~26.2",
+		"fabricloader": ">=0.20.1",
+		"minecraft": "~26.3",
 		"java": ">=25",
 		"fabric-api": "*"
 	}

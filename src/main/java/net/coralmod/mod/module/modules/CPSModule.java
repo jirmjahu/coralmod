@@ -6,7 +6,7 @@ import net.coralmod.mod.module.HudModule;
 import net.coralmod.mod.module.ModuleInfo;
 import net.coralmod.mod.module.settings.BooleanSetting;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +27,9 @@ public class CPSModule extends HudModule {
 
         MouseButtonClickedEvent.MOUSE_BUTTON_CLICKED_EVENT.register(event -> {
             final long now = System.currentTimeMillis();
-            if (event.button() == GLFW.GLFW_MOUSE_BUTTON_1) {
+            if (event.button() == InputConstants.MOUSE_BUTTON_LEFT) {
                 leftPresses.add(now);
-            } else if (event.button() == GLFW.GLFW_MOUSE_BUTTON_2) {
+            } else if (event.button() == InputConstants.MOUSE_BUTTON_RIGHT) {
                 rightPresses.add(now);
             }
         });

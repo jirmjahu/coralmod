@@ -1,5 +1,6 @@
 package net.coralmod.mod.ui.screens.modmenu.setting;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.coralmod.mod.CoralMod;
 import net.coralmod.mod.module.settings.ModeSetting;
 import net.coralmod.mod.render.DrawContext;
@@ -42,9 +43,9 @@ public class ModeSettingWidget extends Widget {
         final List<String> modes = setting.modes();
         final int current = modes.indexOf(setting.value());
 
-        if (event.button() == 0) {
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT) {
             setting.value(modes.get((current + 1) % modes.size()));
-        } else if (event.button() == 1) {
+        } else if (event.button() == InputConstants.MOUSE_BUTTON_RIGHT) {
             setting.value(modes.get((current - 1 + modes.size()) % modes.size()));
         }
     }

@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Util;
+import com.mojang.blaze3d.Blaze3D;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -42,7 +42,7 @@ public class TitleScreenMixin extends Screen {
                 textY,
                 () -> {
                     try {
-                        Util.getPlatform().openUri(new URI(GITHUB_REPO));
+                        Blaze3D.openUri(new URI(GITHUB_REPO));
                     } catch (Exception e) {
                         CoralMod.LOGGER.error("Failed to open GitHub page", e);
                     }

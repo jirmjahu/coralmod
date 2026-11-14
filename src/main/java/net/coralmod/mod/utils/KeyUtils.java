@@ -1,7 +1,6 @@
 package net.coralmod.mod.utils;
 
-import net.minecraft.client.Minecraft;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 
 public final class KeyUtils {
 
@@ -9,6 +8,6 @@ public final class KeyUtils {
     }
 
     public static boolean isKeyPressed(int key) {
-        return GLFW.glfwGetKey(Minecraft.getInstance().getWindow().handle(), key) == GLFW.GLFW_PRESS;
+        return InputConstants.isKeyDown(key);
     }
 }

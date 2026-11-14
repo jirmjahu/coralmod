@@ -3,7 +3,7 @@ package net.coralmod.mod.mixin;
 import net.coralmod.mod.event.MouseButtonClickedEvent;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.input.MouseButtonInfo;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,7 +14,7 @@ public class MouseHandlerMixin {
 
     @Inject(method = "onButton", at = @At("HEAD"))
     public void onButton(long l, MouseButtonInfo mouseButtonInfo, int action, CallbackInfo info) {
-        if (action == GLFW.GLFW_PRESS) {
+        if (action == InputConstants.PRESS) {
             MouseButtonClickedEvent.MOUSE_BUTTON_CLICKED_EVENT.invoker().onMouseClicked(mouseButtonInfo);
         }
     }

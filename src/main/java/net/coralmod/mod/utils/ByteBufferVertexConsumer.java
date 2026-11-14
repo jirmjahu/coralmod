@@ -84,6 +84,11 @@ public class ByteBufferVertexConsumer implements VertexConsumer {
     }
 
     @Override
+    public @NonNull VertexConsumer setUv3(float u, float v) {
+        return this;
+    }
+
+    @Override
     public @NonNull VertexConsumer setNormal(float x, float y, float z) {
         return this;
     }
